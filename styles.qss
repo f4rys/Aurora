@@ -1,0 +1,87 @@
+.background{
+    background-color: white;
+    border-radius: 15px;
+}
+
+.hide_button{
+    border: 0;
+    font-size:23px;
+}
+
+.hide_button:hover{
+    color: red;
+}
+
+.settings_button{
+    border: 0;
+    font-size:10px;
+    image: url(":/icon/settings.png") no-repeat center;
+}
+
+.settings_button:hover{
+    image: url(":/icon/settings_hover.png") no-repeat center;
+}
+
+.switch{
+    border: 0;
+}
+
+.switch_button{
+    border-radius: 8px;
+    background-color: #1abc9c;
+    color:white;
+}
+
+QSlider::groove:horizontal {
+    background-color: gray;
+    border: 0px solid #424242;
+    height: 5px;
+    border-radius: 4px;
+}
+
+QSlider::handle:horizontal{
+    width: 16px;
+    height: 16px;
+    line-height: 20px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    border-radius: 10px;
+}
+
+.brightness_slider::handle:horizontal {
+    image: url(:/device/brightness.png) no-repeat center;
+}
+
+.colour_slider::handle:horizontal {
+    image: url(:/device/colours.png) no-repeat center;
+}
+
+.warmth_slider::handle:horizontal {
+    image: url(:/device/warmth.png) no-repeat center;
+}
+
+.contrast_slider::handle:horizontal {
+    image: url(:/device/contrast.png) no-repeat center;
+}
+
+QTabWidget::tab-bar{
+    min-width:10000;
+}
+
+QTabWidget{
+    background: white;
+}
+
+QTabWidget::pane { 
+   border: none;
+}
+
+QTabBar::tab {
+    background: white;
+}
+
+.tab_button{
+    border: 0;
+    background: #eeeeee;
+    border-radius: 10px;
+}

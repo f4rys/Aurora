@@ -1,0 +1,23 @@
+<!DOCTYPE RCC>
+
+<RCC version="1.0">
+    <qresource prefix="icon">
+        <file alias="icon.png">../../assets/aurora.png</file>
+        <file alias="settings.png">../../assets/settings.png</file>
+        <file alias="settings_hover.png">../../assets/settings_hover.png</file>
+    </qresource>
+    <qresource prefix="device">
+        <file alias="bulb_on.png">../../assets/bulb_on.png</file>
+        <file alias="bulb_off.png">../../assets/bulb_off.png</file>
+        <file alias="brightness.png">../../assets/brightness.png</file>
+        <file alias="colours.png">../../assets/colours.png</file>
+        <file alias="contrast.png">../../assets/contrast.png</file>
+        <file alias="warmth.png">../../assets/warmth.png</file>
+    </qresource>
+    <qresource prefix="navigation">
+        <file alias="devices.png">../../assets/devices.png</file>
+        <file alias="scenes.png">../../assets/scenes.png</file>
+        <file alias="analytics.png">../../assets/analytics.png</file>
+        <file alias="schedule.png">../../assets/schedule.png</file>
+    </qresource>
+</RCC>

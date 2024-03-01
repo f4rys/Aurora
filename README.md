@@ -1,2 +1,2 @@
 # Aurora
-Desktop system tray application to control smart light bulbs.
+Python system tray application to control Tuya light bulbs
