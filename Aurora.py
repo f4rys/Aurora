@@ -1,6 +1,6 @@
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt, QPropertyAnimation, QRect
-from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMainWindow, QLabel, QWidget
+from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMainWindow, QLabel, QWidget, QPushButton
 
 from modules.gui.AuroraStackedWidget import AuroraStackedWidget
 from modules.gui.settings.SettingsWidget import SettingsWidget
@@ -11,9 +11,9 @@ from modules.gui.scenes.ScenesWidget import ScenesWidget
 from modules.gui.schedule.ScheduleWidget import ScheduleWidget
 from modules.gui.analytics.AnalyticsWidget import AnalyticsWidget
 
-from PyQt6.QtWidgets import QPushButton
 import modules.resources.resources as resources
 
+  
 class Aurora(QMainWindow):
     def __init__(self):
         super().__init__()

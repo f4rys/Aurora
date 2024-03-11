@@ -29,7 +29,8 @@ class AllDevicesWidget(QWidget):
         for label in self.findChildren(QLabel):
             label.deleteLater()
 
-        devices = scan_network()
+        #devices = scan_network()
+        devices = []
 
         self.devices = open('devices.json')
         self.devices_data = json.load(self.devices)
