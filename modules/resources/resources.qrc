@@ -3,6 +3,8 @@
 <RCC version="1.0">
     <qresource prefix="icon">
         <file alias="icon.png">../../assets/aurora.png</file>
+        <file alias="exit.png">../../assets/exit.png</file>
+        <file alias="exit_hover.png">../../assets/exit_hover.png</file>
         <file alias="settings.png">../../assets/settings.png</file>
         <file alias="settings_hover.png">../../assets/settings_hover.png</file>
     </qresource>
@@ -20,4 +22,8 @@
         <file alias="analytics.png">../../assets/analytics.png</file>
         <file alias="schedule.png">../../assets/schedule.png</file>
     </qresource>
+    <qresource prefix="misc">
+        <file alias="up_arrow.png">../../assets/up_arrow.png</file>
+        <file alias="down_arrow.png">../../assets/down_arrow.png</file>
+    </qresource>   
 </RCC>

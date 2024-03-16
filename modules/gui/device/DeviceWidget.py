@@ -1,5 +1,5 @@
-from PyQt6.QtCore import QRect
-from PyQt6.QtWidgets import QWidget, QTabWidget
+from PyQt6.QtWidgets import QWidget, QTabWidget, QPushButton, QVBoxLayout, QSizePolicy, QLabel
+from PyQt6.QtCore import QMargins, Qt, QRect
 
 from modules.gui.device.BulbNameLabel import BulbNameLabel
 from modules.gui.device.BulbSwitchButton import BulbSwitchButton
@@ -12,9 +12,40 @@ from modules.tuya.tuya import connect, status, turn_off, turn_on, change_brightn
 import json
 
 class DeviceWidget(QWidget):
-    def __init__(self, device_id):
+    def __init__(self, device_id=123):
         super().__init__()
+        
+        self.verticalLayoutWidget_2 = QWidget(parent=self)
+        self.verticalLayoutWidget_2.setGeometry(QRect(30, 0, 231, 260))
 
+        self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+
+        self.label = BulbNameLabel(parent=self.verticalLayoutWidget_2, name="RGB748389")
+        self.verticalLayout_2.addWidget(self.label)
+
+        self.pushbutton_bulb = BulbSwitchButton(parent=self.verticalLayoutWidget_2)
+        self.verticalLayout_2.addWidget(self.pushbutton_bulb)
+        
+        self.tabWidget = QTabWidget(parent=self.verticalLayoutWidget_2)
+        self.tabWidget.setTabPosition(QTabWidget.TabPosition.South)
+        self.tabWidget.setTabShape(QTabWidget.TabShape.Rounded)
+        self.tabWidget.setUsesScrollButtons(False)
+        self.tabWidget.setTabBarAutoHide(True)
+
+        self.tab_white = WhiteModeTab()
+        self.tabWidget.addTab(self.tab_white, "White")
+
+        self.tab_colour = ColourModeTab()
+        self.tabWidget.addTab(self.tab_colour, "Colour")
+
+        self.tab_timer = TimerTab()
+        self.tabWidget.addTab(self.tab_timer, "Timer")
+
+        self.verticalLayout_2.addWidget(self.tabWidget)
+        self.tabWidget.setCurrentIndex(0)
+
+'''
         with open('devices.json', 'r') as file:
             data = json.load(file)
 
@@ -29,17 +60,29 @@ class DeviceWidget(QWidget):
 
         self.device_name = matching_node["name"] if matching_node else "ERROR"
 
-        self.name = BulbNameLabel(parent=self, name=self.device_name)
+        # WIDGETS
 
-        self.device = connect(device_id)
+        self.vlayout = QVBoxLayout()
+        #self.vlayout.addStretch()
+        #self.vlayout.addSpacing(0)
+        #self.vlayout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        self.vlayout.setContentsMargins(50,10,10,50)
+        self.vlayout.setSizeConstraint(QLayout.SizeConstraint.SetFixedSize)
+
+        self.name = BulbNameLabel(parent=self, name=self.device_name)
+        self.vlayout.addWidget(self.name)
+
+        #self.device = connect(device_id)
 
         self.bulb = BulbSwitchButton(parent=self)
-        self.bulb.clicked.connect(self.switch_bulb)
-        self.set_bulb()
+        self.vlayout.addWidget(self.bulb)
+        #self.bulb.clicked.connect(self.switch_bulb)
+        #self.set_bulb()
 
         self.tabs = QTabWidget(parent=self)
         self.tabs.setTabPosition(QTabWidget.TabPosition.South)
-        self.tabs.setGeometry(QRect(0, 160, 200, 100))
+        self.vlayout.addWidget(self.tabs)
+        #self.tabs.setGeometry(QRect(0, 160, 200, 100))
 
         #White mode tab
         self.white_mode = WhiteModeTab(self.tabs)
@@ -54,26 +97,29 @@ class DeviceWidget(QWidget):
         self.timer_tab = TimerTab(self.tabs)
         self.tabs.addTab(self.timer_tab,'Timer')
 
+        self.setLayout(self.vlayout)
+
         #White mode sliders
         self.white_mode.brightness_slider.setRange(self.brightness_range[0], self.brightness_range[1])
-        self.white_mode.brightness_slider.valueChanged.connect(self.set_brightness)
+        #self.white_mode.brightness_slider.valueChanged.connect(self.set_brightness)
 
         self.white_mode.warmth_slider.setRange(self.warmth_range[0], self.warmth_range[1])
-        self.white_mode.warmth_slider.valueChanged.connect(self.set_warmth)
+        #self.white_mode.warmth_slider.valueChanged.connect(self.set_warmth)
 
         ##Colour mode sliders
 
         self.colour_mode.brightness_slider.setRange(self.brightness_range[0], self.brightness_range[1])
-        self.colour_mode.brightness_slider.valueChanged.connect(self.set_brightness)
+        #self.colour_mode.brightness_slider.valueChanged.connect(self.set_brightness)
 
         self.colour_mode.contrast_slider.setRange(self.warmth_range[0], self.warmth_range[1])
-        self.colour_mode.contrast_slider.valueChanged.connect(self.set_contrast)
+        #self.colour_mode.contrast_slider.valueChanged.connect(self.set_contrast)
+        #self.vlayout.addStretch()
 
         ###
-        self.set_brightness_slider()
-        self.set_warmth_slider()
+        #self.set_brightness_slider()
+        #self.set_warmth_slider()
 
-        self.tabs.currentChanged.connect(self.set_bulb_mode)
+        #self.tabs.currentChanged.connect(self.set_bulb_mode)
 
     def switch_bulb(self):
         if(status(self.device)):
@@ -118,3 +164,4 @@ class DeviceWidget(QWidget):
 
     def set_bulb_mode(self, index):
         set_mode(self.device, index)
+        '''

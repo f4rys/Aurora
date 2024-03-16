@@ -36,6 +36,10 @@ class AllDevicesWidget(QWidget):
         self.devices_data = json.load(self.devices)
         self.devices.close()
 
+        self.device_button = QPushButton("Mock", parent=self)
+        self.device_button.setGeometry(QRect(10, 30, 200, 23))
+        self.device_button.pressed.connect(lambda: self.open_device(self.devices_data[0]["id"]))
+
         index = 0
    
         for ip in devices:
