@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Aurora",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "Aurora.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Resources",
+            "type": "f5anything",
+            "request": "launch",
+            "command": "./modules/resources/resources.bat"
+        }
+    ]
+}
