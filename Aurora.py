@@ -105,9 +105,26 @@ class Aurora(QMainWindow):
         self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.stackedWidget.schedule))
 
     def show_settings(self):
+        self.reset_navigation_bar_buttons_checked()
         self.settings = SettingsWidget()
         self.stackedWidget.addWidget(self.settings)
         self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.settings))
+
+    def reset_navigation_bar_buttons_checked(self):
+        self.navigation_bar_layout.button_group.setExclusive(False)
+
+        self.navigation_bar_layout.pushbutton_devices.setChecked(False)
+        self.navigation_bar_layout.pushbutton_scenes.setChecked(False)
+        self.navigation_bar_layout.pushbutton_analytics.setChecked(False)
+        self.navigation_bar_layout.pushbutton_schedule.setChecked(False)
+
+        self.navigation_bar_layout.pushbutton_devices.update()
+        self.navigation_bar_layout.pushbutton_scenes.update()
+        self.navigation_bar_layout.pushbutton_analytics.update()
+        self.navigation_bar_layout.pushbutton_schedule.update()
+
+        self.navigation_bar_layout.button_group.setExclusive(True)
+
 
 if __name__ == '__main__':
     app = QApplication([])

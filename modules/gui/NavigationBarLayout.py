@@ -1,6 +1,6 @@
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QSizePolicy, QToolButton, QFrame, QVBoxLayout
+from PyQt6.QtWidgets import QSizePolicy, QToolButton, QFrame, QVBoxLayout, QButtonGroup
 
 class NavigationBarLayout(QVBoxLayout):
     def __init__(self, *args, **kwargs):
@@ -8,6 +8,8 @@ class NavigationBarLayout(QVBoxLayout):
 
         self.setProperty("class", "navigation_bar")
         self.setContentsMargins(10, 10, 0, 10)
+
+        self.button_group = QButtonGroup()
 
         self.pushbutton_devices = QToolButton()
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
@@ -23,6 +25,8 @@ class NavigationBarLayout(QVBoxLayout):
         self.pushbutton_devices.setText("DEVICES")
         self.pushbutton_devices.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.pushbutton_devices.setArrowType(Qt.ArrowType.NoArrow)
+        self.pushbutton_devices.setCheckable(True)
+        self.button_group.addButton(self.pushbutton_devices)
         self.addWidget(self.pushbutton_devices)
 
         self.line = QFrame()
@@ -45,6 +49,8 @@ class NavigationBarLayout(QVBoxLayout):
         self.pushbutton_scenes.setText("SCENES")
         self.pushbutton_scenes.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.pushbutton_scenes.setArrowType(Qt.ArrowType.NoArrow)
+        self.pushbutton_scenes.setCheckable(True)
+        self.button_group.addButton(self.pushbutton_scenes)
         self.addWidget(self.pushbutton_scenes)
 
         self.line_2 = QFrame()
@@ -67,6 +73,8 @@ class NavigationBarLayout(QVBoxLayout):
         self.pushbutton_analytics.setText("ANALYTICS")
         self.pushbutton_analytics.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.pushbutton_analytics.setArrowType(Qt.ArrowType.NoArrow)
+        self.pushbutton_analytics.setCheckable(True)
+        self.button_group.addButton(self.pushbutton_analytics)
         self.addWidget(self.pushbutton_analytics)
 
         self.line_3 = QFrame()
@@ -89,4 +97,6 @@ class NavigationBarLayout(QVBoxLayout):
         self.pushbutton_schedule.setText("SCHEDULE")
         self.pushbutton_schedule.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.pushbutton_schedule.setArrowType(Qt.ArrowType.NoArrow)
+        self.pushbutton_schedule.setCheckable(True)
+        self.button_group.addButton(self.pushbutton_schedule)
         self.addWidget(self.pushbutton_schedule)
