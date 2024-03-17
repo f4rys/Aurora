@@ -27,6 +27,15 @@
 
 .switch{
     border: 0;
+    image : url(:/device/bulb_on.png);
+}
+
+.switch:hover{
+    image : url(:/device/bulb_off.png);
+}
+
+.switch:pressed{
+    image : url(:/device/bulb_offline.png);
 }
 
 .switch_button{
@@ -73,10 +82,14 @@ QTabWidget::tab-bar{
 
 QTabWidget{
     background: white;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 QTabWidget::pane { 
    border: none;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 QTabBar::tab {
@@ -101,9 +114,10 @@ QTabBar::tab:hover, QTabBar::tab:focus{
 }
 
 BulbNameLabel{
-    margin-top: 0;
-    margin-bottom: 15;
-    font-size: 15pt;
+    margin-top: 10;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    font-size: 12pt;
 }
 
 .timer_button{
@@ -153,3 +167,13 @@ QTimeEdit::down-arrow{
     margin-bottom: 3px;
 }
 
+.vline{
+    margin-top: 10;
+    margin-bottom: 10;
+    margin-left: 3;
+    margin-right: 0;
+}
+
+QStackedWidget{
+    margin-top: 5;
+}

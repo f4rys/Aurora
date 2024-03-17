@@ -11,6 +11,7 @@
     <qresource prefix="device">
         <file alias="bulb_on.png">../../assets/bulb_on.png</file>
         <file alias="bulb_off.png">../../assets/bulb_off.png</file>
+        <file alias="bulb_offline.png">../../assets/bulb_offline.png</file>
         <file alias="brightness.png">../../assets/brightness.png</file>
         <file alias="colours.png">../../assets/colours.png</file>
         <file alias="contrast.png">../../assets/contrast.png</file>

@@ -21,11 +21,13 @@ class DeviceWidget(QWidget):
         self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
 
+        self.pushbutton_bulb = BulbSwitchButton(parent=self.verticalLayoutWidget_2)
+        self.verticalLayout_2.addWidget(self.pushbutton_bulb)
+        
         self.label = BulbNameLabel(parent=self.verticalLayoutWidget_2, name="RGB748389")
         self.verticalLayout_2.addWidget(self.label)
 
-        self.pushbutton_bulb = BulbSwitchButton(parent=self.verticalLayoutWidget_2)
-        self.verticalLayout_2.addWidget(self.pushbutton_bulb)
+
         
         self.tabWidget = QTabWidget(parent=self.verticalLayoutWidget_2)
         self.tabWidget.setTabPosition(QTabWidget.TabPosition.South)

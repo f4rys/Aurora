@@ -6,7 +6,7 @@ class BulbSwitchButton(QPushButton):
         super().__init__(*args, **kwargs)
 
         self.setProperty("class", "switch")
-        self.setStyleSheet("image : url(:/device/bulb_on.png);")
+        #self.setStyleSheet("image : url(:/device/bulb_on.png);")
 
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)

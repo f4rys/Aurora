@@ -1,6 +1,6 @@
 from PyQt6.QtGui import QFont, QIcon
 from PyQt6.QtCore import Qt, QPropertyAnimation, QRect, QMetaObject
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QPushButton, QGridLayout, QHBoxLayout, QSizePolicy, QSystemTrayIcon
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QPushButton, QGridLayout, QHBoxLayout, QSizePolicy, QSystemTrayIcon, QFrame
 
 from modules.gui.NavigationBarLayout import NavigationBarLayout
 from modules.gui.AuroraStackedWidget import AuroraStackedWidget
@@ -40,6 +40,12 @@ class Aurora(QMainWindow):
         self.navigation_bar_layout.pushbutton_analytics.clicked.connect(self.show_analytics)
         self.navigation_bar_layout.pushbutton_schedule.clicked.connect(self.show_schedule)
         self.gridLayout.addLayout(self.navigation_bar_layout, 2, 0, 5, 1)
+
+        self.vertical_line = QFrame(parent=self.gridLayoutWidget)
+        self.vertical_line.setFrameShape(QFrame.Shape.VLine)
+        self.vertical_line.setFrameShadow(QFrame.Shadow.Sunken)
+        self.vertical_line.setProperty("class", "vline")
+        self.gridLayout.addWidget(self.vertical_line, 2, 1, 5, 1)
 
         self.horizontalLayout = QHBoxLayout()
 
