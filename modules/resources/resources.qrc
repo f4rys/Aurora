@@ -22,6 +22,7 @@
         <file alias="scenes.png">../../assets/scenes.png</file>
         <file alias="analytics.png">../../assets/analytics.png</file>
         <file alias="schedule.png">../../assets/schedule.png</file>
+        <file alias="help.png">../../assets/help.png</file>
     </qresource>
     <qresource prefix="misc">
         <file alias="up_arrow.png">../../assets/up_arrow.png</file>

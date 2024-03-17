@@ -110,7 +110,7 @@ class NavigationBarLayout(QVBoxLayout):
         self.pushbutton_help.setSizePolicy(sizePolicy)
         self.pushbutton_help.setFocusPolicy(Qt.FocusPolicy.TabFocus)
         self.pushbutton_help.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
-        self.pushbutton_help.setIcon(QIcon(":/navigation/schedule.png"))
+        self.pushbutton_help.setIcon(QIcon(":/navigation/help.png"))
         self.pushbutton_help.setProperty("class", "tab_button")
         self.pushbutton_help.setText("HELP")
         self.pushbutton_help.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
