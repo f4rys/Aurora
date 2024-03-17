@@ -51,6 +51,8 @@
 QSlider::groove:horizontal {
     background-color: #dad9d3;
     height: 5;
+    margin: 0;
+    padding: 0;
 }
 
 QSlider::handle:horizontal{
