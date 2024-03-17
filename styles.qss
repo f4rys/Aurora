@@ -101,13 +101,13 @@ QTabBar::tab:hover, QTabBar::tab:focus{
 
 .tab_button{
     border: 0;
-    padding: 10;
+    padding: 2;
 }
 
 .tab_button:hover, .tab_button:checked{
     border: 0;
     background: #F2F1EB;
-    padding: 8;
+    padding: 1;
     border-radius: 10px;
 }
 

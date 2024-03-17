@@ -39,6 +39,7 @@ class Aurora(QMainWindow):
         self.navigation_bar_layout.pushbutton_scenes.clicked.connect(self.show_scenes)
         self.navigation_bar_layout.pushbutton_analytics.clicked.connect(self.show_analytics)
         self.navigation_bar_layout.pushbutton_schedule.clicked.connect(self.show_schedule)
+        self.navigation_bar_layout.pushbutton_help.clicked.connect(self.show_help)
         self.gridLayout.addLayout(self.navigation_bar_layout, 2, 0, 5, 1)
 
         self.vertical_line = QFrame(parent=self.gridLayoutWidget)
@@ -110,6 +111,9 @@ class Aurora(QMainWindow):
     def show_schedule(self):
         self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.stackedWidget.schedule))
 
+    def show_help(self):
+        self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.stackedWidget.help))
+
     def show_settings(self):
         self.reset_navigation_bar_buttons_checked()
         self.settings = SettingsWidget()
@@ -123,11 +127,13 @@ class Aurora(QMainWindow):
         self.navigation_bar_layout.pushbutton_scenes.setChecked(False)
         self.navigation_bar_layout.pushbutton_analytics.setChecked(False)
         self.navigation_bar_layout.pushbutton_schedule.setChecked(False)
+        self.navigation_bar_layout.pushbutton_help.setChecked(False)
 
         self.navigation_bar_layout.pushbutton_devices.update()
         self.navigation_bar_layout.pushbutton_scenes.update()
         self.navigation_bar_layout.pushbutton_analytics.update()
         self.navigation_bar_layout.pushbutton_schedule.update()
+        self.navigation_bar_layout.pushbutton_help.update()
 
         self.navigation_bar_layout.button_group.setExclusive(True)
 

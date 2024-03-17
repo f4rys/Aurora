@@ -5,6 +5,7 @@ from modules.gui.all_devices.AllDevicesWidget import AllDevicesWidget
 from modules.gui.scenes.ScenesWidget import ScenesWidget
 from modules.gui.analytics.AnalyticsWidget import AnalyticsWidget
 from modules.gui.schedule.ScheduleWidget import ScheduleWidget
+from modules.gui.help.HelpWidget import HelpWidget
 
 class AuroraStackedWidget(QStackedWidget):
     def __init__(self, *args, **kwargs):
@@ -31,3 +32,6 @@ class AuroraStackedWidget(QStackedWidget):
 
         self.schedule = ScheduleWidget(self)
         self.addWidget(self.schedule)
+
+        self.help = HelpWidget(self)
+        self.addWidget(self.help)
