@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QTabWidget, QPushButton, QVBoxLayout, QSizePolicy, QLabel
+from PyQt6.QtWidgets import QWidget, QTabWidget, QPushButton, QVBoxLayout, QSizePolicy, QLabel, QFrame
 from PyQt6.QtCore import QMargins, Qt, QRect
 
 from modules.gui.device.BulbNameLabel import BulbNameLabel
@@ -21,13 +21,17 @@ class DeviceWidget(QWidget):
         self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
 
-        self.pushbutton_bulb = BulbSwitchButton(parent=self.verticalLayoutWidget_2)
-        self.verticalLayout_2.addWidget(self.pushbutton_bulb)
-        
+        self.line = QFrame()
+        self.line.setFrameShape(QFrame.Shape.HLine)
+        self.line.setFrameShadow(QFrame.Shadow.Sunken)
+        self.line.setProperty("class", "hline")
+        self.verticalLayout_2.addWidget(self.line)
+
         self.label = BulbNameLabel(parent=self.verticalLayoutWidget_2, name="RGB748389")
         self.verticalLayout_2.addWidget(self.label)
 
-
+        self.pushbutton_bulb = BulbSwitchButton(parent=self.verticalLayoutWidget_2)
+        self.verticalLayout_2.addWidget(self.pushbutton_bulb)
         
         self.tabWidget = QTabWidget(parent=self.verticalLayoutWidget_2)
         self.tabWidget.setTabPosition(QTabWidget.TabPosition.South)

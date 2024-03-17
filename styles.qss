@@ -118,8 +118,8 @@ QTabBar::tab:hover, QTabBar::tab:focus{
 }
 
 BulbNameLabel{
-    margin-top: 10;
-    margin-bottom: 0;
+    margin-top: 5;
+    margin-bottom: 5;
     padding-bottom: 0;
     font-size: 12pt;
 }
@@ -180,4 +180,9 @@ QTimeEdit::down-arrow{
 
 QStackedWidget{
     margin-top: 5;
+}
+
+.hline{
+    margin: 0;
+    padding: 0;
 }
