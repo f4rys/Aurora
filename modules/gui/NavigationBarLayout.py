@@ -31,7 +31,6 @@ class NavigationBarLayout(QVBoxLayout):
         self.line = QFrame()
         self.line.setFrameShape(QFrame.Shape.HLine)
         self.line.setFrameShadow(QFrame.Shadow.Sunken)
-        self.line.setObjectName("line")
         self.addWidget(self.line)
 
         self.pushbutton_scenes = QToolButton()
@@ -54,7 +53,6 @@ class NavigationBarLayout(QVBoxLayout):
         self.line_2 = QFrame()
         self.line_2.setFrameShape(QFrame.Shape.HLine)
         self.line_2.setFrameShadow(QFrame.Shadow.Sunken)
-        self.line_2.setObjectName("line_2")
         self.addWidget(self.line_2)
 
         self.pushbutton_analytics = QToolButton()
@@ -77,7 +75,6 @@ class NavigationBarLayout(QVBoxLayout):
         self.line_3 = QFrame()
         self.line_3.setFrameShape(QFrame.Shape.HLine)
         self.line_3.setFrameShadow(QFrame.Shadow.Sunken)
-        self.line_3.setObjectName("line_3")
         self.addWidget(self.line_3)
 
         self.pushbutton_schedule = QToolButton()
