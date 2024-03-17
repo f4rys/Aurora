@@ -5,23 +5,27 @@
 
 .hide_button{
     border: 0;
-    margin-top: 7;
+    padding: 0;
+    margin-right: 10;
+    margin-top: 5;
+    width: 12px;
     image: url(":/icon/exit.png") no-repeat center;
 }
 
 .hide_button:hover{
-    margin-top: 7;
     image: url(":/icon/exit_hover.png") no-repeat center;
 }
 
 .settings_button{
     border: 0;
-    margin-top: 7;
+    padding: 0;
+    margin-top: 5;
+    margin-right: 2;
+    width: 13px;
     image: url(":/icon/settings.png") no-repeat center;
 }
 
 .settings_button:hover{
-    margin-top: 7;
     image: url(":/icon/settings_hover.png") no-repeat center;
 }
 
