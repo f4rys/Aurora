@@ -45,10 +45,8 @@
 }
 
 QSlider::groove:horizontal {
-    background-color: gray;
-    border: 0px solid #424242;
-    height: 5px;
-    border-radius: 4px;
+    background-color: #dad9d3;
+    height: 5;
 }
 
 QSlider::handle:horizontal{
