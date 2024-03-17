@@ -1,12 +1,18 @@
 <!DOCTYPE RCC>
 
 <RCC version="1.0">
-    <qresource prefix="icon">
-        <file alias="icon.png">../../assets/aurora.png</file>
-        <file alias="exit.png">../../assets/exit.png</file>
-        <file alias="exit_hover.png">../../assets/exit_hover.png</file>
+    <qresource prefix="action">
+        <file alias="profile.png">../../assets/profile.png</file>
+        <file alias="profile_hover.png">../../assets/profile_hover.png</file>
         <file alias="settings.png">../../assets/settings.png</file>
         <file alias="settings_hover.png">../../assets/settings_hover.png</file>
+        <file alias="hide.png">../../assets/hide.png</file>
+        <file alias="hide_hover.png">../../assets/hide_hover.png</file>
+        <file alias="exit.png">../../assets/exit.png</file>
+        <file alias="exit_hover.png">../../assets/exit_hover.png</file>
+    </qresource>   
+    <qresource prefix="icon">
+        <file alias="icon.png">../../assets/aurora.png</file>
     </qresource>
     <qresource prefix="device">
         <file alias="bulb_on.png">../../assets/bulb_on.png</file>

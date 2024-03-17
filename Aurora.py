@@ -6,6 +6,7 @@ from modules.gui.NavigationBarLayout import NavigationBarLayout
 from modules.gui.AuroraStackedWidget import AuroraStackedWidget
 from modules.gui.settings.SettingsWidget import SettingsWidget
 from modules.gui.ActionBarLayout import ActionBarLayout
+from modules.gui.profile.ProfileWidget import ProfileWidget
 
 import modules.resources.resources as resources
 
@@ -50,8 +51,10 @@ class Aurora(QMainWindow):
         self.gridLayout.addWidget(self.vertical_line, 2, 1, 5, 1)
 
         self.action_bar_layout = ActionBarLayout()
+        self.action_bar_layout.pushbutton_profile.clicked.connect(self.show_profile)
         self.action_bar_layout.pushbutton_settings.clicked.connect(self.show_settings)
         self.action_bar_layout.pushbutton_hide.clicked.connect(self.hide_window)
+        self.action_bar_layout.pushbutton_exit.clicked.connect(self.exit)
         self.gridLayout.addLayout(self.action_bar_layout, 2, 4, 1, 1)
 
         self.stackedWidget = AuroraStackedWidget()
@@ -80,6 +83,15 @@ class Aurora(QMainWindow):
             self.animation.setEndValue(QRect(x, y, window_width, window_height))
 
             self.animation.start()
+
+    def exit(self):
+        app.quit()
+
+    def show_profile(self):
+        self.reset_navigation_bar_buttons_checked()
+        self.profile = ProfileWidget()
+        self.stackedWidget.addWidget(self.profile)
+        self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.profile))
 
     def show_all_devices(self):
         self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.stackedWidget.all_devices))

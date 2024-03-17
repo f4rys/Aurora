@@ -3,30 +3,44 @@
     border-radius: 15px;
 }
 
-.hide_button{
+.action_bar_label{
+    margin-top: 8;
+}
+
+.action_bar_button{
     border: 0;
     padding: 0;
     margin-right: 10;
     margin-top: 5;
     width: 12px;
-    image: url(":/icon/exit.png") no-repeat center;
 }
 
-.hide_button:hover{
-    image: url(":/icon/exit_hover.png") no-repeat center;
+#profile_button{
+    image: url(":/action/profile.png") no-repeat center;
+}
+#profile_button:hover{
+    image: url(":/action/profile_hover.png") no-repeat center;
 }
 
-.settings_button{
-    border: 0;
-    padding: 0;
-    margin-top: 5;
-    margin-right: 2;
-    width: 13px;
-    image: url(":/icon/settings.png") no-repeat center;
+#settings_button{
+    image: url(":/action/settings.png") no-repeat center;
+}
+#settings_button:hover{
+    image: url(":/action/settings_hover.png") no-repeat center;
 }
 
-.settings_button:hover{
-    image: url(":/icon/settings_hover.png") no-repeat center;
+#hide_button{
+    image: url(":/action/hide.png") no-repeat center;
+}
+#hide_button:hover{
+    image: url(":/action/hide_hover.png") no-repeat center;
+}
+
+#exit_button{
+    image: url(":/action/exit.png") no-repeat center;
+}
+#exit_button:hover{
+    image: url(":/action/exit_hover.png") no-repeat center;
 }
 
 .switch{
