@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QPushBut
 from modules.gui.NavigationBarLayout import NavigationBarLayout
 from modules.gui.AuroraStackedWidget import AuroraStackedWidget
 from modules.gui.settings.SettingsWidget import SettingsWidget
+from modules.gui.ActionBarLayout import ActionBarLayout
 
 import modules.resources.resources as resources
 
@@ -48,29 +49,10 @@ class Aurora(QMainWindow):
         self.vertical_line.setProperty("class", "vline")
         self.gridLayout.addWidget(self.vertical_line, 2, 1, 5, 1)
 
-        self.horizontalLayout = QHBoxLayout()
-
-        self.pushbutton_settings = QPushButton(parent=self.gridLayoutWidget)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushbutton_settings.sizePolicy().hasHeightForWidth())
-        self.pushbutton_settings.setSizePolicy(sizePolicy)
-        self.pushbutton_settings.setProperty("class", "settings_button")
-        self.horizontalLayout.addWidget(self.pushbutton_settings)
-        self.pushbutton_settings.clicked.connect(self.show_settings)
-
-        self.pushbutton_hide = QPushButton(parent=self.gridLayoutWidget)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushbutton_hide.sizePolicy().hasHeightForWidth())
-        self.pushbutton_hide.setSizePolicy(sizePolicy)
-        self.pushbutton_hide.setProperty("class", "hide_button")
-        self.horizontalLayout.addWidget(self.pushbutton_hide)
-        self.pushbutton_hide.clicked.connect(self.hide_window)
-
-        self.gridLayout.addLayout(self.horizontalLayout, 2, 4, 1, 1)
+        self.action_bar_layout = ActionBarLayout()
+        self.action_bar_layout.pushbutton_settings.clicked.connect(self.show_settings)
+        self.action_bar_layout.pushbutton_hide.clicked.connect(self.hide_window)
+        self.gridLayout.addLayout(self.action_bar_layout, 2, 4, 1, 1)
 
         self.stackedWidget = AuroraStackedWidget()
 
