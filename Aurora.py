@@ -19,43 +19,43 @@ class Aurora(QMainWindow):
         font.setBold(False)
         self.setFont(font)
 
-        self.centralwidget = QWidget(parent=self)
+        self.central_widget = QWidget(parent=self)
 
-        self.background = QLabel(parent=self.centralwidget)
+        self.background = QLabel(parent=self.central_widget)
         self.background.setProperty("class", "background")
         self.background.resize(400, 300)
 
-        self.gridLayoutWidget = QWidget(parent=self.centralwidget)
-        self.gridLayoutWidget.setGeometry(QRect(0, 0, 400, 300))
+        self.grid_widget = QWidget(parent=self.central_widget)
+        self.grid_widget.setGeometry(QRect(0, 0, 400, 300))
 
-        self.gridLayout = QGridLayout(self.gridLayoutWidget)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.grid_layout = QGridLayout(self.grid_widget)
+        self.grid_layout.setContentsMargins(0, 0, 0, 0)
 
         self.navigation_bar_layout = NavigationBarLayout()
-        self.navigation_bar_layout.pushbutton_devices.clicked.connect(self.show_all_devices)
-        self.navigation_bar_layout.pushbutton_scenes.clicked.connect(self.show_scenes)
-        self.navigation_bar_layout.pushbutton_analytics.clicked.connect(self.show_analytics)
-        self.navigation_bar_layout.pushbutton_schedule.clicked.connect(self.show_schedule)
-        self.navigation_bar_layout.pushbutton_help.clicked.connect(self.show_help)
-        self.gridLayout.addLayout(self.navigation_bar_layout, 2, 0, 5, 1)
+        self.navigation_bar_layout.devices_button.clicked.connect(self.show_all_devices)
+        self.navigation_bar_layout.scenes_button.clicked.connect(self.show_scenes)
+        self.navigation_bar_layout.analytics_button.clicked.connect(self.show_analytics)
+        self.navigation_bar_layout.schedule_button.clicked.connect(self.show_schedule)
+        self.navigation_bar_layout.help_button.clicked.connect(self.show_help)
+        self.grid_layout.addLayout(self.navigation_bar_layout, 2, 0, 5, 1)
 
-        self.vertical_line = QFrame(parent=self.gridLayoutWidget)
+        self.vertical_line = QFrame(parent=self.grid_widget)
         self.vertical_line.setFrameShape(QFrame.Shape.VLine)
         self.vertical_line.setFrameShadow(QFrame.Shadow.Sunken)
         self.vertical_line.setProperty("class", "vline")
-        self.gridLayout.addWidget(self.vertical_line, 2, 1, 5, 1)
+        self.grid_layout.addWidget(self.vertical_line, 2, 1, 5, 1)
 
         self.action_bar_layout = ActionBarLayout()
-        self.action_bar_layout.pushbutton_profile.clicked.connect(self.show_profile)
-        self.action_bar_layout.pushbutton_settings.clicked.connect(self.show_settings)
-        self.action_bar_layout.pushbutton_hide.clicked.connect(self.hide_window)
-        self.action_bar_layout.pushbutton_exit.clicked.connect(self.exit)
-        self.gridLayout.addLayout(self.action_bar_layout, 2, 4, 1, 1)
+        self.action_bar_layout.profile_button.clicked.connect(self.show_profile)
+        self.action_bar_layout.settings_button.clicked.connect(self.show_settings)
+        self.action_bar_layout.hide_button.clicked.connect(self.hide_window)
+        self.action_bar_layout.exit_button.clicked.connect(self.exit)
+        self.grid_layout.addLayout(self.action_bar_layout, 2, 4, 1, 1)
 
-        self.stackedWidget = AuroraStackedWidget()
+        self.stacked_widget = AuroraStackedWidget()
 
-        self.gridLayout.addWidget(self.stackedWidget, 3, 1, 4, 4)
-        self.setCentralWidget(self.centralwidget)
+        self.grid_layout.addWidget(self.stacked_widget, 3, 1, 4, 4)
+        self.setCentralWidget(self.central_widget)
     
         QMetaObject.connectSlotsByName(self)
 
@@ -85,44 +85,44 @@ class Aurora(QMainWindow):
     def show_profile(self):
         self.reset_navigation_bar_buttons_checked()
         self.profile = ProfileWidget()
-        self.stackedWidget.addWidget(self.profile)
-        self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.profile))
+        self.stacked_widget.addWidget(self.profile)
+        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.profile))
 
     def show_all_devices(self):
-        self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.stackedWidget.all_devices))
+        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.all_devices))
 
     def show_scenes(self):
-        self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.stackedWidget.scenes))
+        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.scenes))
 
     def show_analytics(self):
-        self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.stackedWidget.analytics))
+        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.analytics))
 
     def show_schedule(self):
-        self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.stackedWidget.schedule))
+        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.schedule))
 
     def show_help(self):
-        self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.stackedWidget.help))
+        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.help))
 
     def show_settings(self):
         self.reset_navigation_bar_buttons_checked()
         self.settings = SettingsWidget()
-        self.stackedWidget.addWidget(self.settings)
-        self.stackedWidget.setCurrentIndex(self.stackedWidget.indexOf(self.settings))
+        self.stacked_widget.addWidget(self.settings)
+        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.settings))
 
     def reset_navigation_bar_buttons_checked(self):
         self.navigation_bar_layout.button_group.setExclusive(False)
 
-        self.navigation_bar_layout.pushbutton_devices.setChecked(False)
-        self.navigation_bar_layout.pushbutton_scenes.setChecked(False)
-        self.navigation_bar_layout.pushbutton_analytics.setChecked(False)
-        self.navigation_bar_layout.pushbutton_schedule.setChecked(False)
-        self.navigation_bar_layout.pushbutton_help.setChecked(False)
+        self.navigation_bar_layout.devices_button.setChecked(False)
+        self.navigation_bar_layout.scenes_button.setChecked(False)
+        self.navigation_bar_layout.analytics_button.setChecked(False)
+        self.navigation_bar_layout.schedule_button.setChecked(False)
+        self.navigation_bar_layout.help_button.setChecked(False)
 
-        self.navigation_bar_layout.pushbutton_devices.update()
-        self.navigation_bar_layout.pushbutton_scenes.update()
-        self.navigation_bar_layout.pushbutton_analytics.update()
-        self.navigation_bar_layout.pushbutton_schedule.update()
-        self.navigation_bar_layout.pushbutton_help.update()
+        self.navigation_bar_layout.devices_button.update()
+        self.navigation_bar_layout.scenes_button.update()
+        self.navigation_bar_layout.analytics_button.update()
+        self.navigation_bar_layout.schedule_button.update()
+        self.navigation_bar_layout.help_button.update()
 
         self.navigation_bar_layout.button_group.setExclusive(True)
 

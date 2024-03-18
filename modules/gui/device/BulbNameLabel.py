@@ -6,12 +6,12 @@ class BulbNameLabel(QLabel):
     def __init__(self, name, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
+        size_policy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
 
-        self.setSizePolicy(sizePolicy)
+        self.setSizePolicy(size_policy)
         self.setScaledContents(False)
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
 

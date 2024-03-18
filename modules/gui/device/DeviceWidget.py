@@ -10,41 +10,40 @@ class DeviceWidget(QWidget):
     def __init__(self, device_id=123):
         super().__init__()
         
-        self.verticalLayoutWidget_2 = QWidget(parent=self)
-        self.verticalLayoutWidget_2.setGeometry(QRect(30, 0, 231, 260))
+        self.setGeometry(QRect(30, 0, 231, 260))
 
-        self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget_2)
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.vlayout = QVBoxLayout(self)
+        self.vlayout.setContentsMargins(0, 0, 0, 0)
 
         self.line = QFrame()
         self.line.setFrameShape(QFrame.Shape.HLine)
         self.line.setFrameShadow(QFrame.Shadow.Sunken)
         self.line.setProperty("class", "hline")
-        self.verticalLayout_2.addWidget(self.line)
+        self.vlayout.addWidget(self.line)
 
-        self.label = BulbNameLabel(parent=self.verticalLayoutWidget_2, name="RGB748389")
-        self.verticalLayout_2.addWidget(self.label)
+        self.label = BulbNameLabel(parent=self, name="RGB748389")
+        self.vlayout.addWidget(self.label)
 
-        self.pushbutton_bulb = BulbSwitchButton(parent=self.verticalLayoutWidget_2)
-        self.verticalLayout_2.addWidget(self.pushbutton_bulb)
+        self.bulb_button = BulbSwitchButton(parent=self)
+        self.vlayout.addWidget(self.bulb_button)
         
-        self.tabWidget = QTabWidget(parent=self.verticalLayoutWidget_2)
-        self.tabWidget.setTabPosition(QTabWidget.TabPosition.South)
-        self.tabWidget.setTabShape(QTabWidget.TabShape.Rounded)
-        self.tabWidget.setUsesScrollButtons(False)
-        self.tabWidget.setTabBarAutoHide(True)
+        self.tab_widget = QTabWidget(parent=self)
+        self.tab_widget.setTabPosition(QTabWidget.TabPosition.South)
+        self.tab_widget.setTabShape(QTabWidget.TabShape.Rounded)
+        self.tab_widget.setUsesScrollButtons(False)
+        self.tab_widget.setTabBarAutoHide(True)
 
-        self.tab_white = WhiteModeTab()
-        self.tabWidget.addTab(self.tab_white, dictionary["white"])
+        self.white_tab = WhiteModeTab()
+        self.tab_widget.addTab(self.white_tab, dictionary["white"])
 
-        self.tab_colour = ColourModeTab()
-        self.tabWidget.addTab(self.tab_colour, dictionary["colour"])
+        self.colour_tab = ColourModeTab()
+        self.tab_widget.addTab(self.colour_tab, dictionary["colour"])
 
-        self.tab_timer = TimerTab()
-        self.tabWidget.addTab(self.tab_timer, dictionary["timer"])
+        self.timer_tab = TimerTab()
+        self.tab_widget.addTab(self.timer_tab, dictionary["timer"])
 
-        self.verticalLayout_2.addWidget(self.tabWidget)
-        self.tabWidget.setCurrentIndex(0)
+        self.vlayout.addWidget(self.tab_widget)
+        self.tab_widget.setCurrentIndex(0)
 
 '''
         with open('devices.json', 'r') as file:
