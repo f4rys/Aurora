@@ -6,6 +6,7 @@ from modules.gui import NavigationBarLayout, AuroraStackedWidget, ActionBarLayou
 from modules.gui.settings import SettingsWidget
 from modules.gui.profile import ProfileWidget
 from modules.resources import resources
+from modules import dictionary
 
 
 class Aurora(QMainWindow):
@@ -89,27 +90,34 @@ class Aurora(QMainWindow):
         self.profile = ProfileWidget()
         self.stacked_widget.addWidget(self.profile)
         self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.profile))
+        self.action_bar_layout.set_label(dictionary["profile_title"])
 
     def show_all_devices(self):
         self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.all_devices))
+        self.action_bar_layout.set_label(dictionary["devices_title"])
 
     def show_scenes(self):
         self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.scenes))
+        self.action_bar_layout.set_label(dictionary["scenes_title"])
 
     def show_analytics(self):
         self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.analytics))
+        self.action_bar_layout.set_label(dictionary["analytics_title"])
 
     def show_schedule(self):
         self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.schedule))
+        self.action_bar_layout.set_label(dictionary["schedule_title"])
 
     def show_help(self):
         self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.help))
+        self.action_bar_layout.set_label(dictionary["help_title"])
 
     def show_settings(self):
         self.reset_navigation_bar_buttons_checked()
         self.settings = SettingsWidget()
         self.stacked_widget.addWidget(self.settings)
         self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.settings))
+        self.action_bar_layout.set_label(dictionary["settings_title"])
 
     def reset_navigation_bar_buttons_checked(self):
         self.navigation_bar_layout.button_group.setExclusive(False)

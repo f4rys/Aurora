@@ -12,7 +12,7 @@ class ActionBarLayout(QHBoxLayout):
         self.button_group.setContentsMargins(0, 0, 0, 0)
         self.button_group.setAlignment(Qt.AlignmentFlag.AlignRight)
 
-        self.label = QLabel("Aurora")
+        self.label = QLabel()
         size_policy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         size_policy.setHorizontalStretch(0)
         size_policy.setVerticalStretch(0)
@@ -63,3 +63,6 @@ class ActionBarLayout(QHBoxLayout):
         self.button_group.addWidget(self.exit_button)
 
         self.addLayout(self.button_group)
+
+    def set_label(self, text):
+        self.label.setText(text)
