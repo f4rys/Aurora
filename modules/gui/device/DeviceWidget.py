@@ -1,15 +1,16 @@
-from PyQt6.QtCore import QRect
-from PyQt6.QtWidgets import QWidget, QTabWidget, QVBoxLayout, QFrame
+from PyQt6.QtWidgets import QWidget, QTabWidget, QVBoxLayout
 
 from modules.gui.device import BulbNameLabel, BulbSwitchButton
 from modules.gui.device.tabs import WhiteModeTab, ColourModeTab, TimerTab
 from modules.tuya import connect, status, turn_off, turn_on, change_brightness, get_brightness, get_warmth, change_warmth, set_mode, change_contrast, get_contrast
-from modules import dictionary
+from modules.dictionaries.loader import load_dictionary
 
 
 class DeviceWidget(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.dictionary = load_dictionary()
 
         self.vlayout = QVBoxLayout(self)
         self.vlayout.setContentsMargins(0, 0, 0, 0)
@@ -27,13 +28,13 @@ class DeviceWidget(QWidget):
         self.tab_widget.setTabBarAutoHide(True)
 
         self.white_tab = WhiteModeTab()
-        self.tab_widget.addTab(self.white_tab, dictionary["white"])
+        self.tab_widget.addTab(self.white_tab, self.dictionary["white"])
 
         self.colour_tab = ColourModeTab()
-        self.tab_widget.addTab(self.colour_tab, dictionary["colour"])
+        self.tab_widget.addTab(self.colour_tab, self.dictionary["colour"])
 
         self.timer_tab = TimerTab()
-        self.tab_widget.addTab(self.timer_tab, dictionary["timer"])
+        self.tab_widget.addTab(self.timer_tab, self.dictionary["timer"])
 
         self.vlayout.addWidget(self.tab_widget)
         self.tab_widget.setCurrentIndex(0)

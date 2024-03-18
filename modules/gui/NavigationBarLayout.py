@@ -2,7 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QSizePolicy, QToolButton, QFrame, QVBoxLayout, QButtonGroup
 
-from modules import dictionary
+from modules.dictionaries.loader import load_dictionary
 
 
 class NavigationBarLayout(QVBoxLayout):
@@ -11,6 +11,8 @@ class NavigationBarLayout(QVBoxLayout):
 
         self.setProperty("class", "navigation_bar")
         self.setContentsMargins(10, 10, 0, 10)
+
+        self.dictionary = load_dictionary()
 
         self.button_group = QButtonGroup()
 
@@ -24,7 +26,7 @@ class NavigationBarLayout(QVBoxLayout):
         self.devices_button.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.devices_button.setIcon(QIcon(":/navigation/devices.png"))
         self.devices_button.setProperty("class", "tab_button")
-        self.devices_button.setText(dictionary["devices"])
+        self.devices_button.setText(self.dictionary["devices"])
         self.devices_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.devices_button.setArrowType(Qt.ArrowType.NoArrow)
         self.devices_button.setCheckable(True)
@@ -46,7 +48,7 @@ class NavigationBarLayout(QVBoxLayout):
         self.scenes_button.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.scenes_button.setIcon(QIcon(":/navigation/scenes.png"))
         self.scenes_button.setProperty("class", "tab_button")
-        self.scenes_button.setText(dictionary["scenes"])
+        self.scenes_button.setText(self.dictionary["scenes"])
         self.scenes_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.scenes_button.setArrowType(Qt.ArrowType.NoArrow)
         self.scenes_button.setCheckable(True)
@@ -68,7 +70,7 @@ class NavigationBarLayout(QVBoxLayout):
         self.analytics_button.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.analytics_button.setIcon(QIcon(":/navigation/analytics.png"))
         self.analytics_button.setProperty("class", "tab_button")
-        self.analytics_button.setText(dictionary["analytics"])
+        self.analytics_button.setText(self.dictionary["analytics"])
         self.analytics_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.analytics_button.setArrowType(Qt.ArrowType.NoArrow)
         self.analytics_button.setCheckable(True)
@@ -90,7 +92,7 @@ class NavigationBarLayout(QVBoxLayout):
         self.schedule_button.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.schedule_button.setIcon(QIcon(":/navigation/schedule.png"))
         self.schedule_button.setProperty("class", "tab_button")
-        self.schedule_button.setText(dictionary["schedule"])
+        self.schedule_button.setText(self.dictionary["schedule"])
         self.schedule_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.schedule_button.setArrowType(Qt.ArrowType.NoArrow)
         self.schedule_button.setCheckable(True)
@@ -112,7 +114,7 @@ class NavigationBarLayout(QVBoxLayout):
         self.help_button.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.help_button.setIcon(QIcon(":/navigation/help.png"))
         self.help_button.setProperty("class", "tab_button")
-        self.help_button.setText(dictionary["help"])
+        self.help_button.setText(self.dictionary["help"])
         self.help_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.help_button.setArrowType(Qt.ArrowType.NoArrow)
         self.help_button.setCheckable(True)

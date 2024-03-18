@@ -6,16 +6,18 @@ from PyQt6.QtGui import QPixmap, QImage
 from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
 
 from modules.tuya import scan_network
-from modules import dictionary
+from modules.dictionaries.loader import load_dictionary
 
 
 class AllDevicesWidget(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.dictionary = load_dictionary()
+
         #self.parent = parent
 
-        self.refresh_button = QPushButton(dictionary["refresh"], parent=self)
+        self.refresh_button = QPushButton(self.dictionary["refresh"], parent=self)
         #self.refresh_button.setGeometry(QRect(10, 0, 200, 23))
         #self.refresh_button.clicked.connect(self.create_list)
 

@@ -2,14 +2,18 @@ from PyQt6.QtCore import Qt, QPropertyAnimation, QRect
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QFrame
 
-from modules.gui import NavigationBarLayout,MainLayout, ActionBarLayout
+from modules.gui import NavigationBarLayout, MainLayout, ActionBarLayout
 from modules.resources import resources
-from modules import dictionary
+from modules.dictionaries.loader import load_dictionary
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, parent, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.dictionary = load_dictionary()
+
+        self.parent = parent
 
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.SplashScreen)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
@@ -54,7 +58,7 @@ class MainWindow(QMainWindow):
         self.action_bar_layout.exit_button.clicked.connect(self.exit)
         self.grid_layout.addLayout(self.action_bar_layout, 2, 1, 1, 10)
 
-        self.main_layout = MainLayout()
+        self.main_layout = MainLayout(self)
 
         self.grid_layout.addLayout(self.main_layout, 3, 1, 4, 10)
         self.setCentralWidget(self.central_widget)
@@ -83,37 +87,37 @@ class MainWindow(QMainWindow):
         self.parent.exit()
 
     def restart(self):
-        pass
+        self.parent.restart_window()
 
     def show_all_devices(self):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.all_devices))
-        self.action_bar_layout.set_label(dictionary["devices_title"])
+        self.action_bar_layout.set_label(self.dictionary["devices_title"])
 
     def show_scenes(self):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.scenes))
-        self.action_bar_layout.set_label(dictionary["scenes_title"])
+        self.action_bar_layout.set_label(self.dictionary["scenes_title"])
 
     def show_analytics(self):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.analytics))
-        self.action_bar_layout.set_label(dictionary["analytics_title"])
+        self.action_bar_layout.set_label(self.dictionary["analytics_title"])
 
     def show_schedule(self):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.schedule))
-        self.action_bar_layout.set_label(dictionary["schedule_title"])
+        self.action_bar_layout.set_label(self.dictionary["schedule_title"])
 
     def show_help(self):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.help))
-        self.action_bar_layout.set_label(dictionary["help_title"])
+        self.action_bar_layout.set_label(self.dictionary["help_title"])
 
     def show_settings(self):
         self.reset_navigation_bar_buttons_checked()
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.settings))
-        self.action_bar_layout.set_label(dictionary["settings_title"])
+        self.action_bar_layout.set_label(self.dictionary["settings_title"])
         
     def show_profile(self):
         self.reset_navigation_bar_buttons_checked()
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.profile))
-        self.action_bar_layout.set_label(dictionary["profile_title"])
+        self.action_bar_layout.set_label(self.dictionary["profile_title"])
 
     def reset_navigation_bar_buttons_checked(self):
         self.navigation_bar_layout.button_group.setExclusive(False)

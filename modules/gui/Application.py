@@ -9,7 +9,7 @@ class Application(QApplication):
 
         self.setQuitOnLastWindowClosed(False)
 
-        self.window = MainWindow()
+        self.window = MainWindow(self)
 
         with open('styles.qss', 'r') as f:
             style = f.read()
@@ -22,3 +22,8 @@ class Application(QApplication):
         tray.activated.connect(lambda: self.window.show_window())
 
         self.exec()
+
+    def restart_window(self):
+        self.window.destroy()
+        self.window = MainWindow(self)
+        self.window.show_window()

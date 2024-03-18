@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QSizePolicy, QPushButton, QHBoxLayout, QLabel, QGroupBox
+from PyQt6.QtWidgets import QSizePolicy, QPushButton, QHBoxLayout, QLabel
 
 
 class ActionBarLayout(QHBoxLayout):

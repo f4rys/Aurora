@@ -11,8 +11,10 @@ from modules.gui.profile import ProfileWidget
 
 
 class StackedWidget(QStackedWidget):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, parent, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.parent = parent
 
         size_policy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         size_policy.setHorizontalStretch(0)
@@ -39,7 +41,7 @@ class StackedWidget(QStackedWidget):
         self.help = HelpWidget()
         self.addWidget(self.help)
 
-        self.settings = SettingsWidget()
+        self.settings = SettingsWidget(self)
         self.addWidget(self.settings)
 
         self.profile = ProfileWidget()

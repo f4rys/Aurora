@@ -4,9 +4,11 @@ from modules.gui import StackedWidget
 
 
 class MainLayout(QVBoxLayout):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, parent, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.parent = parent
+        
         self.setContentsMargins(0, 0, 0, 0)
 
         self.line = QFrame()
@@ -15,6 +17,6 @@ class MainLayout(QVBoxLayout):
         self.line.setProperty("class", "hline")
         self.addWidget(self.line)
 
-        self.stacked_widget = StackedWidget()
+        self.stacked_widget = StackedWidget(self)
         self.addWidget(self.stacked_widget)
 

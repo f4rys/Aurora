@@ -3,12 +3,15 @@ from configparser import ConfigParser
 from PyQt6.QtCore import QRect
 from PyQt6.QtWidgets import QWidget, QCheckBox, QComboBox
 
-from modules import dictionary
+from modules.dictionaries.loader import load_dictionary
 
 
 class SettingsWidget(QWidget):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, parent, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.parent = parent
+        self.dictionary = load_dictionary()
 
         self.config = ConfigParser()
         self.config.read('settings.ini')
@@ -17,7 +20,7 @@ class SettingsWidget(QWidget):
         language = self.config.get("GUI", "interface_language")
 
         self.smart_mode = QCheckBox(self)
-        self.smart_mode.setText(dictionary["smart_mode"])
+        self.smart_mode.setText(self.dictionary["smart_mode"])
         self.smart_mode.setGeometry(QRect(10, 10, 200, 30))
 
         if(mode == 'on'):
@@ -45,3 +48,5 @@ class SettingsWidget(QWidget):
 
         with open('settings.ini', 'w') as configfile:
             self.config.write(configfile)
+
+        self.parent.parent.parent.restart()
