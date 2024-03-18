@@ -8,8 +8,9 @@ from modules import dictionary
 
 
 class Aurora(QMainWindow):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.SplashScreen)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.resize(400, 300)
@@ -20,13 +21,13 @@ class Aurora(QMainWindow):
         font.setBold(False)
         self.setFont(font)
 
-        self.central_widget = QWidget(parent=self)
+        self.central_widget = QWidget()
 
-        self.background = QLabel(parent=self.central_widget)
+        self.background = QLabel(self.central_widget)
         self.background.setProperty("class", "background")
         self.background.resize(400, 300)
 
-        self.grid_widget = QWidget(parent=self.central_widget)
+        self.grid_widget = QWidget(self.central_widget)
         self.grid_widget.setGeometry(QRect(0, 0, 400, 300))
 
         self.grid_layout = QGridLayout(self.grid_widget)
@@ -40,7 +41,7 @@ class Aurora(QMainWindow):
         self.navigation_bar_layout.help_button.clicked.connect(self.show_help)
         self.grid_layout.addLayout(self.navigation_bar_layout, 2, 0, 5, 1)
 
-        self.vertical_line = QFrame(parent=self.grid_widget)
+        self.vertical_line = QFrame()
         self.vertical_line.setFrameShape(QFrame.Shape.VLine)
         self.vertical_line.setFrameShadow(QFrame.Shadow.Sunken)
         self.vertical_line.setProperty("class", "vline")
@@ -57,8 +58,6 @@ class Aurora(QMainWindow):
 
         self.grid_layout.addWidget(self.stacked_widget, 3, 1, 4, 10)
         self.setCentralWidget(self.central_widget)
-    
-        QMetaObject.connectSlotsByName(self)
 
     def hide_window(self):
         self.hide()
@@ -112,7 +111,7 @@ class Aurora(QMainWindow):
         self.reset_navigation_bar_buttons_checked()
         self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.profile))
         self.action_bar_layout.set_label(dictionary["profile_title"])
-        
+
     def reset_navigation_bar_buttons_checked(self):
         self.navigation_bar_layout.button_group.setExclusive(False)
 

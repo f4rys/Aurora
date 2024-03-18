@@ -10,8 +10,8 @@ from modules import dictionary
 
 
 class AllDevicesWidget(QWidget):
-    def __init__(self, parent):
-        super().__init__()
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.parent = parent
 

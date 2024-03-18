@@ -8,8 +8,8 @@ from modules import dictionary
 
 
 class DeviceWidget(QWidget):
-    def __init__(self, device_id=123):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.vlayout = QVBoxLayout(self)
         self.vlayout.setContentsMargins(0, 0, 0, 0)

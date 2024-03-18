@@ -7,8 +7,8 @@ from modules import dictionary
 
 
 class SettingsWidget(QWidget):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.config = ConfigParser()
         self.config.read('settings.ini')
