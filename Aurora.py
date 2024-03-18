@@ -3,8 +3,6 @@ from PyQt6.QtGui import QFont, QIcon
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QSystemTrayIcon, QFrame
 
 from modules.gui import NavigationBarLayout, AuroraStackedWidget, ActionBarLayout
-from modules.gui.settings import SettingsWidget
-from modules.gui.profile import ProfileWidget
 from modules.resources import resources
 from modules import dictionary
 
@@ -85,13 +83,6 @@ class Aurora(QMainWindow):
     def exit(self):
         app.quit()
 
-    def show_profile(self):
-        self.reset_navigation_bar_buttons_checked()
-        self.profile = ProfileWidget()
-        self.stacked_widget.addWidget(self.profile)
-        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.profile))
-        self.action_bar_layout.set_label(dictionary["profile_title"])
-
     def show_all_devices(self):
         self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.all_devices))
         self.action_bar_layout.set_label(dictionary["devices_title"])
@@ -114,11 +105,14 @@ class Aurora(QMainWindow):
 
     def show_settings(self):
         self.reset_navigation_bar_buttons_checked()
-        self.settings = SettingsWidget()
-        self.stacked_widget.addWidget(self.settings)
-        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.settings))
+        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.settings))
         self.action_bar_layout.set_label(dictionary["settings_title"])
-
+        
+    def show_profile(self):
+        self.reset_navigation_bar_buttons_checked()
+        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.profile))
+        self.action_bar_layout.set_label(dictionary["profile_title"])
+        
     def reset_navigation_bar_buttons_checked(self):
         self.navigation_bar_layout.button_group.setExclusive(False)
 

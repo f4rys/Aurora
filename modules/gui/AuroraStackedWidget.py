@@ -6,6 +6,8 @@ from modules.gui.scenes import ScenesWidget
 from modules.gui.analytics import AnalyticsWidget
 from modules.gui.schedule import ScheduleWidget
 from modules.gui.help import HelpWidget
+from modules.gui.settings import SettingsWidget
+from modules.gui.profile import ProfileWidget
 
 
 class AuroraStackedWidget(QStackedWidget):
@@ -36,3 +38,9 @@ class AuroraStackedWidget(QStackedWidget):
 
         self.help = HelpWidget(self)
         self.addWidget(self.help)
+
+        self.settings = SettingsWidget()
+        self.addWidget(self.settings)
+
+        self.profile = ProfileWidget()
+        self.addWidget(self.profile)
