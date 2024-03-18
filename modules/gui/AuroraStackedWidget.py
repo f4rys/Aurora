@@ -24,19 +24,19 @@ class AuroraStackedWidget(QStackedWidget):
         self.device = DeviceWidget()
         self.addWidget(self.device)
 
-        self.all_devices = AllDevicesWidget(self)
+        self.all_devices = AllDevicesWidget()
         self.addWidget(self.all_devices)
 
-        self.scenes = ScenesWidget(self)
+        self.scenes = ScenesWidget()
         self.addWidget(self.scenes)
 
-        self.analytics = AnalyticsWidget(self)
+        self.analytics = AnalyticsWidget()
         self.addWidget(self.analytics)
 
-        self.schedule = ScheduleWidget(self)
+        self.schedule = ScheduleWidget()
         self.addWidget(self.schedule)
 
-        self.help = HelpWidget(self)
+        self.help = HelpWidget()
         self.addWidget(self.help)
 
         self.settings = SettingsWidget()

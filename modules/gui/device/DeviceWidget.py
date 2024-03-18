@@ -20,13 +20,13 @@ class DeviceWidget(QWidget):
         self.line.setProperty("class", "hline")
         self.vlayout.addWidget(self.line)
 
-        self.label = BulbNameLabel(parent=self, name="RGB748389")
+        self.label = BulbNameLabel(name="RGB748389")
         self.vlayout.addWidget(self.label)
 
-        self.bulb_button = BulbSwitchButton(parent=self)
+        self.bulb_button = BulbSwitchButton()
         self.vlayout.addWidget(self.bulb_button)
         
-        self.tab_widget = QTabWidget(parent=self)
+        self.tab_widget = QTabWidget()
         self.tab_widget.setTabPosition(QTabWidget.TabPosition.South)
         self.tab_widget.setTabShape(QTabWidget.TabShape.Rounded)
         self.tab_widget.setUsesScrollButtons(False)

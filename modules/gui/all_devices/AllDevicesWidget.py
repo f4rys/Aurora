@@ -10,10 +10,10 @@ from modules import dictionary
 
 
 class AllDevicesWidget(QWidget):
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.parent = parent
+        #self.parent = parent
 
         self.refresh_button = QPushButton(dictionary["refresh"], parent=self)
         self.refresh_button.setGeometry(QRect(10, 0, 200, 23))
@@ -22,7 +22,8 @@ class AllDevicesWidget(QWidget):
         self.create_list()
 
     def open_device(self, device_id):
-        self.parent.show_device(device_id)
+        #self.parent.show_device(device_id)
+        pass
 
     def create_list(self):
 
