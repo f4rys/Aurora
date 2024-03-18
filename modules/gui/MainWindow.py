@@ -1,6 +1,6 @@
-from PyQt6.QtCore import Qt, QPropertyAnimation, QRect, QMetaObject
-from PyQt6.QtGui import QFont, QIcon
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QSystemTrayIcon, QFrame
+from PyQt6.QtCore import Qt, QPropertyAnimation, QRect
+from PyQt6.QtGui import QFont
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QFrame
 
 from modules.gui import NavigationBarLayout,MainLayout, ActionBarLayout
 from modules.resources import resources
@@ -80,6 +80,9 @@ class MainWindow(QMainWindow):
             self.animation.start()
 
     def exit(self):
+        self.parent.exit()
+
+    def restart(self):
         pass
 
     def show_all_devices(self):
