@@ -10,8 +10,6 @@ from modules import dictionary
 class DeviceWidget(QWidget):
     def __init__(self, device_id=123):
         super().__init__()
-        
-        self.setGeometry(QRect(30, 0, 231, 260))
 
         self.vlayout = QVBoxLayout(self)
         self.vlayout.setContentsMargins(0, 0, 0, 0)

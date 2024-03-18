@@ -4,7 +4,7 @@
 }
 
 .action_bar_label{
-    margin-top: 8;
+    margin-top: 0;
 }
 
 .action_bar_button{
@@ -12,6 +12,7 @@
     padding: 0;
     margin-right: 10;
     margin-top: 5;
+    margin-bottom: 0;
     width: 12px;
 }
 
@@ -132,8 +133,8 @@ QTabBar::tab:hover, QTabBar::tab:focus{
 }
 
 BulbNameLabel{
-    margin-top: 5;
-    margin-bottom: 5;
+    margin-top: 2;
+    margin-bottom: 3;
     padding-bottom: 0;
     font-size: 12pt;
 }
@@ -193,10 +194,16 @@ QTimeEdit::down-arrow{
 }
 
 QStackedWidget{
-    margin-top: 5;
+    margin-top: 2;
+    margin-left: 10;
+    margin-right: 10;
+    margin-bottom: 10;
 }
 
 .hline{
-    margin: 0;
+    margin-left: 15;
+    margin-right: 15;
+    margin-top: 0;
+    margin-bottom: 0;
     padding: 0;
 }
