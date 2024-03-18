@@ -26,7 +26,7 @@ class StackedWidget(QStackedWidget):
         self.device = DeviceWidget()
         self.addWidget(self.device)
 
-        self.all_devices = AllDevicesWidget()
+        self.all_devices = AllDevicesWidget(self)
         self.addWidget(self.all_devices)
 
         self.scenes = ScenesWidget()

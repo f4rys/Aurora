@@ -13,6 +13,7 @@ class TimerTab(QWidget):
 
         self.time_edit = QTimeEdit()
         self.time_edit.setDisplayFormat("HH:mm")
+        self.time_edit.setToolTip(self.dictionary["time_edit_tooltip"])
 
         self.accept_button = QPushButton(self.dictionary["set_timer"])
         self.accept_button.clicked.connect(self.on_accept)
