@@ -1,9 +1,16 @@
-from PyQt6.QtWidgets import QSizePolicy, QPushButton, QHBoxLayout, QLabel
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QSizePolicy, QPushButton, QHBoxLayout, QLabel, QGroupBox
 
 
 class ActionBarLayout(QHBoxLayout):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.setContentsMargins(30, 8, 10, 0)
+
+        self.button_group = QHBoxLayout()
+        self.button_group.setContentsMargins(0, 0, 0, 0)
+        self.button_group.setAlignment(Qt.AlignmentFlag.AlignRight)
 
         self.label = QLabel("Aurora")
         size_policy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
@@ -12,9 +19,8 @@ class ActionBarLayout(QHBoxLayout):
         size_policy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
         self.label.setSizePolicy(size_policy)
         self.label.setProperty("class", "action_bar_label")
+        self.label.setAlignment(Qt.AlignmentFlag.AlignLeft)
         self.addWidget(self.label)
-
-        self.addSpacing(100)
 
         self.profile_button = QPushButton()
         size_policy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
@@ -24,7 +30,7 @@ class ActionBarLayout(QHBoxLayout):
         self.profile_button.setSizePolicy(size_policy)
         self.profile_button.setProperty("class", "action_bar_button")
         self.profile_button.setObjectName("profile_button")
-        self.addWidget(self.profile_button)
+        self.button_group.addWidget(self.profile_button)
 
         self.settings_button = QPushButton()
         size_policy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
@@ -34,7 +40,7 @@ class ActionBarLayout(QHBoxLayout):
         self.settings_button.setSizePolicy(size_policy)
         self.settings_button.setProperty("class", "action_bar_button")
         self.settings_button.setObjectName("settings_button")
-        self.addWidget(self.settings_button)
+        self.button_group.addWidget(self.settings_button)
 
         self.hide_button = QPushButton()
         size_policy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
@@ -44,7 +50,7 @@ class ActionBarLayout(QHBoxLayout):
         self.hide_button.setSizePolicy(size_policy)
         self.hide_button.setProperty("class", "action_bar_button")
         self.hide_button.setObjectName("hide_button")
-        self.addWidget(self.hide_button)
+        self.button_group.addWidget(self.hide_button)
 
         self.exit_button = QPushButton()
         size_policy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
@@ -54,4 +60,6 @@ class ActionBarLayout(QHBoxLayout):
         self.exit_button.setSizePolicy(size_policy)
         self.exit_button.setProperty("class", "action_bar_button")
         self.exit_button.setObjectName("exit_button")
-        self.addWidget(self.exit_button)
+        self.button_group.addWidget(self.exit_button)
+
+        self.addLayout(self.button_group)

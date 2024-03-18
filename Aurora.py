@@ -52,11 +52,11 @@ class Aurora(QMainWindow):
         self.action_bar_layout.settings_button.clicked.connect(self.show_settings)
         self.action_bar_layout.hide_button.clicked.connect(self.hide_window)
         self.action_bar_layout.exit_button.clicked.connect(self.exit)
-        self.grid_layout.addLayout(self.action_bar_layout, 2, 4, 1, 1)
+        self.grid_layout.addLayout(self.action_bar_layout, 2, 1, 1, 10)
 
         self.stacked_widget = AuroraStackedWidget()
 
-        self.grid_layout.addWidget(self.stacked_widget, 3, 1, 4, 4)
+        self.grid_layout.addWidget(self.stacked_widget, 3, 1, 4, 10)
         self.setCentralWidget(self.central_widget)
     
         QMetaObject.connectSlotsByName(self)

@@ -3,17 +3,11 @@
     border-radius: 15px;
 }
 
-.action_bar_label{
-    margin-top: 0;
-}
-
 .action_bar_button{
     border: 0;
     padding: 0;
-    margin-right: 10;
-    margin-top: 5;
-    margin-bottom: 0;
     width: 12px;
+    margin-left: 5;
 }
 
 #profile_button{
