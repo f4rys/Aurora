@@ -2,7 +2,7 @@ from PyQt6.QtCore import Qt, QPropertyAnimation, QRect, QMetaObject
 from PyQt6.QtGui import QFont, QIcon
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QSystemTrayIcon, QFrame
 
-from modules.gui import NavigationBarLayout, AuroraStackedWidget, ActionBarLayout
+from modules.gui import NavigationBarLayout,MainLayout, ActionBarLayout
 from modules.resources import resources
 from modules import dictionary
 
@@ -10,7 +10,7 @@ from modules import dictionary
 class Aurora(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
+
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.SplashScreen)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.resize(400, 300)
@@ -54,9 +54,9 @@ class Aurora(QMainWindow):
         self.action_bar_layout.exit_button.clicked.connect(self.exit)
         self.grid_layout.addLayout(self.action_bar_layout, 2, 1, 1, 10)
 
-        self.stacked_widget = AuroraStackedWidget()
+        self.main_layout = MainLayout()
 
-        self.grid_layout.addWidget(self.stacked_widget, 3, 1, 4, 10)
+        self.grid_layout.addLayout(self.main_layout, 3, 1, 4, 10)
         self.setCentralWidget(self.central_widget)
 
     def hide_window(self):
@@ -83,33 +83,33 @@ class Aurora(QMainWindow):
         app.quit()
 
     def show_all_devices(self):
-        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.all_devices))
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.all_devices))
         self.action_bar_layout.set_label(dictionary["devices_title"])
 
     def show_scenes(self):
-        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.scenes))
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.scenes))
         self.action_bar_layout.set_label(dictionary["scenes_title"])
 
     def show_analytics(self):
-        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.analytics))
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.analytics))
         self.action_bar_layout.set_label(dictionary["analytics_title"])
 
     def show_schedule(self):
-        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.schedule))
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.schedule))
         self.action_bar_layout.set_label(dictionary["schedule_title"])
 
     def show_help(self):
-        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.help))
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.help))
         self.action_bar_layout.set_label(dictionary["help_title"])
 
     def show_settings(self):
         self.reset_navigation_bar_buttons_checked()
-        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.settings))
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.settings))
         self.action_bar_layout.set_label(dictionary["settings_title"])
         
     def show_profile(self):
         self.reset_navigation_bar_buttons_checked()
-        self.stacked_widget.setCurrentIndex(self.stacked_widget.indexOf(self.stacked_widget.profile))
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.profile))
         self.action_bar_layout.set_label(dictionary["profile_title"])
 
     def reset_navigation_bar_buttons_checked(self):

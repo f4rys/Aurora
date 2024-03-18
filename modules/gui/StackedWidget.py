@@ -10,7 +10,7 @@ from modules.gui.settings import SettingsWidget
 from modules.gui.profile import ProfileWidget
 
 
-class AuroraStackedWidget(QStackedWidget):
+class StackedWidget(QStackedWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

@@ -14,12 +14,6 @@ class DeviceWidget(QWidget):
         self.vlayout = QVBoxLayout(self)
         self.vlayout.setContentsMargins(0, 0, 0, 0)
 
-        self.line = QFrame()
-        self.line.setFrameShape(QFrame.Shape.HLine)
-        self.line.setFrameShadow(QFrame.Shadow.Sunken)
-        self.line.setProperty("class", "hline")
-        self.vlayout.addWidget(self.line)
-
         self.label = BulbNameLabel(name="RGB748389")
         self.vlayout.addWidget(self.label)
 

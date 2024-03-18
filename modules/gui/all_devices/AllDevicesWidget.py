@@ -16,8 +16,8 @@ class AllDevicesWidget(QWidget):
         #self.parent = parent
 
         self.refresh_button = QPushButton(dictionary["refresh"], parent=self)
-        self.refresh_button.setGeometry(QRect(10, 0, 200, 23))
-        self.refresh_button.clicked.connect(self.create_list)
+        #self.refresh_button.setGeometry(QRect(10, 0, 200, 23))
+        #self.refresh_button.clicked.connect(self.create_list)
 
         self.create_list()
 
