@@ -1,6 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QSlider, QWidget, QVBoxLayout
 
+
 class ColourModeTab(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

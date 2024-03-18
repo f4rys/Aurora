@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QStackedWidget, QSizePolicy
 
 from modules.gui import DeviceWidget, AllDevicesWidget, ScenesWidget, AnalyticsWidget, ScheduleWidget, HelpWidget
 
+
 class AuroraStackedWidget(QStackedWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

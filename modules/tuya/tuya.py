@@ -1,5 +1,6 @@
-import tinytuya
 import json
+
+import tinytuya
 
 def scan_network():
     return tinytuya.deviceScan()

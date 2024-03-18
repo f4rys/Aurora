@@ -1,11 +1,13 @@
-from PyQt6.QtCore import QRect
-from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
-from PyQt6.QtGui import QPixmap, QImage
 import json
 import requests
 
+from PyQt6.QtCore import QRect
+from PyQt6.QtGui import QPixmap, QImage
+from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
+
 from modules.tuya import scan_network
 from modules import dictionary
+
 
 class AllDevicesWidget(QWidget):
     def __init__(self, parent):

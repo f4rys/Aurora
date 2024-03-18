@@ -1,5 +1,5 @@
-from PyQt6.QtGui import QFont, QIcon
 from PyQt6.QtCore import Qt, QPropertyAnimation, QRect, QMetaObject
+from PyQt6.QtGui import QFont, QIcon
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QSystemTrayIcon, QFrame
 
 from modules.gui import NavigationBarLayout, AuroraStackedWidget, SettingsWidget, ActionBarLayout, ProfileWidget

@@ -1,5 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QTimeEdit, QPushButton, QVBoxLayout
+
 from modules import dictionary
+
 
 class TimerTab(QWidget):
     def __init__(self, *args, **kwargs):

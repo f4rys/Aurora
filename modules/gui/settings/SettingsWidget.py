@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QWidget, QCheckBox, QComboBox
 
 from modules import dictionary
 
+
 class SettingsWidget(QWidget):
     def __init__(self):
         super().__init__()

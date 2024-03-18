@@ -1,5 +1,5 @@
-from PyQt6.QtCore import QRect
 from PyQt6.QtWidgets import QPushButton, QSizePolicy
+
 
 class BulbSwitchButton(QPushButton):
     def __init__(self, *args, **kwargs):

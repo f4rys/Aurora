@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QSizePolicy, QPushButton, QHBoxLayout, QLabel
 
+
 class ActionBarLayout(QHBoxLayout):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

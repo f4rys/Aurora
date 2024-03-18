@@ -1,6 +1,7 @@
 from PyQt6.QtCore import QRect
 from PyQt6.QtWidgets import QWidget, QLabel
 
+
 class AnalyticsWidget(QWidget):
     def __init__(self, parent):
         super().__init__()

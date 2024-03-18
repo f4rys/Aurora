@@ -1,11 +1,10 @@
-from PyQt6.QtWidgets import QWidget, QTabWidget, QPushButton, QVBoxLayout, QSizePolicy, QLabel, QFrame
-from PyQt6.QtCore import QMargins, Qt, QRect
+from PyQt6.QtCore import QRect
+from PyQt6.QtWidgets import QWidget, QTabWidget, QVBoxLayout, QFrame
 
 from modules.gui import BulbNameLabel, BulbSwitchButton, ColourModeTab, WhiteModeTab, TimerTab
 from modules.tuya import connect, status, turn_off, turn_on, change_brightness, get_brightness, get_warmth, change_warmth, set_mode, change_contrast, get_contrast
 from modules import dictionary
 
-import json
 
 class DeviceWidget(QWidget):
     def __init__(self, device_id=123):

@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QSizePolicy, QLabel
 from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QSizePolicy, QLabel
+
 
 class BulbNameLabel(QLabel):
     def __init__(self, name, *args, **kwargs):
