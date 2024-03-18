@@ -7,7 +7,6 @@ class MainLayout(QVBoxLayout):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        #self.setProperty("class", "main_layout")
         self.setContentsMargins(0, 0, 0, 0)
 
         self.line = QFrame()
