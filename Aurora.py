@@ -1,14 +1,9 @@
 from PyQt6.QtGui import QFont, QIcon
 from PyQt6.QtCore import Qt, QPropertyAnimation, QRect, QMetaObject
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QPushButton, QGridLayout, QHBoxLayout, QSizePolicy, QSystemTrayIcon, QFrame
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QSystemTrayIcon, QFrame
 
-from modules.gui.NavigationBarLayout import NavigationBarLayout
-from modules.gui.AuroraStackedWidget import AuroraStackedWidget
-from modules.gui.settings.SettingsWidget import SettingsWidget
-from modules.gui.ActionBarLayout import ActionBarLayout
-from modules.gui.profile.ProfileWidget import ProfileWidget
-
-import modules.resources.resources as resources
+from modules.gui import NavigationBarLayout, AuroraStackedWidget, SettingsWidget, ActionBarLayout, ProfileWidget
+from modules.resources import resources
 
 
 class Aurora(QMainWindow):

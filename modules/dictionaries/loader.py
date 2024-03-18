@@ -1,6 +1,6 @@
-from modules.dictionaries.dictionaries import dictionary_en, dictionary_pl
-
 from configparser import ConfigParser
+
+from modules.dictionaries import dictionary_en, dictionary_pl
 
 def load_dictionary():
     languages = {"en" : dictionary_en, "pl": dictionary_pl}

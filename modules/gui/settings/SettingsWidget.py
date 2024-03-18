@@ -1,7 +1,8 @@
 from configparser import ConfigParser
+
 from PyQt6.QtCore import QRect
 from PyQt6.QtWidgets import QWidget, QCheckBox, QComboBox
-import importlib
+
 from modules import dictionary
 
 class SettingsWidget(QWidget):

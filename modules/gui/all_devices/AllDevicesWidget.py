@@ -4,7 +4,7 @@ from PyQt6.QtGui import QPixmap, QImage
 import json
 import requests
 
-from modules.tuya.tuya import scan_network
+from modules.tuya import scan_network
 from modules import dictionary
 
 class AllDevicesWidget(QWidget):
