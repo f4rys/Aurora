@@ -10,12 +10,12 @@ from modules.dictionaries.loader import load_dictionary
 
 
 class AllDevicesWidget(QWidget):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, parent, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.dictionary = load_dictionary()
 
-        #self.parent = parent
+        self.parent = parent
 
         self.refresh_button = QPushButton(self.dictionary["refresh"], parent=self)
         #self.refresh_button.setGeometry(QRect(10, 0, 200, 23))
@@ -44,7 +44,7 @@ class AllDevicesWidget(QWidget):
 
         self.device_button = QPushButton("Mock", parent=self)
         self.device_button.setGeometry(QRect(10, 30, 200, 23))
-        self.device_button.pressed.connect(lambda: self.open_device(self.devices_data[0]["id"]))
+        self.device_button.pressed.connect(lambda: self.parent.setCurrentIndex(0))
 
         index = 0
    
