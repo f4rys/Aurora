@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QTimeEdit, QPushButton, QVBoxLayout
+from modules import dictionary
 
 class TimerTab(QWidget):
     def __init__(self, *args, **kwargs):
@@ -9,7 +10,7 @@ class TimerTab(QWidget):
         self.time_edit = QTimeEdit(self)
         self.time_edit.setDisplayFormat("HH:mm")
 
-        self.accept_button = QPushButton("Set the timer", self)
+        self.accept_button = QPushButton(dictionary["set_timer"], self)
         self.accept_button.clicked.connect(self.on_accept)
         self.accept_button.setProperty("class", "timer_button")
         self.accept_button.setFlat(True)

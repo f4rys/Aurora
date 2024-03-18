@@ -6,6 +6,7 @@ from modules.gui.device.BulbSwitchButton import BulbSwitchButton
 from modules.gui.device.tabs.ColourModeTab import ColourModeTab
 from modules.gui.device.tabs.WhiteModeTab import WhiteModeTab
 from modules.gui.device.tabs.TimerTab import TimerTab
+from modules import dictionary
 
 from modules.tuya.tuya import connect, status, turn_off, turn_on, change_brightness, get_brightness, get_warmth, change_warmth, set_mode, change_contrast, get_contrast
 
@@ -40,13 +41,13 @@ class DeviceWidget(QWidget):
         self.tabWidget.setTabBarAutoHide(True)
 
         self.tab_white = WhiteModeTab()
-        self.tabWidget.addTab(self.tab_white, "White")
+        self.tabWidget.addTab(self.tab_white, dictionary["white"])
 
         self.tab_colour = ColourModeTab()
-        self.tabWidget.addTab(self.tab_colour, "Colour")
+        self.tabWidget.addTab(self.tab_colour, dictionary["colour"])
 
         self.tab_timer = TimerTab()
-        self.tabWidget.addTab(self.tab_timer, "Timer")
+        self.tabWidget.addTab(self.tab_timer, dictionary["timer"])
 
         self.verticalLayout_2.addWidget(self.tabWidget)
         self.tabWidget.setCurrentIndex(0)

@@ -5,6 +5,7 @@ import json
 import requests
 
 from modules.tuya.tuya import scan_network
+from modules import dictionary
 
 class AllDevicesWidget(QWidget):
     def __init__(self, parent):
@@ -12,7 +13,7 @@ class AllDevicesWidget(QWidget):
 
         self.parent = parent
 
-        self.refresh_button = QPushButton("Refresh", parent=self)
+        self.refresh_button = QPushButton(dictionary["refresh"], parent=self)
         self.refresh_button.setGeometry(QRect(10, 0, 200, 23))
         self.refresh_button.clicked.connect(self.create_list)
 

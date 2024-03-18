@@ -1,6 +1,7 @@
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QSizePolicy, QToolButton, QFrame, QVBoxLayout, QButtonGroup
+from modules import dictionary
 
 class NavigationBarLayout(QVBoxLayout):
     def __init__(self, *args, **kwargs):
@@ -21,7 +22,7 @@ class NavigationBarLayout(QVBoxLayout):
         self.pushbutton_devices.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.pushbutton_devices.setIcon(QIcon(":/navigation/devices.png"))
         self.pushbutton_devices.setProperty("class", "tab_button")
-        self.pushbutton_devices.setText("DEVICES")
+        self.pushbutton_devices.setText(dictionary["devices"])
         self.pushbutton_devices.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.pushbutton_devices.setArrowType(Qt.ArrowType.NoArrow)
         self.pushbutton_devices.setCheckable(True)
@@ -43,7 +44,7 @@ class NavigationBarLayout(QVBoxLayout):
         self.pushbutton_scenes.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.pushbutton_scenes.setIcon(QIcon(":/navigation/scenes.png"))
         self.pushbutton_scenes.setProperty("class", "tab_button")
-        self.pushbutton_scenes.setText("SCENES")
+        self.pushbutton_scenes.setText(dictionary["scenes"])
         self.pushbutton_scenes.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.pushbutton_scenes.setArrowType(Qt.ArrowType.NoArrow)
         self.pushbutton_scenes.setCheckable(True)
@@ -65,7 +66,7 @@ class NavigationBarLayout(QVBoxLayout):
         self.pushbutton_analytics.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.pushbutton_analytics.setIcon(QIcon(":/navigation/analytics.png"))
         self.pushbutton_analytics.setProperty("class", "tab_button")
-        self.pushbutton_analytics.setText("ANALYTICS")
+        self.pushbutton_analytics.setText(dictionary["analytics"])
         self.pushbutton_analytics.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.pushbutton_analytics.setArrowType(Qt.ArrowType.NoArrow)
         self.pushbutton_analytics.setCheckable(True)
@@ -87,7 +88,7 @@ class NavigationBarLayout(QVBoxLayout):
         self.pushbutton_schedule.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.pushbutton_schedule.setIcon(QIcon(":/navigation/schedule.png"))
         self.pushbutton_schedule.setProperty("class", "tab_button")
-        self.pushbutton_schedule.setText("SCHEDULE")
+        self.pushbutton_schedule.setText(dictionary["schedule"])
         self.pushbutton_schedule.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.pushbutton_schedule.setArrowType(Qt.ArrowType.NoArrow)
         self.pushbutton_schedule.setCheckable(True)
@@ -109,7 +110,7 @@ class NavigationBarLayout(QVBoxLayout):
         self.pushbutton_help.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.pushbutton_help.setIcon(QIcon(":/navigation/help.png"))
         self.pushbutton_help.setProperty("class", "tab_button")
-        self.pushbutton_help.setText("HELP")
+        self.pushbutton_help.setText(dictionary["help"])
         self.pushbutton_help.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.pushbutton_help.setArrowType(Qt.ArrowType.NoArrow)
         self.pushbutton_help.setCheckable(True)
