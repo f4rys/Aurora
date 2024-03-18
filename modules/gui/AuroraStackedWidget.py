@@ -1,6 +1,11 @@
 from PyQt6.QtWidgets import QStackedWidget, QSizePolicy
 
-from modules.gui import DeviceWidget, AllDevicesWidget, ScenesWidget, AnalyticsWidget, ScheduleWidget, HelpWidget
+from modules.gui.device import DeviceWidget
+from modules.gui.all_devices import AllDevicesWidget
+from modules.gui.scenes import ScenesWidget
+from modules.gui.analytics import AnalyticsWidget
+from modules.gui.schedule import ScheduleWidget
+from modules.gui.help import HelpWidget
 
 
 class AuroraStackedWidget(QStackedWidget):
