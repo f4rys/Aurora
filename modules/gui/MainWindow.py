@@ -43,24 +43,24 @@ class MainWindow(QMainWindow):
         self.navigation_bar_layout.analytics_button.clicked.connect(self.show_analytics)
         self.navigation_bar_layout.schedule_button.clicked.connect(self.show_schedule)
         self.navigation_bar_layout.help_button.clicked.connect(self.show_help)
-        self.grid_layout.addLayout(self.navigation_bar_layout, 2, 0, 5, 1)
+        self.grid_layout.addLayout(self.navigation_bar_layout, 0, 0, 5, 1)
 
         self.vertical_line = QFrame()
         self.vertical_line.setFrameShape(QFrame.Shape.VLine)
         self.vertical_line.setFrameShadow(QFrame.Shadow.Sunken)
         self.vertical_line.setProperty("class", "vline")
-        self.grid_layout.addWidget(self.vertical_line, 2, 1, 5, 1)
+        self.grid_layout.addWidget(self.vertical_line, 0, 1, 5, 1)
 
         self.action_bar_layout = ActionBarLayout()
         self.action_bar_layout.profile_button.clicked.connect(self.show_profile)
         self.action_bar_layout.settings_button.clicked.connect(self.show_settings)
         self.action_bar_layout.hide_button.clicked.connect(self.hide_window)
         self.action_bar_layout.exit_button.clicked.connect(self.exit)
-        self.grid_layout.addLayout(self.action_bar_layout, 2, 1, 1, 10)
+        self.grid_layout.addLayout(self.action_bar_layout, 0, 1, 1, 1)
 
         self.main_layout = MainLayout(self)
 
-        self.grid_layout.addLayout(self.main_layout, 3, 1, 4, 10)
+        self.grid_layout.addLayout(self.main_layout, 1, 1, 4, 1)
         self.setCentralWidget(self.central_widget)
 
     def hide_window(self):
