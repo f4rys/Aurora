@@ -1,6 +1,9 @@
 .background{
     background-color: white;
+    border-style: solid;
     border-radius: 15px;
+    border-width: 1px;
+    border-color: #929292;
 }
 
 .action_bar_button{
@@ -100,7 +103,7 @@ QTabWidget{
 }
 
 QTabWidget::pane { 
-   border: none;
+    border: none;
     margin-top: 0;
     padding-top: 0;
 }
