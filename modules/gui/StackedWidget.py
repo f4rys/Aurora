@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QStackedWidget, QSizePolicy
 
+from modules.gui.credentials import CredentialsWidget
 from modules.gui.device import DeviceWidget
 from modules.gui.all_devices import AllDevicesWidget
 from modules.gui.scenes import ScenesWidget
@@ -22,6 +23,9 @@ class StackedWidget(QStackedWidget):
         size_policy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
 
         self.setSizePolicy(size_policy)
+
+        self.credentials = CredentialsWidget()
+        self.addWidget(self.credentials)
 
         self.device = DeviceWidget()
         self.addWidget(self.device)

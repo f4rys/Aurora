@@ -11,7 +11,7 @@ class Application(QApplication):
 
         self.window = MainWindow(self)
 
-        with open('styles.qss', 'r') as f:
+        with open('styles.qss', 'r', encoding="utf-8") as f:
             style = f.read()
             self.setStyleSheet(style)
 
@@ -19,7 +19,7 @@ class Application(QApplication):
         tray = QSystemTrayIcon()
         tray.setIcon(icon)
         tray.setVisible(True)
-        tray.activated.connect(lambda: self.window.show_window())
+        tray.activated.connect(self.window.show_window)
 
         self.exec()
 

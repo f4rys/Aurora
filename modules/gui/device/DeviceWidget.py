@@ -20,7 +20,7 @@ class DeviceWidget(QWidget):
 
         self.bulb_button = BulbSwitchButton()
         self.vlayout.addWidget(self.bulb_button)
-        
+
         self.tab_widget = QTabWidget()
         self.tab_widget.setTabPosition(QTabWidget.TabPosition.South)
         self.tab_widget.setTabShape(QTabWidget.TabShape.Rounded)

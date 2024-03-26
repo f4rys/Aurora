@@ -1,0 +1,8 @@
+[MESSAGES CONTROL]
+disable=
+    missing-module-docstring,
+    invalid-name,
+    missing-class-docstring,
+    line-too-long,
+    missing-function-docstring,
+    

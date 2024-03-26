@@ -23,7 +23,7 @@ class SettingsWidget(QWidget):
         self.smart_mode.setText(self.dictionary["smart_mode"])
         self.smart_mode.setGeometry(QRect(10, 10, 200, 30))
 
-        if(mode == 'on'):
+        if mode == 'on':
             self.smart_mode.setChecked(True)
         else:
             self.smart_mode.setChecked(False)
@@ -41,12 +41,14 @@ class SettingsWidget(QWidget):
 
 
     def change_language(self, val):
-        if val == 0: language = 'en'
-        if val == 1: language = 'pl'
+        if val == 0:
+            language = 'en'
+        if val == 1:
+            language = 'pl'
 
         self.config.set("GUI", "interface_language", language)
 
-        with open('settings.ini', 'w') as configfile:
+        with open('settings.ini', 'w', encoding="utf-8") as configfile:
             self.config.write(configfile)
 
         self.parent.parent.parent.restart()

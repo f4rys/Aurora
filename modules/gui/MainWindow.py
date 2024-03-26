@@ -14,6 +14,7 @@ class MainWindow(QMainWindow):
         self.dictionary = load_dictionary()
 
         self.parent = parent
+        self.animation = QPropertyAnimation(self, b"geometry")
 
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.SplashScreen)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
@@ -76,7 +77,6 @@ class MainWindow(QMainWindow):
             y = screen_geometry.height() - window_height - screen_geometry.height()//20
 
             self.show()
-            self.animation = QPropertyAnimation(self, b"geometry")
             self.animation.setDuration(300)
             self.animation.setStartValue(QRect(x + window_width//2, y + window_height//2, 0, 0))
             self.animation.setEndValue(QRect(x, y, window_width, window_height))
@@ -113,7 +113,7 @@ class MainWindow(QMainWindow):
         self.reset_navigation_bar_buttons_checked()
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.settings))
         self.action_bar_layout.set_label(self.dictionary["settings_title"])
-        
+
     def show_profile(self):
         self.reset_navigation_bar_buttons_checked()
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.profile))

@@ -20,7 +20,6 @@ class AllDevicesWidget(QWidget):
         self.create_list()
 
         #self.parent = parent
-        
 
     def open_device(self, device_id):
         #self.parent.show_device(device_id)
@@ -48,14 +47,14 @@ class AllDevicesWidget(QWidget):
         #devices = scan_network()
         devices = []
 
-        self.devices = open('devices.json')
+        self.devices = open('devices.json', encoding="utf-8")
         self.devices_data = json.load(self.devices)
         self.devices.close()
 
         '''self.device_button = QPushButton("Mock", parent=self)
         self.device_button.setGeometry(QRect(10, 30, 200, 23))
         self.device_button.pressed.connect(lambda: self.parent.setCurrentIndex(0))'''
-   
+
         for ip in devices:
             self.hlayout = QHBoxLayout()
             self.hlayout.setContentsMargins(0, 0, 0, 0)
@@ -74,9 +73,9 @@ class AllDevicesWidget(QWidget):
             matching_nodes = [node for node in self.devices_data if node.get('id') == devices[ip]["id"]]
 
             icon_value = matching_nodes[0]['icon'] if matching_nodes else None
-            
+
             image = QImage()
-            image.loadFromData(requests.get(str(icon_value)).content)
+            image.loadFromData(requests.get(str(icon_value), timeout=5).content)
             self.pixmap = QPixmap.fromImage(image)
             self.pixmap = self.pixmap.scaled(23, 23)
             self.device_icon_label.setPixmap(self.pixmap)
@@ -87,8 +86,8 @@ class AllDevicesWidget(QWidget):
             self.hlayout.setAlignment(Qt.AlignmentFlag.AlignTop)
             self.vlayout.addLayout(self.hlayout)
 
-        spacerItem = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-        self.vlayout.addItem(spacerItem)
+        spacer_item = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.vlayout.addItem(spacer_item)
 
         self.refresh_button = QPushButton(self.dictionary["refresh"])
         self.refresh_button.clicked.connect(self.create_list)

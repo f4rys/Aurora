@@ -8,7 +8,7 @@ class MainLayout(QVBoxLayout):
         super().__init__(*args, **kwargs)
 
         self.parent = parent
-        
+
         self.setContentsMargins(0, 0, 0, 0)
 
         self.line = QFrame()
@@ -19,4 +19,3 @@ class MainLayout(QVBoxLayout):
 
         self.stacked_widget = StackedWidget(self)
         self.addWidget(self.stacked_widget)
-
