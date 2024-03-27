@@ -126,8 +126,27 @@ class MainWindow(QMainWindow):
 
     def show_credentials(self):
         self.reset_navigation_bar_buttons_checked()
+        self.disable_buttons()
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.credentials))
         self.action_bar_layout.set_label(self.dictionary["credentials_title"])
+
+    def disable_buttons(self):
+        self.navigation_bar_layout.devices_button.setEnabled(False)
+        self.navigation_bar_layout.scenes_button.setEnabled(False)
+        self.navigation_bar_layout.analytics_button.setEnabled(False)
+        self.navigation_bar_layout.schedule_button.setEnabled(False)
+        self.navigation_bar_layout.help_button.setEnabled(False)
+        self.action_bar_layout.profile_button.setEnabled(False)
+        self.action_bar_layout.settings_button.setEnabled(False)
+
+    def enable_buttons(self):
+        self.navigation_bar_layout.devices_button.setEnabled(True)
+        self.navigation_bar_layout.scenes_button.setEnabled(True)
+        self.navigation_bar_layout.analytics_button.setEnabled(True)
+        self.navigation_bar_layout.schedule_button.setEnabled(True)
+        self.navigation_bar_layout.help_button.setEnabled(True)
+        self.action_bar_layout.profile_button.setEnabled(True)
+        self.action_bar_layout.settings_button.setEnabled(True)
 
     def reset_navigation_bar_buttons_checked(self):
         self.navigation_bar_layout.button_group.setExclusive(False)

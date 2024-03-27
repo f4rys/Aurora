@@ -89,6 +89,7 @@ class CredentialsWidget(QWidget):
             toast.applyPreset(ToastPreset.SUCCESS)
             toast.show()
 
+            self.parent.parent.parent.enable_buttons()
             self.parent.parent.parent.show_all_devices()
 
         else:
