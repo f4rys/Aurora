@@ -23,6 +23,7 @@ dictionary_en = {
     "help_title": "Help",
     "settings_title": "Settings",
     "profile_title": "Profile",
+    "credentials_title": "Setup credentials",
     # Tooltips
     "profile_tooltip": "Credentials",
     "settings_tooltip": "Settings",
@@ -62,6 +63,7 @@ dictionary_pl = {
     "help_title": "Pomoc",
     "settings_title": "Ustawienia",
     "profile_title": "Profil",
+    "credentials_title": "Parametry konfiguracji",
     # Tooltips
     "profile_tooltip": "Dane konta",
     "settings_tooltip": "Ustawienia",

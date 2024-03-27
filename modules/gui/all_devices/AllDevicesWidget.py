@@ -47,9 +47,9 @@ class AllDevicesWidget(QWidget):
         #devices = scan_network()
         devices = []
 
-        self.devices = open('devices.json', encoding="utf-8")
-        self.devices_data = json.load(self.devices)
-        self.devices.close()
+        #self.devices = open('devices.json', encoding="utf-8")
+        #self.devices_data = json.load(self.devices)
+        #self.devices.close()
 
         '''self.device_button = QPushButton("Mock", parent=self)
         self.device_button.setGeometry(QRect(10, 30, 200, 23))
@@ -70,12 +70,12 @@ class AllDevicesWidget(QWidget):
 
             self.device_icon_label = QLabel()
 
-            matching_nodes = [node for node in self.devices_data if node.get('id') == devices[ip]["id"]]
+            #matching_nodes = [node for node in self.devices_data if node.get('id') == devices[ip]["id"]]
 
-            icon_value = matching_nodes[0]['icon'] if matching_nodes else None
+            #icon_value = matching_nodes[0]['icon'] if matching_nodes else None
 
             image = QImage()
-            image.loadFromData(requests.get(str(icon_value), timeout=5).content)
+            #image.loadFromData(requests.get(str(icon_value), timeout=5).content)
             self.pixmap = QPixmap.fromImage(image)
             self.pixmap = self.pixmap.scaled(23, 23)
             self.device_icon_label.setPixmap(self.pixmap)

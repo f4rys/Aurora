@@ -24,7 +24,7 @@ class StackedWidget(QStackedWidget):
 
         self.setSizePolicy(size_policy)
 
-        self.credentials = CredentialsWidget()
+        self.credentials = CredentialsWidget(self)
         self.addWidget(self.credentials)
 
         self.device = DeviceWidget()

@@ -3,6 +3,7 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QFrame
 
 from modules.gui import NavigationBarLayout, MainLayout, ActionBarLayout
+from modules.tuya import check_credentials
 from modules.resources import resources
 from modules.dictionaries.loader import load_dictionary
 
@@ -60,9 +61,13 @@ class MainWindow(QMainWindow):
         self.grid_layout.addLayout(self.action_bar_layout, 0, 1, 1, 1)
 
         self.main_layout = MainLayout(self)
-
         self.grid_layout.addLayout(self.main_layout, 1, 1, 4, 1)
         self.setCentralWidget(self.central_widget)
+
+        if check_credentials():
+            self.show_all_devices()
+        else:
+            self.show_credentials()
 
     def hide_window(self):
         self.hide()
@@ -118,6 +123,11 @@ class MainWindow(QMainWindow):
         self.reset_navigation_bar_buttons_checked()
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.profile))
         self.action_bar_layout.set_label(self.dictionary["profile_title"])
+
+    def show_credentials(self):
+        self.reset_navigation_bar_buttons_checked()
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.credentials))
+        self.action_bar_layout.set_label(self.dictionary["credentials_title"])
 
     def reset_navigation_bar_buttons_checked(self):
         self.navigation_bar_layout.button_group.setExclusive(False)
