@@ -1,12 +1,13 @@
 import json
 import requests
 
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPixmap, QImage
-from PyQt6.QtWidgets import QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QSizePolicy, QSpacerItem
+import tinytuya
+from PyQt6.QtCore import Qt, QThread, pyqtSignal
+from PyQt6.QtGui import QImage, QPixmap, QIcon
+from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget
 
-from modules.tuya import scan_network
 from modules.dictionaries.loader import load_dictionary
+from modules.tuya import connect, status
 
 
 class AllDevicesWidget(QWidget):
@@ -19,11 +20,10 @@ class AllDevicesWidget(QWidget):
 
         self.create_list()
 
-        #self.parent = parent
+        self.parent = parent
 
     def open_device(self, device_id):
-        #self.parent.show_device(device_id)
-        pass
+        self.parent.show_device(device_id)
 
     def clear_layout(self, layout):
         if layout is not None:
@@ -35,32 +35,21 @@ class AllDevicesWidget(QWidget):
                     self.clear_layout(child.layout())
 
     def create_list(self):
-
-        '''for button in self.findChildren(QPushButton):
-            if button != self.refresh_button:
-                button.deleteLater()
-        for label in self.findChildren(QLabel):
-            label.deleteLater()'''
-
         self.clear_layout(self.vlayout)
+        self.start_thread()
 
-        #devices = scan_network()
-        devices = []
+    def start_thread(self):
+        self.thread_worker = WorkerThread()
+        self.thread_worker.finished.connect(self.update_ui)
+        self.thread_worker.start()
 
-        #self.devices = open('devices.json', encoding="utf-8")
-        #self.devices_data = json.load(self.devices)
-        #self.devices.close()
-
-        '''self.device_button = QPushButton("Mock", parent=self)
-        self.device_button.setGeometry(QRect(10, 30, 200, 23))
-        self.device_button.pressed.connect(lambda: self.parent.setCurrentIndex(0))'''
-
-        for ip in devices:
+    def update_ui(self, network_devices, devices_data):
+        for device in devices_data:
             self.hlayout = QHBoxLayout()
             self.hlayout.setContentsMargins(0, 0, 0, 0)
 
-            self.device_button = QPushButton(devices[ip]["name"])
-            self.device_button.pressed.connect(lambda val=ip: self.open_device(devices[val]["id"]))
+            self.device_button = QPushButton(device["name"])
+            #self.device_button.pressed.connect(lambda val=device_ip: self.open_device(devices[val]["id"]))
             size_policy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
             size_policy.setHorizontalStretch(0)
             size_policy.setVerticalStretch(0)
@@ -69,27 +58,66 @@ class AllDevicesWidget(QWidget):
             self.device_button.setProperty("class", "device_button")
 
             self.device_icon_label = QLabel()
+            self.device_status_button = QPushButton()
+            self.device_status_button.setProperty("class", "tab_button")
 
-            #matching_nodes = [node for node in self.devices_data if node.get('id') == devices[ip]["id"]]
+            device_id = device.get("id")
+            for ip_address, device_info in network_devices.items():
+                if device_info['id'] == device_id:
+                    bulb_device = connect(device_id)
+                    bulb_status = status(bulb_device)
+                    break
+                else: 
+                    bulb_status = None
 
-            #icon_value = matching_nodes[0]['icon'] if matching_nodes else None
+            if bulb_status != None:
+                if bulb_status:
+                    self.device_status_button.setIcon(QIcon(":/all_devices/device_on.png"))
+                else:
+                    self.device_status_button.setIcon(QIcon(":/all_devices/device_off.png"))
+            else:
+                self.device_status_button.setIcon(QIcon(":/all_devices/device_offline.png"))
 
             image = QImage()
-            #image.loadFromData(requests.get(str(icon_value), timeout=5).content)
-            self.pixmap = QPixmap.fromImage(image)
-            self.pixmap = self.pixmap.scaled(23, 23)
-            self.device_icon_label.setPixmap(self.pixmap)
+            image.loadFromData(requests.get(str(device["icon"]), timeout=5).content)
+            pixmap = QPixmap.fromImage(image)
+            pixmap = pixmap.scaled(23, 23)
+
+            self.device_icon_label.setPixmap(pixmap)
             self.device_icon_label.setProperty("class", "device_icon")
 
             self.hlayout.addWidget(self.device_button)
+            self.hlayout.addWidget(self.device_status_button)
             self.hlayout.addWidget(self.device_icon_label)
+
             self.hlayout.setAlignment(Qt.AlignmentFlag.AlignTop)
             self.vlayout.addLayout(self.hlayout)
 
         spacer_item = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.vlayout.addItem(spacer_item)
 
-        self.refresh_button = QPushButton(self.dictionary["refresh"])
+        self.refresh_button = QPushButton(self.dictionary["refresh_in_progress"])
         self.refresh_button.clicked.connect(self.create_list)
         self.refresh_button.setProperty("class", "device_button")
+
         self.vlayout.addWidget(self.refresh_button, alignment=Qt.AlignmentFlag.AlignBottom)
+        self.refresh_button.setText(self.dictionary["refresh_completed"])
+
+        self.update()
+        self.repaint()
+
+
+class WorkerThread(QThread):
+    finished = pyqtSignal(dict, list)
+
+    def run(self):
+        try:
+            network_devices = tinytuya.deviceScan()
+
+            devices_file = open('devices.json', encoding="utf-8")
+            devices_data = json.load(devices_file)
+            devices_file.close()
+
+            self.finished.emit(network_devices, devices_data)
+        except Exception as e:
+            self.finished.emit({})

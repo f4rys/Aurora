@@ -1,6 +1,11 @@
 <!DOCTYPE RCC>
 
 <RCC version="1.0">
+    <qresource prefix="all_devices">
+        <file alias="device_on.png">../../assets/device_on.png</file>
+        <file alias="device_off.png">../../assets/device_off.png</file>
+        <file alias="device_offline.png">../../assets/device_offline.png</file>
+    </qresource>
     <qresource prefix="action">
         <file alias="profile.png">../../assets/profile.png</file>
         <file alias="profile_hover.png">../../assets/profile_hover.png</file>

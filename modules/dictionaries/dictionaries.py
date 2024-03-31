@@ -11,7 +11,8 @@ dictionary_en = {
     "timer": "Timer",
     "set_timer": "Set timer",
     # All devices
-    "refresh": "Refresh",
+    "refresh_in_progress": "Refreshing devices...",
+    "refresh_completed": "Refresh",
     # Settings
     "smart_mode": "Smart Mode",
     "language": "Language",
@@ -51,7 +52,8 @@ dictionary_pl = {
     "timer": "Odliczanie",
     "set_timer": "Ustaw odliczanie",
     # All devices
-    "refresh": "Odśwież",
+    "refresh_in_progress": "Odświeżanie w toku...",
+    "refresh_completed": "Odśwież",
     # Settings
     "smart_mode": "Tryb inteligentny",
     "language": "Język",
