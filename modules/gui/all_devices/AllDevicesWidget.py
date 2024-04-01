@@ -38,9 +38,7 @@ class AllDevicesWidget(QWidget):
         self.clear_layout(self.vlayout)
         self.add_refresh_button(self.dictionary["refresh_in_progress"])
         self.refresh_button.setEnabled(False)
-        self.start_thread()
 
-    def start_thread(self):
         self.thread_worker = WorkerThread()
         self.thread_worker.finished.connect(self.update_ui)
         self.thread_worker.start()
@@ -82,7 +80,7 @@ class AllDevicesWidget(QWidget):
                 else:
                     bulb_status = None
 
-            if bulb_status != None:
+            if bulb_status is not None:
                 if bulb_status:
                     self.device_status_button.setIcon(QIcon(":/all_devices/device_on.png"))
                 else:
