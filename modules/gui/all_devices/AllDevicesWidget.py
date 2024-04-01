@@ -36,6 +36,8 @@ class AllDevicesWidget(QWidget):
 
     def create_list(self):
         self.clear_layout(self.vlayout)
+        self.add_refresh_button(self.dictionary["refresh_in_progress"])
+        self.refresh_button.setEnabled(False)
         self.start_thread()
 
     def start_thread(self):
@@ -43,7 +45,17 @@ class AllDevicesWidget(QWidget):
         self.thread_worker.finished.connect(self.update_ui)
         self.thread_worker.start()
 
+    def add_refresh_button(self, text):
+        spacer_item = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.vlayout.addItem(spacer_item)
+
+        self.refresh_button = QPushButton(text)
+        self.refresh_button.clicked.connect(self.create_list)
+        self.refresh_button.setProperty("class", "device_button")
+        self.vlayout.addWidget(self.refresh_button, alignment=Qt.AlignmentFlag.AlignBottom)
+
     def update_ui(self, network_devices, devices_data):
+        self.clear_layout(self.vlayout)
         for device in devices_data:
             self.hlayout = QHBoxLayout()
             self.hlayout.setContentsMargins(0, 0, 0, 0)
@@ -67,7 +79,7 @@ class AllDevicesWidget(QWidget):
                     bulb_device = connect(device_id)
                     bulb_status = status(bulb_device)
                     break
-                else: 
+                else:
                     bulb_status = None
 
             if bulb_status != None:
@@ -93,15 +105,7 @@ class AllDevicesWidget(QWidget):
             self.hlayout.setAlignment(Qt.AlignmentFlag.AlignTop)
             self.vlayout.addLayout(self.hlayout)
 
-        spacer_item = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-        self.vlayout.addItem(spacer_item)
-
-        self.refresh_button = QPushButton(self.dictionary["refresh_in_progress"])
-        self.refresh_button.clicked.connect(self.create_list)
-        self.refresh_button.setProperty("class", "device_button")
-
-        self.vlayout.addWidget(self.refresh_button, alignment=Qt.AlignmentFlag.AlignBottom)
-        self.refresh_button.setText(self.dictionary["refresh_completed"])
+        self.add_refresh_button(self.dictionary["refresh_completed"])
 
         self.update()
         self.repaint()
