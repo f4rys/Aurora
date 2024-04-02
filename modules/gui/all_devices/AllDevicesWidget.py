@@ -1,14 +1,12 @@
-import json
 import requests
 
-import tinytuya
-from PyQt6.QtCore import Qt, QThread, pyqtSignal
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QImage, QPixmap, QIcon
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget
 
 from modules.dictionaries.loader import load_dictionary
 from modules.tuya import TuyaDevice
-
+from modules.threads import ObtainDevicesThread
 
 class AllDevicesWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
@@ -38,7 +36,7 @@ class AllDevicesWidget(QWidget):
         self.add_refresh_button(self.dictionary["refresh_in_progress"])
         self.refresh_button.setEnabled(False)
 
-        self.thread_worker = WorkerThread()
+        self.thread_worker = ObtainDevicesThread()
         self.thread_worker.finished.connect(self.update_ui)
         self.thread_worker.start()
 
@@ -83,6 +81,8 @@ class AllDevicesWidget(QWidget):
             self.device_status_button.setProperty("class", "tab_button")
 
             device_id = device.get("id")
+            bulb_status = None
+            
             for ip_address, device_info in network_devices.items():
                 if device_info['id'] == device_id:
                     bulb_device = TuyaDevice(device_id)
@@ -119,19 +119,3 @@ class AllDevicesWidget(QWidget):
 
         self.update()
         self.repaint()
-
-
-class WorkerThread(QThread):
-    finished = pyqtSignal(dict, list)
-
-    def run(self):
-        try:
-            network_devices = tinytuya.deviceScan()
-
-            devices_file = open('devices.json', encoding="utf-8")
-            devices_data = json.load(devices_file)
-            devices_file.close()
-
-            self.finished.emit(network_devices, devices_data)
-        except Exception as e:
-            self.finished.emit({})
