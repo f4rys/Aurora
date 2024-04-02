@@ -2,7 +2,6 @@ from PyQt6.QtWidgets import QWidget, QTabWidget, QVBoxLayout
 
 from modules.gui.device import BulbNameLabel, BulbSwitchButton
 from modules.gui.device.tabs import WhiteModeTab, ColourModeTab, TimerTab
-from modules.tuya import connect, status, turn_off, turn_on, change_brightness, get_brightness, get_warmth, change_warmth, set_mode, change_contrast, get_contrast
 from modules.dictionaries.loader import load_dictionary
 
 

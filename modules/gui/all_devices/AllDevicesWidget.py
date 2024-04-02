@@ -7,20 +7,19 @@ from PyQt6.QtGui import QImage, QPixmap, QIcon
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget
 
 from modules.dictionaries.loader import load_dictionary
-from modules.tuya import connect, status
+from modules.tuya import TuyaDevice
 
 
 class AllDevicesWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.parent = parent
         self.dictionary = load_dictionary()
         self.vlayout = QVBoxLayout(self)
         self.vlayout.setContentsMargins(15, 0, 15, 0)
 
         self.create_list()
-
-        self.parent = parent
 
     def open_device(self, device_id):
         self.parent.show_device(device_id)
@@ -52,6 +51,18 @@ class AllDevicesWidget(QWidget):
         self.refresh_button.setProperty("class", "device_button")
         self.vlayout.addWidget(self.refresh_button, alignment=Qt.AlignmentFlag.AlignBottom)
 
+    def switch(self, device):
+        bulb_status = device.is_on()
+        if bulb_status is not None:
+            if bulb_status:
+                device.turn_off()
+                self.device_status_button.setIcon(QIcon(":/all_devices/device_off.png"))
+            else:
+                device.turn_on()
+                self.device_status_button.setIcon(QIcon(":/all_devices/device_on.png"))
+        else:
+            self.device_status_button.setIcon(QIcon(":/all_devices/device_offline.png"))
+
     def update_ui(self, network_devices, devices_data):
         self.clear_layout(self.vlayout)
         for device in devices_data:
@@ -74,8 +85,9 @@ class AllDevicesWidget(QWidget):
             device_id = device.get("id")
             for ip_address, device_info in network_devices.items():
                 if device_info['id'] == device_id:
-                    bulb_device = connect(device_id)
-                    bulb_status = status(bulb_device)
+                    bulb_device = TuyaDevice(device_id)
+                    bulb_status = bulb_device.is_on()
+                    self.device_status_button.clicked.connect(lambda: self.switch(bulb_device))
                     break
                 else:
                     bulb_status = None
