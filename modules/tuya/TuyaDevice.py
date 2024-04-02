@@ -1,27 +1,29 @@
-import json
-
 import tinytuya
 
-class TuyaDevice(tinytuya.BulbDevice):
-    def __init__(self, dev_id):
-        with open('devices.json', encoding='utf-8') as f:
-            data = json.load(f)
-        key_nodes = [node for node in data if node.get('key') == dev_id]
-        local_key = key_nodes[0]['key'] if key_nodes else None
+class TuyaDevice():
+    def __init__(self, dev_id, local_key, ip, version, name, icon_link):
+        self.device = tinytuya.BulbDevice(dev_id=dev_id, address=ip, local_key=local_key, version=version)
 
-        super().__init__(dev_id, local_key, version=3.3)
+        self.id = dev_id
+        self.local_key = local_key
+        self.version = version
+        self.name = name
+        self.icon_link = icon_link
+
+    def turn_on(self):
+        self.device.turn_on()
+
+    def turn_off(self):
+        self.device.turn_off()
 
     def is_on(self):
-        if self.state()['is_on']:
-            return True
-        else:
+        try:
+            if self.device.state()['is_on']:
+                return True
+            else:
+                return False
+        except Exception as e:
             return False
-        
-    def switch(self):
-        if self.state()['is_on']:
-            self.turn_off()
-        else:
-            self.turn_on()
         
     def change_contrast(self, value):
         pass

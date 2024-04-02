@@ -1,1 +1,1 @@
-from modules.threads.ObtainDevicesThread import ObtainDevicesThread
+from modules.threads.InitiateTuyaManagerThread import InitiateTuyaManagerThread
