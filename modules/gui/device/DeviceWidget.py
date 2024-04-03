@@ -20,6 +20,14 @@ class DeviceWidget(QWidget):
                 elif child.layout() is not None:
                     self.clear_layout(child.layout())
 
+    def switch(self, device):
+        if device.is_on():
+            device.turn_off()
+            self.bulb_button.set_icon(False)
+        else:
+            device.turn_on()
+            self.bulb_button.set_icon(True)
+
     def init_ui(self, device):
         self.clear_layout(self.vlayout)
 
@@ -29,6 +37,8 @@ class DeviceWidget(QWidget):
         #self.vlayout.addWidget(self.label)
 
         self.bulb_button = BulbSwitchButton()
+        self.bulb_button.set_icon(device.is_on())
+        self.bulb_button.clicked.connect(lambda: self.switch(device))
         self.vlayout.addWidget(self.bulb_button)
 
         self.tab_widget = QTabWidget()

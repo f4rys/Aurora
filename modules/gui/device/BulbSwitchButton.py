@@ -15,3 +15,12 @@ class BulbSwitchButton(QPushButton):
         self.setSizePolicy(size_policy)
         self.setToolTip(self.dictionary["bulb_tooltip"])
         self.setProperty("class", "switch")
+
+    def set_icon(self, state):
+        if state:
+            self.setStyleSheet("image : url(:/device/bulb_on.png);")
+        else:
+            self.setStyleSheet("image : url(:/device/bulb_off.png);")
+
+        self.update()
+        self.repaint()

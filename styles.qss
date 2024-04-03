@@ -43,15 +43,6 @@
 
 .switch{
     border: 0;
-    image : url(:/device/bulb_on.png);
-}
-
-.switch:hover{
-    image : url(:/device/bulb_off.png);
-}
-
-.switch:pressed{
-    image : url(:/device/bulb_offline.png);
 }
 
 .switch_button{
