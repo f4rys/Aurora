@@ -59,24 +59,3 @@ class TuyaDevice():
 
     def get_hsv(self):
         return self.device.colour_hsv()
-'''
-
-    def set_mode(self, mode):
-        if mode == 1:
-            self.set_mode('colour')
-        elif mode == 0:
-            self.set_mode('white')
-
-    def get_brightness(self):
-        return device.brightness()
-
-    def change_brightness(self, value):
-        device.set_brightness(value)
-
-    def get_warmth(self):
-        return device.colourtemp()
-
-    def change_warmth(self, value):
-        device.set_colourtemp(value)
-'''
-
