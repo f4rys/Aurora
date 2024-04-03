@@ -23,7 +23,7 @@ class TuyaManager():
 
             for ip_address, device_info in network_devices.items():
                 if device_info.get('id') == device_id:
-                    
+
                     local_key = device_info.get('key')
                     version = device_info.get('version')
                     name = device_info.get('name')
@@ -35,10 +35,22 @@ class TuyaManager():
 
                     if "24" in device["mapping"].keys():
                         is_rgb = True
+
+                        h_range = [ device["mapping"]["24"]["values"]["h"]["min"], device["mapping"]["24"]["values"]["h"]["max"] ]
+                        s_range = [ device["mapping"]["24"]["values"]["s"]["min"], device["mapping"]["24"]["values"]["s"]["max"] ]
+                        v_range = [ device["mapping"]["24"]["values"]["v"]["min"], device["mapping"]["24"]["values"]["v"]["max"] ]
+
+                        hsv_range = {
+                            "h": h_range,
+                            "s": s_range,
+                            "v": v_range
+                        }
+
                     else:
                         is_rgb = False
+                        hsv_range = None
 
-                    bulb_device = TuyaDevice(device_id, local_key, ip, version, name, icon_link, brightness_range, temperature_range, is_rgb)
+                    bulb_device = TuyaDevice(device_id, local_key, ip, version, name, icon_link, brightness_range, temperature_range, is_rgb, hsv_range)
                     self.active_devices[device_id] = bulb_device
                     break
 

@@ -11,21 +11,22 @@ class ColourModeTab(QWidget):
 
         self.vlayout = QVBoxLayout(self)
 
-        self.colour_slider = QSlider()
-        self.colour_slider.setProperty("class", "colour_slider")
-        self.colour_slider.setOrientation(Qt.Orientation.Horizontal)
-        self.colour_slider.setToolTip(self.dictionary["colour_tooltip"])
+        self.hue_slider = QSlider()
+        self.hue_slider.setProperty("class", "colour_slider")
+        self.hue_slider.setOrientation(Qt.Orientation.Horizontal)
+        self.hue_slider.setToolTip(self.dictionary["colour_tooltip"])
 
-        self.brightness_slider = QSlider()
-        self.brightness_slider.setProperty("class", "brightness_slider")
-        self.brightness_slider.setOrientation(Qt.Orientation.Horizontal)
-        self.brightness_slider.setToolTip(self.dictionary["brightness_tooltip"])
+        self.saturation_slider = QSlider()
+        self.saturation_slider.setProperty("class", "contrast_slider")
+        self.saturation_slider.setOrientation(Qt.Orientation.Horizontal)
+        self.saturation_slider.setToolTip(self.dictionary["contrast_tooltip"])
 
-        self.contrast_slider = QSlider()
-        self.contrast_slider.setProperty("class", "contrast_slider")
-        self.contrast_slider.setOrientation(Qt.Orientation.Horizontal)
-        self.contrast_slider.setToolTip(self.dictionary["contrast_tooltip"])
+        self.value_slider = QSlider()
+        self.value_slider.setProperty("class", "brightness_slider")
+        self.value_slider.setOrientation(Qt.Orientation.Horizontal)
+        self.value_slider.setToolTip(self.dictionary["brightness_tooltip"])
 
-        self.vlayout.addWidget(self.colour_slider)
-        self.vlayout.addWidget(self.brightness_slider)
-        self.vlayout.addWidget(self.contrast_slider)
+        self.vlayout.addWidget(self.hue_slider)
+        self.vlayout.addWidget(self.saturation_slider)
+        self.vlayout.addWidget(self.value_slider)
+        
