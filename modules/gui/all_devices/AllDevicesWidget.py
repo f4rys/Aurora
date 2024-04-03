@@ -58,18 +58,15 @@ class AllDevicesWidget(QWidget):
         self.set_icon_and_action(device_status_button, device_button, device)
 
     def set_icon_and_action(self, device_status_button, device_button, device):
-
         try:
             device_status_button.clicked.disconnect()
+            device_button.clicked.disconnect()
         except Exception as e:
             pass
 
-        device_button.setEnabled(False)
-        
         if device is not None:
             device_button.clicked.connect(lambda: self.open_device(device))
             status = device.is_on()
-            print(device.name)
             if status:
                 device_status_button.setIcon(QIcon(":/all_devices/device_on.png"))
                 device_status_button.clicked.connect(lambda: self.switch(device, False, device_status_button, device_button))
@@ -79,14 +76,12 @@ class AllDevicesWidget(QWidget):
         else:
             device_status_button.setIcon(QIcon(":/all_devices/device_offline.png"))
             device_button.setEnabled(False)
-        device_button.setEnabled(True)
 
-    def add_device_button(self, name, status, icon_link, is_active, device):
+    def add_device_button(self, name, icon_link, device):
         hlayout = QHBoxLayout()
         hlayout.setContentsMargins(0, 0, 0, 0)
 
         device_button = QPushButton(name)
-        #self.device_button.pressed.connect(lambda val=device_ip: self.open_device(devices[val]["id"]))
         size_policy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         size_policy.setHorizontalStretch(0)
         size_policy.setVerticalStretch(0)
@@ -122,11 +117,11 @@ class AllDevicesWidget(QWidget):
         self.manager = manager
 
         for dev_id, device in self.manager.active_devices.items():
-            hlayout = self.add_device_button(device.name, device.is_on(), device.icon_link, True, device)
+            hlayout = self.add_device_button(device.name, device.icon_link, device)
             self.vlayout.addLayout(hlayout)
 
         for dev_id, device in self.manager.inactive_devices.items():
-            hlayout = self.add_device_button(device["name"], False, device.get("icon_link"), False, None)
+            hlayout = self.add_device_button(device["name"], device.get("icon_link"), None)
             self.vlayout.addLayout(hlayout)
 
         self.add_refresh_button(self.dictionary["refresh_completed"])
