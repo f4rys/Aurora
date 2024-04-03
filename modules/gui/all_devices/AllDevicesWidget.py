@@ -49,7 +49,6 @@ class AllDevicesWidget(QWidget):
         self.refresh_button.setProperty("class", "device_button")
         self.vlayout.addWidget(self.refresh_button, alignment=Qt.AlignmentFlag.AlignBottom)
 
-
     def switch(self, device, state, device_status_button, device_button):
         if state:
             device.turn_on()
@@ -59,7 +58,14 @@ class AllDevicesWidget(QWidget):
         self.set_icon_and_action(device_status_button, device_button, device)
 
     def set_icon_and_action(self, device_status_button, device_button, device):
+
+        try:
+            device_status_button.clicked.disconnect()
+        except Exception as e:
+            pass
+
         device_button.setEnabled(False)
+        
         if device is not None:
             device_button.clicked.connect(lambda: self.open_device(device))
             status = device.is_on()
