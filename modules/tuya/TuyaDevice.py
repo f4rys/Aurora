@@ -1,7 +1,7 @@
 import tinytuya
 
 class TuyaDevice():
-    def __init__(self, dev_id, local_key, ip, version, name, icon_link):
+    def __init__(self, dev_id, local_key, ip, version, name, icon_link, brightness_range, temperature_range, is_rgb):
         self.device = tinytuya.BulbDevice(dev_id=dev_id, address=ip, local_key=local_key, version=version)
 
         self.id = dev_id
@@ -9,6 +9,9 @@ class TuyaDevice():
         self.version = version
         self.name = name
         self.icon_link = icon_link
+        self.brightness_range = brightness_range
+        self.temperature_range = temperature_range
+        self.is_rgb = is_rgb
 
     def turn_on(self):
         self.device.turn_on()
@@ -25,6 +28,12 @@ class TuyaDevice():
         except Exception as e:
             return False
         
+    def get_brightness(self):
+        return self.device.brightness()
+    
+    def get_temperature(self):
+        return self.device.colourtemp()
+    
     def change_contrast(self, value):
         pass
 

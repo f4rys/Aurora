@@ -33,9 +33,6 @@ class DeviceWidget(QWidget):
 
         self.vlayout.setContentsMargins(0, 0, 0, 0)
 
-        #self.label = BulbNameLabel(device.name)
-        #self.vlayout.addWidget(self.label)
-
         self.bulb_button = BulbSwitchButton()
         self.bulb_button.set_icon(device.is_on())
         self.bulb_button.clicked.connect(lambda: self.switch(device))
@@ -59,21 +56,56 @@ class DeviceWidget(QWidget):
         self.vlayout.addWidget(self.tab_widget)
         self.tab_widget.setCurrentIndex(0)
 
-'''
-        with open('devices.json', 'r') as file:
-            data = json.load(file)
+        #White mode sliders
+        self.white_tab.brightness_slider.setRange(device.brightness_range[0], device.brightness_range[1])
+        self.white_tab.brightness_slider.valueChanged.connect(lambda: self.set_brightness((device)))
 
-        matching_node = next((node for node in data if node.get("id") == device_id), None)
+        self.white_tab.temperature_slider.setRange(device.temperature_range[0], device.temperature_range[1])
+        self.white_tab.temperature_slider.valueChanged.connect(lambda: self.set_temperature(device))
 
-        self.brightness_range = [matching_node["mapping"]["22"]["values"]["min"] if matching_node else 0, matching_node["mapping"]["22"]["values"]["max"] if matching_node else 10000]
-        self.warmth_range = [matching_node["mapping"]["23"]["values"]["min"] if matching_node else 0, matching_node["mapping"]["23"]["values"]["max"] if matching_node else 10000]
-        if(matching_node):
-            self.colour = "24" in matching_node["mapping"]
+        self.set_brightness_slider(device)
+        self.set_temperature_slider(device)
+
+    def set_brightness(self, device):
+        if(self.tab_widget.currentIndex() == 0):
+            value = self.white_tab.brightness_slider.value()
         else:
-            self.colour = False
+            value = self.colour_tab.brightness_slider.value()
+        device.device.set_brightness(value)
 
-        self.device_name = matching_node["name"] if matching_node else "ERROR"
+    def set_brightness_slider(self, device):
+        value = device.get_brightness()
+        self.white_tab.brightness_slider.setValue(value)
+        self.colour_tab.brightness_slider.setValue(value)
 
+    def set_temperature(self, device):
+        value = self.white_tab.temperature_slider.value()
+        device.device.set_colourtemp(value)
+
+    def set_temperature_slider(self, device):
+        value = device.get_temperature()
+        self.white_tab.temperature_slider.setValue(value)
+'''
+    def set_warmth(self):
+        value = self.white_mode.warmth_slider.value()
+        change_warmth(self.device, value)
+
+    def set_contrast(self):
+        value = self.colour_mode.contrast_slider.value()
+        change_contrast(self.device, value)
+
+    def set_contrast_slider(self):
+        value = get_contrast(self.device)
+        self.colour_mode.contrast_slider.setValue(value)
+
+    def set_warmth_slider(self):
+        value = get_warmth(self.device)
+        self.white_mode.warmth_slider.setValue(value)
+
+    def set_bulb_mode(self, index):
+        set_mode(self.device, index)
+        '''
+'''
         # WIDGETS
 
         self.vlayout = QVBoxLayout()

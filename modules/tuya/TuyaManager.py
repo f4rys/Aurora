@@ -30,7 +30,15 @@ class TuyaManager():
                     ip = device_info.get('ip')
                     icon_link = device.get('icon')
 
-                    bulb_device = TuyaDevice(device_id, local_key, ip, version, name, icon_link)
+                    brightness_range = [ device["mapping"]["22"]["values"]["min"], device["mapping"]["22"]["values"]["max"] ]
+                    temperature_range = [ device["mapping"]["23"]["values"]["min"], device["mapping"]["23"]["values"]["max"] ]
+
+                    if "24" in device["mapping"].keys():
+                        is_rgb = True
+                    else:
+                        is_rgb = False
+
+                    bulb_device = TuyaDevice(device_id, local_key, ip, version, name, icon_link, brightness_range, temperature_range, is_rgb)
                     self.active_devices[device_id] = bulb_device
                     break
 
