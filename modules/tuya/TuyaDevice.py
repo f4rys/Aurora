@@ -27,19 +27,24 @@ class TuyaDevice():
                 return False
         except Exception as e:
             return False
-        
+
     def get_brightness(self):
         return self.device.brightness()
-    
+
     def get_temperature(self):
         return self.device.colourtemp()
-    
+
     def change_contrast(self, value):
         pass
 
     def get_contrast(self):
         return 10
 
+    def set_mode(self, mode):
+        if mode == 1:
+            self.device.set_mode('colour')
+        elif mode == 0:
+            self.device.set_mode('white')
 '''
 
     def set_mode(self, mode):

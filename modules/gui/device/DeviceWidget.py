@@ -33,6 +33,9 @@ class DeviceWidget(QWidget):
 
         self.vlayout.setContentsMargins(0, 0, 0, 0)
 
+        self.device = device
+        self.is_rgb = self.device.is_rgb
+
         self.bulb_button = BulbSwitchButton()
         self.bulb_button.set_icon(device.is_on())
         self.bulb_button.clicked.connect(lambda: self.switch(device))
@@ -47,49 +50,59 @@ class DeviceWidget(QWidget):
         self.white_tab = WhiteModeTab()
         self.tab_widget.addTab(self.white_tab, self.dictionary["white"])
 
-        self.colour_tab = ColourModeTab()
-        self.tab_widget.addTab(self.colour_tab, self.dictionary["colour"])
+        if self.is_rgb:
+            self.colour_tab = ColourModeTab()
+            self.tab_widget.addTab(self.colour_tab, self.dictionary["colour"])
 
+            self.colour_tab.brightness_slider.setRange(device.brightness_range[0], device.brightness_range[1])
+            self.colour_tab.brightness_slider.valueChanged.connect(self.set_brightness)
+
+            #self.colour_mode.contrast_slider.setRange(device.temperature_range[0], device.temperature_range[1])
+            #self.colour_mode.contrast_slider.valueChanged.connect(self.set_contrast)
+            
         self.timer_tab = TimerTab()
         self.tab_widget.addTab(self.timer_tab, self.dictionary["timer"])
 
         self.vlayout.addWidget(self.tab_widget)
         self.tab_widget.setCurrentIndex(0)
 
-        #White mode sliders
+        # White mode sliders
         self.white_tab.brightness_slider.setRange(device.brightness_range[0], device.brightness_range[1])
-        self.white_tab.brightness_slider.valueChanged.connect(lambda: self.set_brightness((device)))
+        self.white_tab.brightness_slider.valueChanged.connect(self.set_brightness)
 
         self.white_tab.temperature_slider.setRange(device.temperature_range[0], device.temperature_range[1])
-        self.white_tab.temperature_slider.valueChanged.connect(lambda: self.set_temperature(device))
+        self.white_tab.temperature_slider.valueChanged.connect(self.set_temperature)
 
-        self.set_brightness_slider(device)
-        self.set_temperature_slider(device)
+        self.set_brightness_slider()
+        self.set_temperature_slider()
 
-    def set_brightness(self, device):
+        self.tab_widget.currentChanged.connect(self.set_bulb_mode)
+
+    def set_bulb_mode(self, index):
+        self.device.set_mode(index)
+
+    def set_brightness(self):
         if(self.tab_widget.currentIndex() == 0):
             value = self.white_tab.brightness_slider.value()
         else:
             value = self.colour_tab.brightness_slider.value()
-        device.device.set_brightness(value)
+        self.device.device.set_brightness(value)
 
-    def set_brightness_slider(self, device):
-        value = device.get_brightness()
+    def set_brightness_slider(self):
+        value = self.device.get_brightness()
         self.white_tab.brightness_slider.setValue(value)
-        self.colour_tab.brightness_slider.setValue(value)
+        if self.is_rgb:
+            self.colour_tab.brightness_slider.setValue(value)
 
-    def set_temperature(self, device):
+    def set_temperature(self):
         value = self.white_tab.temperature_slider.value()
-        device.device.set_colourtemp(value)
+        self.device.device.set_colourtemp(value)
 
-    def set_temperature_slider(self, device):
-        value = device.get_temperature()
+    def set_temperature_slider(self):
+        value = self.device.get_temperature()
         self.white_tab.temperature_slider.setValue(value)
-'''
-    def set_warmth(self):
-        value = self.white_mode.warmth_slider.value()
-        change_warmth(self.device, value)
 
+'''
     def set_contrast(self):
         value = self.colour_mode.contrast_slider.value()
         change_contrast(self.device, value)
@@ -98,22 +111,10 @@ class DeviceWidget(QWidget):
         value = get_contrast(self.device)
         self.colour_mode.contrast_slider.setValue(value)
 
-    def set_warmth_slider(self):
-        value = get_warmth(self.device)
-        self.white_mode.warmth_slider.setValue(value)
-
     def set_bulb_mode(self, index):
         set_mode(self.device, index)
-        '''
-'''
-        # WIDGETS
 
-        self.vlayout = QVBoxLayout()
-        #self.vlayout.addStretch()
-        #self.vlayout.addSpacing(0)
-        #self.vlayout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
-        self.vlayout.setContentsMargins(50,10,10,50)
-        self.vlayout.setSizeConstraint(QLayout.SizeConstraint.SetFixedSize)
+        # WIDGETS
 
         self.name = BulbNameLabel(parent=self, name=self.device_name)
         self.vlayout.addWidget(self.name)
@@ -180,22 +181,6 @@ class DeviceWidget(QWidget):
         else:
             self.bulb.setStyleSheet("image : url(:/device/bulb_off.png);")
 
-    def set_brightness(self):
-        if(self.tabs.currentIndex() == 0):
-            value = self.white_mode.brightness_slider.value()
-        else:
-            value = self.colour_mode.brightness_slider.value()
-        change_brightness(self.device, value)
-
-    def set_brightness_slider(self):
-        value = get_brightness(self.device)
-        self.white_mode.brightness_slider.setValue(value)
-        self.colour_mode.brightness_slider.setValue(value)
-
-    def set_warmth(self):
-        value = self.white_mode.warmth_slider.value()
-        change_warmth(self.device, value)
-
     def set_contrast(self):
         value = self.colour_mode.contrast_slider.value()
         change_contrast(self.device, value)
@@ -203,10 +188,6 @@ class DeviceWidget(QWidget):
     def set_contrast_slider(self):
         value = get_contrast(self.device)
         self.colour_mode.contrast_slider.setValue(value)
-
-    def set_warmth_slider(self):
-        value = get_warmth(self.device)
-        self.white_mode.warmth_slider.setValue(value)
 
     def set_bulb_mode(self, index):
         set_mode(self.device, index)
