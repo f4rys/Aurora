@@ -19,8 +19,7 @@ class AllDevicesWidget(QWidget):
         self.create_list()
 
     def open_device(self, device):
-        #self.parent.show_device(device)
-        print(device)
+        self.parent.parent.parent.show_device(device)
 
     def clear_layout(self, layout):
         if layout is not None:

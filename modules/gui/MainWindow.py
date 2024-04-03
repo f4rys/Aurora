@@ -3,6 +3,7 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QFrame
 
 from modules.gui import NavigationBarLayout, MainLayout, ActionBarLayout
+from modules.gui.device import DeviceWidget
 from modules.tuya import check_credentials
 from modules.resources import resources
 from modules.dictionaries.loader import load_dictionary
@@ -93,6 +94,12 @@ class MainWindow(QMainWindow):
 
     def restart(self):
         self.parent.restart_window()
+
+    def show_device(self, device):
+        self.reset_navigation_bar_buttons_checked()
+        self.main_layout.stacked_widget.device.init_ui(device)
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.device))
+        self.action_bar_layout.set_label(device.name)
 
     def show_all_devices(self):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.all_devices))

@@ -8,14 +8,25 @@ from modules.dictionaries.loader import load_dictionary
 class DeviceWidget(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         self.dictionary = load_dictionary()
-
         self.vlayout = QVBoxLayout(self)
+
+    def clear_layout(self, layout):
+        if layout is not None:
+            while layout.count():
+                child = layout.takeAt(0)
+                if child.widget() is not None:
+                    child.widget().deleteLater()
+                elif child.layout() is not None:
+                    self.clear_layout(child.layout())
+
+    def init_ui(self, device):
+        self.clear_layout(self.vlayout)
+
         self.vlayout.setContentsMargins(0, 0, 0, 0)
 
-        self.label = BulbNameLabel(name="RGB748389")
-        self.vlayout.addWidget(self.label)
+        #self.label = BulbNameLabel(device.name)
+        #self.vlayout.addWidget(self.label)
 
         self.bulb_button = BulbSwitchButton()
         self.vlayout.addWidget(self.bulb_button)
