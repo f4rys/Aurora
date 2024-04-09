@@ -127,7 +127,7 @@ BulbNameLabel{
     font-size: 12pt;
 }
 
-.timer_button, .device_button, .credentials_button{
+.countdown_button, .device_button, .credentials_button{
     padding: 2;
     border-style: solid;
     border-radius: 10px;
@@ -135,7 +135,7 @@ BulbNameLabel{
     border-color: #dad9d3;
 }
 
-.timer_button:hover, .device_button:hover, .credentials_button:hover{
+.countdown_button:hover, .device_button:hover, .credentials_button:hover{
     background: #F2F1EB;
     border-radius: 10px;
     padding: 2;

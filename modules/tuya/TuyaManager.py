@@ -45,12 +45,16 @@ class TuyaManager():
                             "s": s_range,
                             "v": v_range
                         }
-
                     else:
                         is_rgb = False
                         hsv_range = None
 
-                    bulb_device = TuyaDevice(device_id, local_key, ip, version, name, icon_link, brightness_range, temperature_range, is_rgb, hsv_range)
+                    if "26" in device["mapping"].keys():
+                        has_countdown = True
+                    else:
+                        has_countdown = False
+
+                    bulb_device = TuyaDevice(device_id, local_key, ip, version, name, icon_link, brightness_range, temperature_range, is_rgb, hsv_range, has_countdown)
                     self.active_devices[device_id] = bulb_device
                     break
 

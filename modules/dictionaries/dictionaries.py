@@ -8,8 +8,8 @@ dictionary_en = {
     # Device widget
     "white": "White",
     "colour": "Colour",
-    "timer": "Timer",
-    "set_timer": "Set timer",
+    "countdown": "Countdown",
+    "set_countdown": "Set countdown",
     # All devices
     "refresh_in_progress": "Refreshing devices...",
     "refresh_completed": "Refresh",
@@ -36,7 +36,8 @@ dictionary_en = {
     "temperature_tooltip": "Temperature",
     "contrast_tooltip": "Contrast",
     "colour_tooltip": "Colour",
-    "time_edit_tooltip": "Enter time"
+    "time_edit_tooltip": "Enter time",
+    "countdown_accept_button_tooltip": "Switch device state after the specified time has elapsed"
 }
 
 dictionary_pl = {
@@ -49,8 +50,8 @@ dictionary_pl = {
     # Device widget
     "white": "Białe",
     "colour": "Kolor",
-    "timer": "Odliczanie",
-    "set_timer": "Ustaw odliczanie",
+    "countdown": "Odliczanie",
+    "set_countdown": "Ustaw odliczanie",
     # All devices
     "refresh_in_progress": "Odświeżanie w toku...",
     "refresh_completed": "Odśwież",
@@ -77,5 +78,6 @@ dictionary_pl = {
     "temperature_tooltip": "Temperatura",
     "contrast_tooltip": "Kontrast",
     "colour_tooltip": "Kolor",
-    "time_edit_tooltip": "Wprowadź czas"
+    "time_edit_tooltip": "Wprowadź czas",
+    "countdown_accept_button_tooltip": "Przełącz stan urządzenia po upłynięciu wyznaczonego czasu"
 }

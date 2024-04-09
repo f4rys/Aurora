@@ -1,3 +1,5 @@
+import time
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QTimeEdit, QPushButton, QVBoxLayout, QLabel, QSizePolicy
 
@@ -10,7 +12,6 @@ class CountdownTab(QWidget):
         super().__init__(*args, **kwargs)
 
         self.parent = parent
-
         self.dictionary = load_dictionary()
 
         self.vlayout = QVBoxLayout(self)
@@ -19,11 +20,11 @@ class CountdownTab(QWidget):
         self.time_edit.setDisplayFormat("mm:ss")
         self.time_edit.setToolTip(self.dictionary["time_edit_tooltip"])
 
-        self.accept_button = QPushButton(self.dictionary["set_timer"])
+        self.accept_button = QPushButton(self.dictionary["set_countdown"])
         self.accept_button.clicked.connect(self.on_accept)
-        self.accept_button.setProperty("class", "timer_button")
+        self.accept_button.setProperty("class", "countdown_button")
         self.accept_button.setFlat(True)
-        self.accept_button.setToolTip(self.dictionary["timer_accept_button_tooltip"])
+        self.accept_button.setToolTip(self.dictionary["countdown_accept_button_tooltip"])
 
         self.remaining_time_label = QLabel()
         size_policy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
@@ -41,7 +42,7 @@ class CountdownTab(QWidget):
     def on_accept(self):
         selected_time = self.time_edit.time()
         time_in_sec = selected_time.minute()*60 + selected_time.second()
-        self.parent.device.set_timer(time_in_sec)
+        self.parent.device.set_countdown(time_in_sec)
 
         self.thread_worker = CountdownThread(time_in_sec)
         self.thread_worker.finished.connect(self.timer_complete)
@@ -50,9 +51,10 @@ class CountdownTab(QWidget):
         self.vlayout.addWidget(self.remaining_time_label)
 
     def timer_complete(self):
-        self.parent.change_icon()
         self.remaining_time_label.setText("")
         self.vlayout.removeWidget(self.remaining_time_label)
+        time.sleep(1)
+        self.parent.change_icon()
 
     def print_time(self, remaining_time):
         hours = remaining_time // 3600

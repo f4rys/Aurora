@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QTabWidget, QVBoxLayout
 
 from modules.gui.device import BulbSwitchButton
-from modules.gui.device.tabs import WhiteModeTab, ColourModeTab, TimerTab
+from modules.gui.device.tabs import WhiteModeTab, ColourModeTab, CountdownTab
 from modules.dictionaries.loader import load_dictionary
 
 
@@ -20,13 +20,19 @@ class DeviceWidget(QWidget):
                 elif child.layout() is not None:
                     self.clear_layout(child.layout())
 
-    def switch(self, device):
-        if device.is_on():
-            device.turn_off()
-            self.bulb_button.set_icon(False)
+    def switch(self):
+        if self.device.is_on():
+            self.device.turn_off()
+            self.change_icon()
         else:
-            device.turn_on()
+            self.device.turn_on()
+            self.change_icon()
+
+    def change_icon(self):
+        if self.device.is_on():
             self.bulb_button.set_icon(True)
+        else:
+            self.bulb_button.set_icon(False)
 
     def init_ui(self, device):
         self.clear_layout(self.vlayout)
@@ -38,7 +44,7 @@ class DeviceWidget(QWidget):
 
         self.bulb_button = BulbSwitchButton()
         self.bulb_button.set_icon(device.is_on())
-        self.bulb_button.clicked.connect(lambda: self.switch(device))
+        self.bulb_button.clicked.connect(self.switch)
         self.vlayout.addWidget(self.bulb_button)
 
         self.tab_widget = QTabWidget()
@@ -62,8 +68,8 @@ class DeviceWidget(QWidget):
             self.colour_tab.saturation_slider.valueChanged.connect(self.set_hsv)
             self.colour_tab.value_slider.valueChanged.connect(self.set_hsv)
 
-        self.timer_tab = TimerTab()
-        self.tab_widget.addTab(self.timer_tab, self.dictionary["timer"])
+        self.countdown_tab = CountdownTab(self)
+        self.tab_widget.addTab(self.countdown_tab, self.dictionary["countdown"])
 
         self.vlayout.addWidget(self.tab_widget)
 
