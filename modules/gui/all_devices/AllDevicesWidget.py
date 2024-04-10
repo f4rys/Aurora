@@ -32,21 +32,21 @@ class AllDevicesWidget(QWidget):
 
     def create_list(self):
         self.clear_layout(self.vlayout)
-        self.add_refresh_button(self.dictionary["refresh_in_progress"])
-        self.refresh_button.setEnabled(False)
+        self.add_reload_button(self.dictionary["reload_in_progress"])
+        self.reload_button.setEnabled(False)
 
         self.thread_worker = InitiateTuyaManagerThread()
         self.thread_worker.finished.connect(self.update_ui)
         self.thread_worker.start()
 
-    def add_refresh_button(self, text):
+    def add_reload_button(self, text):
         spacer_item = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.vlayout.addItem(spacer_item)
 
-        self.refresh_button = QPushButton(text)
-        self.refresh_button.clicked.connect(self.create_list)
-        self.refresh_button.setProperty("class", "device_button")
-        self.vlayout.addWidget(self.refresh_button, alignment=Qt.AlignmentFlag.AlignBottom)
+        self.reload_button = QPushButton(text)
+        self.reload_button.clicked.connect(self.create_list)
+        self.reload_button.setProperty("class", "device_button")
+        self.vlayout.addWidget(self.reload_button, alignment=Qt.AlignmentFlag.AlignBottom)
 
     def switch(self, device, state, device_status_button, device_button):
         if state:
@@ -123,7 +123,7 @@ class AllDevicesWidget(QWidget):
             hlayout = self.add_device_button(device["name"], device.get("icon_link"), None)
             self.vlayout.addLayout(hlayout)
 
-        self.add_refresh_button(self.dictionary["refresh_completed"])
+        self.add_reload_button(self.dictionary["reload_completed"])
 
         self.update()
         self.repaint()

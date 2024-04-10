@@ -11,8 +11,8 @@ dictionary_en = {
     "countdown": "Countdown",
     "set_countdown": "Set countdown",
     # All devices
-    "refresh_in_progress": "Refreshing devices...",
-    "refresh_completed": "Refresh",
+    "reload_in_progress": "Reloading devices...",
+    "reload_completed": "Reload",
     # Settings
     "smart_mode": "Smart Mode",
     "language": "Language",
@@ -53,8 +53,8 @@ dictionary_pl = {
     "countdown": "Odliczanie",
     "set_countdown": "Ustaw odliczanie",
     # All devices
-    "refresh_in_progress": "Odświeżanie w toku...",
-    "refresh_completed": "Odśwież",
+    "reload_in_progress": "Odświeżanie w toku...",
+    "reload_completed": "Odśwież",
     # Settings
     "smart_mode": "Tryb inteligentny",
     "language": "Język",
