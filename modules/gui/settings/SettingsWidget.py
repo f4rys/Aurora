@@ -1,6 +1,5 @@
 from configparser import ConfigParser
 
-from PyQt6.QtCore import QRect
 from PyQt6.QtWidgets import QWidget, QCheckBox, QComboBox, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel
 
 from modules.dictionaries.loader import load_dictionary
