@@ -16,6 +16,12 @@ dictionary_en = {
     # Settings
     "smart_mode": "Smart Mode",
     "language": "Language",
+    "smart_mode_label": "Assistance with device control",
+    "language_label": "Interface language",
+    "max_retry_label": "Number of attempts to connect to the device",
+    "max_retry_0": "Fastest, but not reliable",
+    "max_retry_3": "Best for most scenarios",
+    "max_retry_5": "Slowest, but most efficient",
     # Action bar label titles
     "devices_title": "Devices",
     "scenes_title": "Scenes",
@@ -58,6 +64,12 @@ dictionary_pl = {
     # Settings
     "smart_mode": "Tryb inteligentny",
     "language": "Język",
+    "smart_mode_label": "Wspomaganie sterowaniem urządzeniami",
+    "language_label": "Język interfejsu",
+    "max_retry_label": "Liczba prób połączenia się z urządzeniem",
+    "max_retry_0": "Najszybsze, ale mało skuteczne",
+    "max_retry_3": "Najlepsze w większości sytuacji",
+    "max_retry_5": "Najwolniejsze, ale najbardziej skuteczne",
     # Action bar label titles
     "devices_title": "Urządzenia",
     "scenes_title": "Scenariusze",
