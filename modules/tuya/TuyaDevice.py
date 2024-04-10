@@ -54,6 +54,6 @@ class TuyaDevice():
 
     def get_hsv(self):
         return self.device.colour_hsv()
-    
+
     def set_countdown(self, sec):
         self.device.set_timer(sec, 26)
