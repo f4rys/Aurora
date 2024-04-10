@@ -1,6 +1,7 @@
 import json
+from configparser import ConfigParser
 
-import tinytuya
+from tinytuya import deviceScan
 
 from modules.tuya import TuyaDevice
 
@@ -11,7 +12,12 @@ class TuyaManager():
         self.import_devices()
 
     def import_devices(self):
-        network_devices = tinytuya.deviceScan()
+
+        self.config = ConfigParser()
+        self.config.read('settings.ini')
+        max_retry = self.config.get("General", "max_retry")
+
+        network_devices = deviceScan(maxretry=float(max_retry))
 
         devices_file = open('devices.json', encoding="utf-8")
         devices_data = json.load(devices_file)
