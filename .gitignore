@@ -11,3 +11,5 @@ device_scan_result.json
 
 aurora.ui
 aurora_ui.py
+
+schedules.json

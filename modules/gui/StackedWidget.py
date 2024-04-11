@@ -5,7 +5,7 @@ from modules.gui.device import DeviceWidget
 from modules.gui.all_devices import AllDevicesWidget
 from modules.gui.scenes import ScenesWidget
 from modules.gui.analytics import AnalyticsWidget
-from modules.gui.schedule import ScheduleWidget
+from modules.gui.schedules import SchedulesWidget
 from modules.gui.help import HelpWidget
 from modules.gui.settings import SettingsWidget
 from modules.gui.profile import ProfileWidget
@@ -39,8 +39,8 @@ class StackedWidget(QStackedWidget):
         self.analytics = AnalyticsWidget()
         self.addWidget(self.analytics)
 
-        self.schedule = ScheduleWidget()
-        self.addWidget(self.schedule)
+        self.schedules = SchedulesWidget(self)
+        self.addWidget(self.schedules)
 
         self.help = HelpWidget()
         self.addWidget(self.help)

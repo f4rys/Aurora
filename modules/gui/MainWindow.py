@@ -44,7 +44,7 @@ class MainWindow(QMainWindow):
         self.navigation_bar_layout.devices_button.clicked.connect(self.show_all_devices)
         self.navigation_bar_layout.scenes_button.clicked.connect(self.show_scenes)
         self.navigation_bar_layout.analytics_button.clicked.connect(self.show_analytics)
-        self.navigation_bar_layout.schedule_button.clicked.connect(self.show_schedule)
+        self.navigation_bar_layout.schedules_button.clicked.connect(self.show_schedules)
         self.navigation_bar_layout.help_button.clicked.connect(self.show_help)
         self.grid_layout.addLayout(self.navigation_bar_layout, 0, 0, 5, 1)
 
@@ -113,9 +113,9 @@ class MainWindow(QMainWindow):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.analytics))
         self.action_bar_layout.set_label(self.dictionary["analytics_title"])
 
-    def show_schedule(self):
-        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.schedule))
-        self.action_bar_layout.set_label(self.dictionary["schedule_title"])
+    def show_schedules(self):
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.schedules))
+        self.action_bar_layout.set_label(self.dictionary["schedules_title"])
 
     def show_help(self):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.help))
@@ -141,7 +141,7 @@ class MainWindow(QMainWindow):
         self.navigation_bar_layout.devices_button.setEnabled(False)
         self.navigation_bar_layout.scenes_button.setEnabled(False)
         self.navigation_bar_layout.analytics_button.setEnabled(False)
-        self.navigation_bar_layout.schedule_button.setEnabled(False)
+        self.navigation_bar_layout.schedules_button.setEnabled(False)
         self.navigation_bar_layout.help_button.setEnabled(False)
         self.action_bar_layout.profile_button.setEnabled(False)
         self.action_bar_layout.settings_button.setEnabled(False)
@@ -150,7 +150,7 @@ class MainWindow(QMainWindow):
         self.navigation_bar_layout.devices_button.setEnabled(True)
         self.navigation_bar_layout.scenes_button.setEnabled(True)
         self.navigation_bar_layout.analytics_button.setEnabled(True)
-        self.navigation_bar_layout.schedule_button.setEnabled(True)
+        self.navigation_bar_layout.schedules_button.setEnabled(True)
         self.navigation_bar_layout.help_button.setEnabled(True)
         self.action_bar_layout.profile_button.setEnabled(True)
         self.action_bar_layout.settings_button.setEnabled(True)
@@ -161,13 +161,13 @@ class MainWindow(QMainWindow):
         self.navigation_bar_layout.devices_button.setChecked(False)
         self.navigation_bar_layout.scenes_button.setChecked(False)
         self.navigation_bar_layout.analytics_button.setChecked(False)
-        self.navigation_bar_layout.schedule_button.setChecked(False)
+        self.navigation_bar_layout.schedules_button.setChecked(False)
         self.navigation_bar_layout.help_button.setChecked(False)
 
         self.navigation_bar_layout.devices_button.update()
         self.navigation_bar_layout.scenes_button.update()
         self.navigation_bar_layout.analytics_button.update()
-        self.navigation_bar_layout.schedule_button.update()
+        self.navigation_bar_layout.schedules_button.update()
         self.navigation_bar_layout.help_button.update()
 
         self.navigation_bar_layout.button_group.setExclusive(True)

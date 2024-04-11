@@ -32,11 +32,31 @@
         <file alias="devices.png">../../assets/devices.png</file>
         <file alias="scenes.png">../../assets/scenes.png</file>
         <file alias="analytics.png">../../assets/analytics.png</file>
-        <file alias="schedule.png">../../assets/schedule.png</file>
+        <file alias="schedules.png">../../assets/schedules.png</file>
         <file alias="help.png">../../assets/help.png</file>
     </qresource>
     <qresource prefix="misc">
+        <file alias="edit.png">../../assets/edit.png</file>
+        <file alias="edit_hover.png">../../assets/edit_hover.png</file>
         <file alias="up_arrow.png">../../assets/up_arrow.png</file>
         <file alias="down_arrow.png">../../assets/down_arrow.png</file>
-    </qresource>   
+        <file alias="off.png">../../assets/off.png</file>
+        <file alias="on.png">../../assets/on.png</file>
+    </qresource>
+    <qresource prefix="schedule">
+        <file alias="mon_off.png">../../assets/mon_off.png</file>
+        <file alias="tue_off.png">../../assets/tue_off.png</file>
+        <file alias="wed_off.png">../../assets/wed_off.png</file>
+        <file alias="thu_off.png">../../assets/thu_off.png</file>
+        <file alias="fri_off.png">../../assets/fri_off.png</file>
+        <file alias="sat_off.png">../../assets/sat_off.png</file>
+        <file alias="sun_off.png">../../assets/sun_off.png</file>
+        <file alias="mon_on.png">../../assets/mon_on.png</file>
+        <file alias="tue_on.png">../../assets/tue_on.png</file>
+        <file alias="wed_on.png">../../assets/wed_on.png</file>
+        <file alias="thu_on.png">../../assets/thu_on.png</file>
+        <file alias="fri_on.png">../../assets/fri_on.png</file>
+        <file alias="sat_on.png">../../assets/sat_on.png</file>
+        <file alias="sun_on.png">../../assets/sun_on.png</file>
+    </qresource>
 </RCC>

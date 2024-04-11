@@ -41,6 +41,13 @@
     image: url(":/action/exit_hover.png") no-repeat center;
 }
 
+#edit_button{
+    image: url(":/misc/edit.png") no-repeat center;
+}
+#edit_button:hover{
+    image: url(":/misc/edit_hover.png") no-repeat center;
+}
+
 .switch{
     border: 0;
 }
@@ -217,4 +224,17 @@ QComboBox::down-arrow{
     image: url(:/misc/down_arrow.png);
     width: 8px;
     margin-right: 5px;
+}
+
+.bordered_box{
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #dad9d3;
+    margin-bottom: 3;
+}
+
+.borderless{
+    border: 0;
+    background: #ffffff;
 }
