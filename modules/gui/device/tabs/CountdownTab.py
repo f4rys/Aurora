@@ -1,6 +1,6 @@
 import time
 
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QTime
 from PyQt6.QtWidgets import QWidget, QTimeEdit, QPushButton, QVBoxLayout, QLabel, QSizePolicy
 
 from modules.dictionaries.loader import load_dictionary
@@ -16,9 +16,13 @@ class CountdownTab(QWidget):
 
         self.vlayout = QVBoxLayout(self)
 
+        min_hours, min_minutes, min_seconds = self.sec_to_hms(self.parent.device.countdown_range[0])
+        max_hours, max_minutes, max_seconds = self.sec_to_hms(self.parent.device.countdown_range[0])
+
         self.time_edit = QTimeEdit()
-        self.time_edit.setDisplayFormat("mm:ss")
+        self.time_edit.setDisplayFormat("HH:mm:ss")
         self.time_edit.setToolTip(self.dictionary["time_edit_tooltip"])
+        self.time_edit.setTimeRange(QTime(min_hours, min_minutes, min_seconds), QTime(max_hours, max_minutes, max_seconds-1))
 
         self.accept_button = QPushButton(self.dictionary["set_countdown"])
         self.accept_button.clicked.connect(self.on_accept)
@@ -57,9 +61,13 @@ class CountdownTab(QWidget):
         self.parent.change_icon()
 
     def print_time(self, remaining_time):
-        hours = remaining_time // 3600
-        remaining_seconds = remaining_time % 3600
+        hours, minutes, seconds = self.sec_to_hms(remaining_time)
+        self.remaining_time_label.setText(f"Remaining time: h: {hours}, m: {minutes}, s: {seconds}")
+
+    def sec_to_hms(self, sec):
+        hours = sec // 3600
+        remaining_seconds = sec % 3600
         minutes = remaining_seconds // 60
         seconds = remaining_seconds % 60
 
-        self.remaining_time_label.setText(f"Remaining time: h: {hours}, m: {minutes}, s: {seconds}")
+        return hours, minutes, seconds

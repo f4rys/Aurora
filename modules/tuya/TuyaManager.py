@@ -57,10 +57,12 @@ class TuyaManager():
 
                     if "26" in device["mapping"].keys():
                         has_countdown = True
+                        countdown_range = [ device["mapping"]["26"]["values"]["min"], device["mapping"]["26"]["values"]["max"] ]
                     else:
                         has_countdown = False
+                        countdown_range = None
 
-                    bulb_device = TuyaDevice(device_id, local_key, ip, version, name, icon_link, brightness_range, temperature_range, is_rgb, hsv_range, has_countdown)
+                    bulb_device = TuyaDevice(device_id, local_key, ip, version, name, icon_link, brightness_range, temperature_range, is_rgb, hsv_range, has_countdown, countdown_range)
                     self.active_devices[device_id] = bulb_device
                     break
 

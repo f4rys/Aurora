@@ -1,7 +1,7 @@
 import tinytuya
 
 class TuyaDevice():
-    def __init__(self, dev_id, local_key, ip, version, name, icon_link, brightness_range, temperature_range, is_rgb, hsv_range, has_countdown):
+    def __init__(self, dev_id, local_key, ip, version, name, icon_link, brightness_range, temperature_range, is_rgb, hsv_range, has_countdown, countdown_range):
         self.device = tinytuya.BulbDevice(dev_id=dev_id, address=ip, local_key=local_key, version=version)
 
         self.id = dev_id
@@ -14,6 +14,7 @@ class TuyaDevice():
         self.is_rgb = is_rgb
         self.hsv_range = hsv_range
         self.has_countdown = has_countdown
+        self.countdown_range = countdown_range
 
     def turn_on(self):
         self.device.turn_on()
