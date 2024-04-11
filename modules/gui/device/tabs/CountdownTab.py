@@ -48,6 +48,10 @@ class CountdownTab(QWidget):
         time_in_sec = selected_time.minute()*60 + selected_time.second()
         self.parent.device.set_countdown(time_in_sec)
 
+        self.accept_button.setText(self.dictionary["cancel_countdown"])
+        self.accept_button.clicked.disconnect()
+        self.accept_button.clicked.connect(self.cancel_countdown)
+
         self.thread_worker = CountdownThread(time_in_sec)
         self.thread_worker.finished.connect(self.timer_complete)
         self.thread_worker.remaining_time.connect(self.print_time)
@@ -57,12 +61,21 @@ class CountdownTab(QWidget):
     def timer_complete(self):
         self.remaining_time_label.setText("")
         self.vlayout.removeWidget(self.remaining_time_label)
-        time.sleep(1)
+        time.sleep(0.5)
         self.parent.change_icon()
+
+        self.accept_button.setText(self.dictionary["set_countdown"])
+        self.accept_button.clicked.disconnect()
+        self.accept_button.clicked.connect(self.on_accept)
+
+    def cancel_countdown(self):
+        self.thread_worker.stop()
+        self.timer_complete()
+        self.parent.device.cancel_countdown()
 
     def print_time(self, remaining_time):
         hours, minutes, seconds = self.sec_to_hms(remaining_time)
-        self.remaining_time_label.setText(f"Remaining time: h: {hours}, m: {minutes}, s: {seconds}")
+        self.remaining_time_label.setText(f"{self.dictionary["remaining_time"]}: {hours:02d}:{minutes:02d}:{seconds:02d}")
 
     def sec_to_hms(self, sec):
         hours = sec // 3600

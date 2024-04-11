@@ -10,6 +10,8 @@ dictionary_en = {
     "colour": "Colour",
     "countdown": "Countdown",
     "set_countdown": "Set countdown",
+    "cancel_countdown": "Cancel countdown",
+    "remaining_time": "Remaining time",
     # All devices
     "reload_in_progress": "Reloading devices...",
     "reload_completed": "Reload",
@@ -58,6 +60,8 @@ dictionary_pl = {
     "colour": "Kolor",
     "countdown": "Odliczanie",
     "set_countdown": "Ustaw odliczanie",
+    "cancel_countdown": "Anuluj odliczanie",
+    "remaining_time": "Pozostały czas",
     # All devices
     "reload_in_progress": "Odświeżanie w toku...",
     "reload_completed": "Odśwież",

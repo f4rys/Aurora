@@ -58,3 +58,6 @@ class TuyaDevice():
 
     def set_countdown(self, sec):
         self.device.set_timer(sec, 26)
+
+    def cancel_countdown(self):
+        self.device.set_timer(0, 26)
