@@ -3,7 +3,6 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QFrame
 
 from modules.gui import NavigationBarLayout, MainLayout, ActionBarLayout
-from modules.gui.device import DeviceWidget
 from modules.tuya import check_credentials
 from modules.resources import resources
 from modules.dictionaries.loader import load_dictionary

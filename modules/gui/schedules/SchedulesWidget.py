@@ -44,7 +44,7 @@ class SchedulesWidget(QWidget):
         self.clear_layout(self.vlayout)
 
         if os.path.exists("modules/resources/schedules/schedules.json"):
-            with open("modules/resources/schedules/schedules.json", "r") as f:
+            with open("modules/resources/schedules/schedules.json", "r", encoding="utf-8") as f:
                 schedules = json.load(f)
         else:
             schedules = []
@@ -162,52 +162,3 @@ class SchedulesWidget(QWidget):
                 return ":/schedule/sun_on.png"
             else:
                 return ":/schedule/sun_off.png"
-
-'''
-    def add_device_button(self, name, icon_link, device):
-        hlayout = QHBoxLayout()
-        hlayout.setContentsMargins(0, 0, 0, 0)
-
-        device_button = QPushButton(name)
-        size_policy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        size_policy.setHorizontalStretch(0)
-        size_policy.setVerticalStretch(0)
-        size_policy.setHeightForWidth(device_button.sizePolicy().hasHeightForWidth())
-        device_button.setSizePolicy(size_policy)
-        device_button.setProperty("class", "device_button")
-
-        device_icon_label = QLabel()
-        device_status_button = QPushButton()
-        device_status_button.setProperty("class", "tab_button")
-
-        image = QImage()
-        image.loadFromData(requests.get(str(icon_link), timeout=5).content)
-        pixmap = QPixmap.fromImage(image)
-        pixmap = pixmap.scaled(23, 23)
-
-        device_icon_label.setPixmap(pixmap)
-        device_icon_label.setProperty("class", "device_icon")
-
-        hlayout.addWidget(device_button)
-        hlayout.addWidget(device_status_button)
-        hlayout.addWidget(device_icon_label)
-
-        hlayout.setAlignment(Qt.AlignmentFlag.AlignTop)
-
-        return hlayout
-
-    def update_ui(self):
-        self.clear_layout(self.vlayout)
-
-        for dev_id, device in self.manager.active_devices.items():
-            hlayout = self.add_device_button(device.name, device.icon_link, device)
-            self.vlayout.addLayout(hlayout)
-
-        for dev_id, device in self.manager.inactive_devices.items():
-            hlayout = self.add_device_button(device["name"], device.get("icon_link"), None)
-            self.vlayout.addLayout(hlayout)
-
-        self.add_reload_button(self.dictionary["reload_completed"])
-
-        self.update()
-        self.repaint()'''
