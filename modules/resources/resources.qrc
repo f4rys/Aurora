@@ -5,6 +5,7 @@
         <file alias="device_on.png">../../assets/device_on.png</file>
         <file alias="device_off.png">../../assets/device_off.png</file>
         <file alias="device_offline.png">../../assets/device_offline.png</file>
+        <file alias="bulb_icon_error.png">../../assets/bulb_icon_error.png</file>
     </qresource>
     <qresource prefix="action">
         <file alias="profile.png">../../assets/profile.png</file>

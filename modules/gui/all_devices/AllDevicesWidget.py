@@ -94,9 +94,13 @@ class AllDevicesWidget(QWidget):
 
         self.set_icon_and_action(device_status_button, device_button, device)
 
-        image = QImage()
-        image.loadFromData(requests.get(str(icon_link), timeout=5).content)
-        pixmap = QPixmap.fromImage(image)
+        try:
+            image = QImage()
+            image.loadFromData(requests.get(str(icon_link), timeout=5).content)
+            pixmap = QPixmap.fromImage(image)
+        except requests.exceptions.ConnectionError:
+            pixmap = QPixmap(":/all_devices/bulb_icon_error.png")
+
         pixmap = pixmap.scaled(23, 23)
 
         device_icon_label.setPixmap(pixmap)
