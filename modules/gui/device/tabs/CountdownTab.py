@@ -16,6 +16,8 @@ class CountdownTab(QWidget):
 
         self.vlayout = QVBoxLayout(self)
 
+        self.current_countdown = self.parent.device.read_current_countdown()
+
         min_hours, min_minutes, min_seconds = self.sec_to_hms(self.parent.device.countdown_range[0])
         max_hours, max_minutes, max_seconds = self.sec_to_hms(self.parent.device.countdown_range[0])
 
@@ -43,11 +45,10 @@ class CountdownTab(QWidget):
         self.vlayout.addWidget(self.time_edit)
         self.vlayout.addWidget(self.accept_button)
 
-    def on_accept(self):
-        selected_time = self.time_edit.time()
-        time_in_sec = selected_time.minute()*60 + selected_time.second()
-        self.parent.device.set_countdown(time_in_sec)
+        if self.current_countdown > 0:
+            self.countdown_on(int(self.current_countdown - time.time()))
 
+    def countdown_on(self, time_in_sec):
         self.accept_button.setText(self.dictionary["cancel_countdown"])
         self.accept_button.clicked.disconnect()
         self.accept_button.clicked.connect(self.cancel_countdown)
@@ -58,19 +59,28 @@ class CountdownTab(QWidget):
         self.thread_worker.start()
         self.vlayout.addWidget(self.remaining_time_label)
 
-    def timer_complete(self):
+    def countdown_off(self):
         self.remaining_time_label.setText("")
         self.vlayout.removeWidget(self.remaining_time_label)
-        time.sleep(0.5)
-        self.parent.change_icon()
-
         self.accept_button.setText(self.dictionary["set_countdown"])
         self.accept_button.clicked.disconnect()
         self.accept_button.clicked.connect(self.on_accept)
+        self.parent.device.delete_countdown()
+
+    def on_accept(self):
+        selected_time = self.time_edit.time()
+        time_in_sec = selected_time.minute()*60 + selected_time.second()
+        self.parent.device.set_countdown(time_in_sec)
+        self.countdown_on(time_in_sec)
+
+    def timer_complete(self):
+        self.countdown_off()
+        time.sleep(0.5)
+        self.parent.change_icon()
 
     def cancel_countdown(self):
         self.thread_worker.stop()
-        self.timer_complete()
+        self.countdown_off()
         self.parent.device.cancel_countdown()
 
     def print_time(self, remaining_time):
