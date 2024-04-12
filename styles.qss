@@ -238,3 +238,11 @@ QComboBox::down-arrow{
     border: 0;
     background: #ffffff;
 }
+
+.bordered_field{
+    padding: 5;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #dad9d3;
+}

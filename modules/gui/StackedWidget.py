@@ -48,5 +48,5 @@ class StackedWidget(QStackedWidget):
         self.settings = SettingsWidget(self)
         self.addWidget(self.settings)
 
-        self.profile = ProfileWidget()
+        self.profile = ProfileWidget(self)
         self.addWidget(self.profile)

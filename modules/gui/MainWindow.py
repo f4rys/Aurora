@@ -67,7 +67,7 @@ class MainWindow(QMainWindow):
         if check_credentials():
             self.show_all_devices()
         else:
-            self.show_credentials()
+            self.show_credentials("", "", "", "")
 
     def hide_window(self):
         self.hide()
@@ -130,9 +130,10 @@ class MainWindow(QMainWindow):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.profile))
         self.action_bar_layout.set_label(self.dictionary["profile_title"])
 
-    def show_credentials(self):
+    def show_credentials(self, api_key, api_secret, api_region, api_device_id):
         self.reset_navigation_bar_buttons_checked()
         self.disable_buttons()
+        self.main_layout.stacked_widget.credentials.set_credentials(api_key, api_secret, api_device_id, api_region)
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.credentials))
         self.action_bar_layout.set_label(self.dictionary["credentials_title"])
 

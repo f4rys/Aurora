@@ -24,6 +24,12 @@ dictionary_en = {
     "max_retry_0": "Fastest, but not reliable",
     "max_retry_3": "Best for most scenarios",
     "max_retry_5": "Slowest, but most efficient",
+    # Profile
+    "api_key": "API Key",
+    "api_secret": "API Secret",
+    "api_region": "API Region",
+    "api_device_id": "API Device ID",
+    "change_credentials_button": "Change credentials",
     # Action bar label titles
     "devices_title": "Devices",
     "scenes_title": "Scenes",
@@ -74,6 +80,12 @@ dictionary_pl = {
     "max_retry_0": "Najszybsze, ale mało skuteczne",
     "max_retry_3": "Najlepsze w większości sytuacji",
     "max_retry_5": "Najwolniejsze, ale najbardziej skuteczne",
+    # Profile
+    "api_key": "Klucz API",
+    "api_secret": "Sekretny kod API",
+    "api_region": "Region",
+    "api_device_id": "ID urządzenia",
+    "change_credentials_button": "Zmień konfigurację",
     # Action bar label titles
     "devices_title": "Urządzenia",
     "scenes_title": "Scenariusze",

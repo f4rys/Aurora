@@ -51,6 +51,24 @@ class CredentialsWidget(QWidget):
         spacer_item = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.vlayout.addItem(spacer_item)
 
+    def set_credentials(self, api_key, api_secret, api_region, api_device_id):
+        self.api_key_input.setText(api_key)
+        self.api_secret_input.setText(api_secret)
+        self.api_device_id_input.setText(api_device_id)
+
+        if api_region == 'cn':
+            self.api_region_input.setCurrentIndex(0)
+        elif api_region == 'us':
+            self.api_region_input.setCurrentIndex(1)
+        elif api_region == 'us-e':
+            self.api_region_input.setCurrentIndex(2)
+        elif api_region == 'eu':
+            self.api_region_input.setCurrentIndex(3)
+        elif api_region == 'eu-w':
+            self.api_region_input.setCurrentIndex(4)
+        elif api_region == 'in':
+            self.api_region_input.setCurrentIndex(4)
+
     def send_credentials(self):
         api_key = self.api_key_input.text()
         api_secret = self.api_secret_input.text()
