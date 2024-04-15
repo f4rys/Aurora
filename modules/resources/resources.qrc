@@ -60,4 +60,10 @@
         <file alias="sat_on.png">../../assets/sat_on.png</file>
         <file alias="sun_on.png">../../assets/sun_on.png</file>
     </qresource>
+    <qresource prefix="analytics">
+        <file alias="select_all.png">../../assets/select_all.png</file>
+        <file alias="deselect_all.png">../../assets/deselect_all.png</file>
+        <file alias="select_all_hover.png">../../assets/select_all_hover.png</file>
+        <file alias="deselect_all_hover.png">../../assets/deselect_all_hover.png</file>
+    </qresource>
 </RCC>

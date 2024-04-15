@@ -142,7 +142,7 @@ BulbNameLabel{
     border-color: #dad9d3;
 }
 
-.countdown_button:hover, .device_button:hover, .credentials_button:hover{
+.countdown_button:hover, .device_button:hover, .device_button:checked, .credentials_button:hover{
     background: #F2F1EB;
     border-radius: 10px;
     padding: 2;
@@ -245,4 +245,36 @@ QComboBox::down-arrow{
     border-radius: 10px;
     border-width: 1px;
     border-color: #dad9d3;
+}
+
+.small_button{
+    padding: 0;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #dad9d3;
+    margin: 0;
+}
+
+.small_button:hover, .small_button:checked{
+    background: #F2F1EB;
+    border-radius: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+#select_all{
+    image: url(":/analytics/select_all.png") no-repeat center;
+}
+
+#select_all:hover{
+    image: url(":/analytics/select_all_hover.png") no-repeat center;
+}
+
+#deselect_all{
+    image: url(":/analytics/deselect_all.png") no-repeat center;
+}
+
+#deselect_all:hover{
+    image: url(":/analytics/deselect_all_hover.png") no-repeat center;
 }

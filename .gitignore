@@ -13,3 +13,5 @@ aurora.ui
 aurora_ui.py
 
 schedules.json
+
+logs/

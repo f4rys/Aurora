@@ -1,10 +1,146 @@
-from PyQt6.QtCore import QRect
-from PyQt6.QtWidgets import QWidget, QLabel
+import json
+
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QGridLayout, QScrollArea, QSizePolicy, QPushButton, QSpacerItem, QFrame, QButtonGroup
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
+
+from modules.tuya import TuyaAnalytics
+from modules.dictionaries import load_dictionary
 
 
 class AnalyticsWidget(QWidget):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, parent, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.label = QLabel("Analytics", parent=self)
-        self.label.setGeometry(QRect(10, 10, 50, 23))
+        self.parent = parent
+        self.dictionary = load_dictionary()
+        self.button_group = QButtonGroup()
+        self.button_group.setExclusive(False)
+
+        self.tuya_analytics = TuyaAnalytics()
+
+        self.main_layout = QVBoxLayout(self)
+        self.main_layout.setContentsMargins(5, 0, 5, 0)
+
+        self.glayout = QGridLayout()
+        self.glayout.setContentsMargins(0, 0, 0, 0)
+
+        self.title_label = QLabel("Devices usage in last 7 days")
+        self.title_label.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+
+        self.plotlayout = QVBoxLayout()
+        self.plotlayout.setContentsMargins(0, 0, 0, 0)
+
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setProperty("class", "borderless")
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.scroll_widget = QWidget()
+        self.scroll_widget.setProperty("class", "borderless")
+
+        self.scroll_layout = QVBoxLayout(self.scroll_widget)
+        self.scroll_layout.setContentsMargins(5, 5, 5, 0)
+
+        self.select_all_button = QPushButton()
+        self.select_all_button.setFlat(True)
+        self.select_all_button.setProperty("class", "borderless")
+        self.select_all_button.setObjectName("select_all")
+        self.select_all_button.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        self.select_all_button.clicked.connect(self.select_all)
+
+        self.deselect_all_button = QPushButton()
+        self.deselect_all_button.setFlat(True)
+        self.deselect_all_button.setProperty("class", "borderless")
+        self.deselect_all_button.setObjectName("deselect_all")
+        self.deselect_all_button.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        self.deselect_all_button.clicked.connect(self.deselect_all)
+
+        self.pull_logs_button = QPushButton("Pull logs from last 7 days")
+        self.pull_logs_button.setProperty("class", "device_button")
+        self.pull_logs_button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        self.pull_logs_button.clicked.connect(self.pull_logs)
+
+        self.line = QFrame()
+        self.line.setFrameShape(QFrame.Shape.HLine)
+        self.line.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.vertical_line = QFrame()
+        self.vertical_line.setFrameShape(QFrame.Shape.VLine)
+        self.vertical_line.setFrameShadow(QFrame.Shadow.Sunken)
+        self.vertical_line.setProperty("class", "vline")
+
+        self.load_devices()
+
+        self.glayout.addWidget(self.title_label, 0, 0, 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.glayout.addLayout(self.plotlayout, 1, 0, 3, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.glayout.addWidget(self.pull_logs_button, 4, 0, 1, 2)
+
+        self.glayout.addWidget(self.scroll_area, 0, 2, 4, 2)
+        self.glayout.addWidget(self.select_all_button, 4, 2, 1, 1)
+        self.glayout.addWidget(self.deselect_all_button, 4, 3, 1, 1)
+
+        self.scroll_area.setWidget(self.scroll_widget)
+        self.main_layout.addLayout(self.glayout)
+
+        self.select_all()
+        self.button_group.buttonClicked.connect(self.update_plot)
+
+    def load_devices(self):
+        with open("devices.json", encoding="utf-8") as file:
+            data = json.load(file)
+
+        for device in data:
+            label_text = device["name"]
+            label_text = ''.join([label_text[i:i+8] + ('\n' if (i + 8) < len(label_text) else '') for i in range(0, len(label_text), 8)])
+
+            button = QPushButton(label_text)
+            button.setObjectName(device["id"])
+            button.setProperty("class", "device_button")
+            button.setCheckable(True)
+
+            self.button_group.addButton(button)
+            self.scroll_layout.addWidget(button)
+
+        spacer_item = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.scroll_layout.addItem(spacer_item)
+
+    def select_all(self):
+        for button in self.button_group.buttons():
+            button.setChecked(True)
+            self.update_plot()
+
+    def deselect_all(self):
+        for button in self.button_group.buttons():
+            button.setChecked(False)
+            self.update_plot()
+
+    def pull_logs(self):
+        self.tuya_analytics.get_devices_logs()
+        self.select_all()
+
+    def clear_layout(self, layout):
+        if layout is not None:
+            while layout.count():
+                child = layout.takeAt(0)
+                if child.widget() is not None:
+                    child.widget().deleteLater()
+                elif child.layout() is not None:
+                    self.clear_layout(child.layout())
+
+    def update_plot(self):
+        self.clear_layout(self.plotlayout)
+
+        devices = []
+        for button in self.button_group.buttons():
+            if button.isChecked():
+                devices.append(button.objectName())
+
+        if devices:
+            pass
+            figure = self.tuya_analytics.create_plot(devices)
+            plot = FigureCanvasQTAgg(figure)
+            self.plotlayout.addWidget(plot)
+        else:
+            label = QLabel("Select at least one device")
+            self.plotlayout.addWidget(label, alignment=Qt.AlignmentFlag.AlignCenter)

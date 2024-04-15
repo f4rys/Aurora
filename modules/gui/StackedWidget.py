@@ -36,7 +36,7 @@ class StackedWidget(QStackedWidget):
         self.scenes = ScenesWidget()
         self.addWidget(self.scenes)
 
-        self.analytics = AnalyticsWidget()
+        self.analytics = AnalyticsWidget(self)
         self.addWidget(self.analytics)
 
         self.schedules = SchedulesWidget(self)
