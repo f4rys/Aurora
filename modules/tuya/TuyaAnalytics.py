@@ -19,23 +19,27 @@ class TuyaAnalytics():
         self.api_region = credentials["apiRegion"]
         self.api_device_id = credentials["apiDeviceID"]
 
-        self.cloud = tinytuya.Cloud(apiRegion=self.api_region, apiKey=self.api_key, apiDeviceID=self.api_device_id, apiSecret=self.api_secret)
+        try:
+            self.cloud = tinytuya.Cloud(apiRegion=self.api_region, apiKey=self.api_key, apiDeviceID=self.api_device_id, apiSecret=self.api_secret)
+        except Exception:
+            self.cloud = None
 
     def get_devices_logs(self):
-        with open("devices.json", encoding="utf-8") as devices_file:
-            devices_data = json.load(devices_file)
+        if self.cloud:
+            with open("devices.json", encoding="utf-8") as devices_file:
+                devices_data = json.load(devices_file)
 
-        for device in devices_data:
-            filename = f'modules/resources/logs/{device["id"]}.json'
-            logs = self.cloud.getdevicelog(device["id"], start=-7)
-            try:
-                with open(filename, 'w', encoding="utf-8") as logs_file:
-                    json.dump(logs, logs_file)
+            for device in devices_data:
+                filename = f'modules/resources/logs/{device["id"]}.json'
+                logs = self.cloud.getdevicelog(device["id"], start=-7)
+                try:
+                    with open(filename, 'w', encoding="utf-8") as logs_file:
+                        json.dump(logs, logs_file)
 
-            except FileNotFoundError:
-                os.makedirs(os.path.dirname(filename), exist_ok=True)
-                with open(filename, 'w', encoding="utf-8") as logs_file:
-                    json.dump(logs, logs_file)
+                except FileNotFoundError:
+                    os.makedirs(os.path.dirname(filename), exist_ok=True)
+                    with open(filename, 'w', encoding="utf-8") as logs_file:
+                        json.dump(logs, logs_file)
 
     def create_plot(self, devices):
         df = pd.DataFrame()
