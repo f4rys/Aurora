@@ -1,10 +1,8 @@
 import json
-import os
 
-from PyQt6.QtCore import Qt, QTime, QSize
-from PyQt6.QtGui import QImage, QPixmap, QIcon, QColor
-from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QFrame, QScrollArea, QButtonGroup, QLineEdit, QTimeEdit
-from pyqttoast import Toast, ToastPreset
+from PyQt6.QtCore import QTime, QSize
+from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QScrollArea, QButtonGroup, QLineEdit, QTimeEdit
+from tzlocal import get_localzone
 
 from modules.dictionaries.loader import load_dictionary
 from modules.gui.device.tabs import WhiteModeTab, ColourModeTab
@@ -36,8 +34,6 @@ class EditScheduleWidget(QWidget):
         self.scroll_widget = QWidget()
         self.scroll_widget.setProperty("class", "borderless")
         self.scroll_area.setWidget(self.scroll_widget)
-
-        self.value_widget = None
 
         self.vlayout = QVBoxLayout(self.scroll_widget)
         self.vlayout.setContentsMargins(15, 0, 15, 0)
@@ -129,7 +125,7 @@ class EditScheduleWidget(QWidget):
 
                 value_layout.addWidget(on_button)
                 value_layout.addWidget(off_button)
-                
+
                 self.value_vlayout.addLayout(value_layout)
             elif action == "bright_value_v2":
                 self.value_label.setText("6. Enter values for brightness and temperature:")
@@ -241,15 +237,26 @@ class EditScheduleWidget(QWidget):
 
             self.devices_vlayout.addWidget(button)
 
+    def weekarray_to_string(self, weekarray):
+        days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        weekday_dict = {day: 0 for day in days}
+        for day in weekarray:
+            weekday_dict[day] = 1
+        return ''.join(str(weekday_dict[day]) for day in days)
+
     def save_changes(self):
         schedule_name = self.name_edit.text()
 
         qtime = self.time_edit.time()
+        time = f"{qtime.hour():02d}:{qtime.minute():02d}"
+        user_timezone = str(get_localzone())
 
         weekdays = []
         for button in self.weekdays_group.buttons():
             if button.isChecked():
                 weekdays.append(button.objectName())
+
+        weekdays_string = self.weekarray_to_string(weekdays)
 
         devices = []
         for button in self.devices_group.buttons():
@@ -290,4 +297,4 @@ class EditScheduleWidget(QWidget):
                     "v": v
                 }
 
-        print(self.schedule["id"], schedule_name, qtime, weekdays, devices, action, value)
+        print(self.schedule["id"], schedule_name, time, user_timezone, weekdays_string, devices, action, value)
