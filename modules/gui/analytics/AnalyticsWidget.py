@@ -137,7 +137,6 @@ class AnalyticsWidget(QWidget):
                 devices.append(button.objectName())
 
         if devices:
-            pass
             figure = self.tuya_analytics.create_plot(devices)
             plot = FigureCanvasQTAgg(figure)
             self.plotlayout.addWidget(plot)

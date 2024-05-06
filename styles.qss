@@ -278,3 +278,100 @@ QComboBox::down-arrow{
 #deselect_all:hover{
     image: url(":/analytics/deselect_all_hover.png") no-repeat center;
 }
+
+.weekday_button{
+    border: 0;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+#switch_led{
+    image: url(":/all_devices/device_off_gray.png") no-repeat center;
+}
+
+#switch_led:checked{
+    image: url(":/all_devices/device_on.png") no-repeat center;
+}
+
+#bright_value_v2{
+    image: url(":/device/brightness_off.png") no-repeat center;
+}
+
+#bright_value_v2:checked{
+    image: url(":/device/brightness.png") no-repeat center;
+}
+
+#temp_value_v2{
+    image: url(":/device/warmth_off.png") no-repeat center;
+}
+
+#temp_value_v2:checked{
+    image: url(":/device/warmth.png") no-repeat center;
+}
+
+#colour_data_v2{
+    image: url(":/device/colours_off.png") no-repeat center;
+}
+
+#colour_data_v2:checked{
+    image: url(":/device/colours.png") no-repeat center;
+}
+
+#Monday{
+    image: url(":/schedule/mon_off.png") no-repeat center;
+}
+
+#Monday:checked{
+    image: url(":/schedule/mon_on.png") no-repeat center;
+}
+
+#Tuesday{
+    image: url(":/schedule/tue_off.png") no-repeat center;
+}
+
+#Tuesday:checked{
+    image: url(":/schedule/tue_on.png") no-repeat center;
+}
+
+#Wednesday{
+    image: url(":/schedule/wed_off.png") no-repeat center;
+}
+
+#Wednesday:checked{
+    image: url(":/schedule/wed_on.png") no-repeat center;
+}
+
+#Thursday{
+    image: url(":/schedule/thu_off.png") no-repeat center;
+}
+
+#Thursday:checked{
+    image: url(":/schedule/thu_on.png") no-repeat center;
+}
+
+#Friday{
+    image: url(":/schedule/fri_off.png") no-repeat center;
+}
+
+#Friday:checked{
+    image: url(":/schedule/fri_on.png") no-repeat center;
+}
+
+#Saturday{
+    image: url(":/schedule/sat_off.png") no-repeat center;
+}
+
+#Saturday:checked{
+    image: url(":/schedule/sat_on.png") no-repeat center;
+}
+
+#Sunday{
+    image: url(":/schedule/sun_off.png") no-repeat center;
+}
+
+#Sunday:checked{
+    image: url(":/schedule/sun_on.png") no-repeat center;
+}

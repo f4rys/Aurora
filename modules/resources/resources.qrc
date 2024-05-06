@@ -4,6 +4,7 @@
     <qresource prefix="all_devices">
         <file alias="device_on.png">../../assets/device_on.png</file>
         <file alias="device_off.png">../../assets/device_off.png</file>
+        <file alias="device_off_gray.png">../../assets/device_off_gray.png</file>
         <file alias="device_offline.png">../../assets/device_offline.png</file>
         <file alias="bulb_icon_error.png">../../assets/bulb_icon_error.png</file>
     </qresource>
@@ -25,9 +26,12 @@
         <file alias="bulb_off.png">../../assets/bulb_off.png</file>
         <file alias="bulb_offline.png">../../assets/bulb_offline.png</file>
         <file alias="brightness.png">../../assets/brightness.png</file>
+        <file alias="brightness_off.png">../../assets/brightness_off.png</file>
         <file alias="colours.png">../../assets/colours.png</file>
+        <file alias="colours_off.png">../../assets/colours_off.png</file>
         <file alias="contrast.png">../../assets/contrast.png</file>
         <file alias="warmth.png">../../assets/warmth.png</file>
+        <file alias="warmth_off.png">../../assets/warmth_off.png</file>
     </qresource>
     <qresource prefix="navigation">
         <file alias="devices.png">../../assets/devices.png</file>

@@ -1,3 +1,6 @@
+import os
+import json
+
 from PyQt6.QtCore import Qt, QPropertyAnimation, QRect
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QFrame
@@ -69,6 +72,32 @@ class MainWindow(QMainWindow):
         else:
             self.show_credentials("", "", "", "")
 
+        self.actions()
+
+    def actions(self):
+        if os.path.exists("devices.json"):
+            with open("devices.json", "r", encoding="utf-8") as f:
+                devices = json.load(f)
+
+        if os.path.exists("modules/resources/actions/actions.json"):
+            os.remove("modules/resources/actions/actions.json")
+
+        actions = []
+
+        for device in devices:
+            device_actions = []
+            for action in device.get("mapping").values():
+                device_actions.append(action["code"])
+
+            actions.append({
+                device["id"] : {
+                    "actions" : device_actions
+                }
+            })
+
+        with open("modules/resources/actions/actions.json", "w", encoding="utf-8") as f:
+            json.dump(actions, f, indent=2)
+
     def hide_window(self):
         self.hide()
 
@@ -93,6 +122,11 @@ class MainWindow(QMainWindow):
 
     def restart(self):
         self.parent.restart_window()
+
+    def show_edit_schedule(self, schedule):
+        self.main_layout.stacked_widget.edit_schedule.init_ui(schedule)
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.edit_schedule))
+        self.action_bar_layout.set_label("Add/edit schedule")
 
     def show_device(self, device):
         self.reset_navigation_bar_buttons_checked()
