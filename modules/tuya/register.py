@@ -20,7 +20,7 @@ def register(api_key, api_secret, api_region, api_device_id):
     config['apiDeviceID'] = api_device_id
 
     json_object = json.dumps(config, indent=4)
-    with open(CONFIGFILE, "w") as outfile:
+    with open(CONFIGFILE, "w", encoding="utf-8") as outfile:
         outfile.write(json_object)
 
     cloud = tinytuya.Cloud( **config )
@@ -30,7 +30,7 @@ def register(api_key, api_secret, api_region, api_device_id):
 
     tuyadevices = cloud.getdevices(verbose=False, oldlist={}, include_map=True)
 
-    if type(tuyadevices) != list:
+    if isinstance(tuyadevices, list):
         return False
 
     for dev in tuyadevices:
@@ -60,7 +60,7 @@ def register(api_key, api_secret, api_region, api_device_id):
 
     output = json.dumps(tuyadevices, indent=4)
 
-    with open(DEVICEFILE, "w") as outfile:
+    with open(DEVICEFILE, "w", encoding="utf-8") as outfile:
         outfile.write(output)
 
     cloud.getdevices_raw['file'] = { # type: ignore
@@ -71,7 +71,7 @@ def register(api_key, api_secret, api_region, api_device_id):
         'tinytuya': tinytuya.version
     }
     try:
-        with open(RAWFILE, "w") as outfile:
+        with open(RAWFILE, "w", encoding="utf-8") as outfile:
             outfile.write(json.dumps(cloud.getdevices_raw, indent=4))
     except:
         return False
@@ -80,7 +80,7 @@ def register(api_key, api_secret, api_region, api_device_id):
 
 def check_credentials():
     try:
-        with open(CONFIGFILE) as f:
+        with open(CONFIGFILE, encoding="utf-8") as f:
             config = json.load(f)
             if (config['apiKey'] != '' and config['apiSecret'] != '' and config['apiRegion'] != ''):
                 return True

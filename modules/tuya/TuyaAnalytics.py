@@ -21,7 +21,7 @@ class TuyaAnalytics():
 
         try:
             self.cloud = tinytuya.Cloud(apiRegion=self.api_region, apiKey=self.api_key, apiDeviceID=self.api_device_id, apiSecret=self.api_secret)
-        except Exception:
+        except:
             self.cloud = None
 
     def get_devices_logs(self):
