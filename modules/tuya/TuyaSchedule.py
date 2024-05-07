@@ -1,4 +1,3 @@
-import os
 import json
 
 class TuyaSchedule():
@@ -16,7 +15,7 @@ class TuyaSchedule():
 
         schedules = {}
         try:
-            with open("modules/resources/schedules/schedules.json", "r", encoding="utf-8") as f:
+            with open("modules/resources/json/schedules.json", "r", encoding="utf-8") as f:
                 schedules = json.load(f)
         except FileNotFoundError:
             pass
@@ -35,7 +34,7 @@ class TuyaSchedule():
             ]
         }
 
-        with open("modules/resources/schedules/schedules.json", "w", encoding="utf-8") as f:
+        with open("modules/resources/json/schedules.json", "w", encoding="utf-8") as f:
             json.dump(schedules, f, indent=4)
 
     def save_to_cloud(self):

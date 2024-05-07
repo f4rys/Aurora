@@ -30,7 +30,7 @@ class TuyaAnalytics():
                 devices_data = json.load(devices_file)
 
             for device in devices_data:
-                filename = f'modules/resources/logs/{device["id"]}.json'
+                filename = f'modules/resources/json/logs/{device["id"]}.json'
                 logs = self.cloud.getdevicelog(device["id"], start=-7)
                 try:
                     with open(filename, 'w', encoding="utf-8") as logs_file:
@@ -45,7 +45,7 @@ class TuyaAnalytics():
         df = pd.DataFrame()
 
         for device in devices:
-            with open(f'modules/resources/logs/{device}.json', 'r', encoding="utf-8") as file:
+            with open(f'modules/resources/json/logs/{device}.json', 'r', encoding="utf-8") as file:
                 data = json.load(file)
             temp_df = pd.DataFrame(data["result"]["logs"])
 

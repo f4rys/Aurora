@@ -1,11 +1,10 @@
-import json
 import os
+import json
 import random
 import string
 
 from PyQt6.QtCore import Qt, QObject
-from PyQt6.QtGui import QImage, QPixmap, QIcon
-from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QFrame, QScrollArea, QButtonGroup
+from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QFrame, QScrollArea
 
 from modules.dictionaries.loader import load_dictionary
 from modules.gui.tools import clear_layout
@@ -44,8 +43,8 @@ class SchedulesWidget(QWidget):
                     widget.deleteLater()
                     break
 
-        if os.path.exists("modules/resources/schedules/schedules.json"):
-            with open("modules/resources/schedules/schedules.json", "r", encoding="utf-8") as f:
+        if os.path.exists("modules/resources/json/schedules.json"):
+            with open("modules/resources/json/schedules.json", "r", encoding="utf-8") as f:
                 schedules = json.load(f)
         else:
             schedules = {}
@@ -133,13 +132,13 @@ class SchedulesWidget(QWidget):
             else:
                 value = False
 
-            with open("modules/resources/schedules/schedules.json", 'r', encoding="utf-8") as f:
+            with open("modules/resources/json/schedules.json", 'r', encoding="utf-8") as f:
                 schedules = json.load(f)
 
             if schedule_id in schedules:
                 schedules[schedule_id]["active"] = value
 
-            with open("modules/resources/schedules/schedules.json", 'w', encoding="utf-8") as f:
+            with open("modules/resources/json/schedules.json", 'w', encoding="utf-8") as f:
                 json.dump(schedules, f, indent=4)
 
     def add_schedule(self):
@@ -157,13 +156,13 @@ class SchedulesWidget(QWidget):
 
     def delete_schedule(self, schedule_id):
         try:
-            with open("modules/resources/schedules/schedules.json", 'r', encoding="utf-8") as f:
+            with open("modules/resources/json/schedules.json", 'r', encoding="utf-8") as f:
                 schedules = json.load(f)
 
             if schedule_id in schedules:
                 del schedules[schedule_id]
 
-            with open("modules/resources/schedules/schedules.json", 'w', encoding="utf-8") as f:
+            with open("modules/resources/json/schedules.json", 'w', encoding="utf-8") as f:
                 json.dump(schedules, f, indent=2)
         except:
             pass

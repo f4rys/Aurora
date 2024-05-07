@@ -79,8 +79,8 @@ class MainWindow(QMainWindow):
             with open("devices.json", "r", encoding="utf-8") as f:
                 devices = json.load(f)
 
-        if os.path.exists("modules/resources/actions/actions.json"):
-            os.remove("modules/resources/actions/actions.json")
+        if os.path.exists("modules/resources/json/actions.json"):
+            os.remove("modules/resources/json/actions.json")
 
         actions = []
 
@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
                 }
             })
 
-        with open("modules/resources/actions/actions.json", "w", encoding="utf-8") as f:
+        with open("modules/resources/json/actions.json", "w", encoding="utf-8") as f:
             json.dump(actions, f, indent=2)
 
     def hide_window(self):

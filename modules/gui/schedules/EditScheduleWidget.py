@@ -1,6 +1,6 @@
 import json
 
-from PyQt6.QtCore import QTime, QSize
+from PyQt6.QtCore import QTime
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QScrollArea, QButtonGroup, QLineEdit, QTimeEdit
 from tzlocal import get_localzone
 
@@ -135,7 +135,7 @@ class EditScheduleWidget(QWidget):
         self.time_edit.setTime(QTime(hours, minutes))
 
     def load_available_actions(self, ids):
-        with open("modules/resources/actions/actions.json", "r", encoding="utf-8") as f:
+        with open("modules/resources/json/actions.json", "r", encoding="utf-8") as f:
             data = json.load(f)
 
         try:
@@ -273,7 +273,7 @@ class EditScheduleWidget(QWidget):
                 elif button_name == "OFF":
                     value = False
         elif action == "bright_value_v2":
-            if hasattr(self.value_widget, "brightness_slider") and hasattr(self.value_widget, "temperature_slider"):
+            if isinstance(self.value_widget, WhiteModeTab):
                 brightness = self.value_widget.brightness_slider.value()
                 temperature = self.value_widget.temperature_slider.value()
                 value = {
@@ -281,7 +281,7 @@ class EditScheduleWidget(QWidget):
                     "temperature": temperature
                 }
         elif action == "colour_data_v2":
-            if hasattr(self.value_widget, "hue_slider") and hasattr(self.value_widget, "saturation_slider") and hasattr(self.value_widget, "value_slider"):
+            if isinstance(self.value_widget, ColourModeTab):
                 h = self.value_widget.hue_slider.value()
                 s = self.value_widget.saturation_slider.value()
                 v = self.value_widget.value_slider.value()
