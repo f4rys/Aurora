@@ -123,8 +123,8 @@ class MainWindow(QMainWindow):
     def restart(self):
         self.parent.restart_window()
 
-    def show_edit_schedule(self, schedule):
-        self.main_layout.stacked_widget.edit_schedule.init_ui(schedule)
+    def show_edit_schedule(self, schedule_id, schedule):
+        self.main_layout.stacked_widget.edit_schedule.init_ui(schedule_id, schedule)
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.edit_schedule))
         self.action_bar_layout.set_label("Add/edit schedule")
 
@@ -149,6 +149,7 @@ class MainWindow(QMainWindow):
     def show_schedules(self):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.schedules))
         self.action_bar_layout.set_label(self.dictionary["schedules_title"])
+        self.main_layout.stacked_widget.schedules.create_list()
 
     def show_help(self):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.help))

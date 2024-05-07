@@ -286,6 +286,8 @@ QComboBox::down-arrow{
     margin-right: 0;
     margin-bottom: 0;
     padding: 0;
+    height: 27%;
+    width: 27%;
 }
 
 #switch_led{
@@ -374,4 +376,12 @@ QComboBox::down-arrow{
 
 #Sunday:checked{
     image: url(":/schedule/sun_on.png") no-repeat center;
+}
+
+#active_button{
+    image: url(":/misc/off.png") no-repeat center;
+}
+
+#active_button:checked{
+    image: url(":/misc/on.png") no-repeat center;
 }

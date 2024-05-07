@@ -1,7 +1,9 @@
 import json
 import os
+import random
+import string
 
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QObject
 from PyQt6.QtGui import QImage, QPixmap, QIcon
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QFrame, QScrollArea, QButtonGroup
 
@@ -14,8 +16,6 @@ class SchedulesWidget(QWidget):
 
         self.parent = parent
         self.dictionary = load_dictionary()
-
-        self.active_buttons_group = QButtonGroup()
 
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
@@ -32,18 +32,25 @@ class SchedulesWidget(QWidget):
         self.vlayout = QVBoxLayout(self.scroll_widget)
         self.vlayout.setContentsMargins(15, 0, 15, 0)
 
-        self.create_list()
-
     def create_list(self):
         clear_layout(self.vlayout)
+
+        for i in range(self.main_layout.count()):
+            item = self.main_layout.itemAt(i)
+            if item:
+                widget = item.widget()
+                if isinstance(widget, QObject) and widget.objectName() == "add_schedule_button":
+                    self.main_layout.removeItem(item)
+                    widget.deleteLater()
+                    break
 
         if os.path.exists("modules/resources/schedules/schedules.json"):
             with open("modules/resources/schedules/schedules.json", "r", encoding="utf-8") as f:
                 schedules = json.load(f)
         else:
-            schedules = []
+            schedules = {}
 
-        for schedule in schedules:
+        for schedule_id, schedule in schedules.items():
             frame = QFrame()
             frame.setFrameShadow(QFrame.Shadow.Plain)
             frame.setFrameShape(QFrame.Shape.Box)
@@ -55,27 +62,28 @@ class SchedulesWidget(QWidget):
             second_row_layout = QHBoxLayout()
 
             # First row
-            name_label = QLabel(schedule['name'])
+            name_label = QLabel(schedule['alias_name'])
             time_label = QLabel(schedule['time'])
 
             active_button = QPushButton()
             active_button.setProperty("class", "borderless")
-            active_button.setObjectName(schedule["id"])
-            self.active_buttons_group.addButton(active_button)
+            active_button.setObjectName("active_button")
+            active_button.setCheckable(True)
 
             if schedule["active"]:
-                active_button.setProperty("state", "on")
-            else:
-                active_button.setProperty("state", "off")
+                active_button.setChecked(True)
 
-            self.switch_schedule_state(schedule["id"])
-
-            active_button.clicked.connect(lambda checked, id=schedule["id"]: self.switch_schedule_state(id))
+            active_button.clicked.connect(lambda checked, schedule_id=schedule_id, button=active_button: self.switch_schedule_state(button, schedule_id))
 
             edit_button = QPushButton()
             edit_button.setProperty("class", "action_bar_button")
             edit_button.setObjectName("edit_button")
-            edit_button.clicked.connect(lambda checked, schedule=schedule: self.parent.parent.parent.show_edit_schedule(schedule))
+            edit_button.clicked.connect(lambda checked, schedule_id=schedule_id, schedule=schedule: self.parent.parent.parent.show_edit_schedule(schedule_id, schedule))
+
+            delete_button = QPushButton()
+            delete_button.setProperty("class", "action_bar_button")
+            delete_button.setObjectName("exit_button")
+            delete_button.clicked.connect(lambda checked, schedule_id=schedule_id: self.delete_schedule(schedule_id))
 
             spacer_item = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -84,21 +92,21 @@ class SchedulesWidget(QWidget):
             first_row_layout.addWidget(time_label)
             first_row_layout.addWidget(active_button)
             first_row_layout.addWidget(edit_button)
+            first_row_layout.addWidget(delete_button)
 
-            weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-            for day in weekdays:
-                week_day_label = QLabel()
-                if day in schedule['days']:
-                    pixmap = QPixmap.fromImage(QImage(self.get_weekday_icon(day, True)))
-
-                    pixmap = pixmap.scaled(25, 25)
-                    week_day_label.setPixmap(pixmap)
+            for i, day in enumerate(weekdays):
+                week_day_label = QPushButton()
+                week_day_label.setObjectName(day)
+                week_day_label.setDisabled(True)
+                week_day_label.setProperty("class", "weekday_button")
+                week_day_label.setCheckable(True)
+                state = schedule["loops"][i] == "1"
+                if state:
+                    week_day_label.setChecked(True)
                 else:
-                    pixmap = QPixmap.fromImage(QImage(self.get_weekday_icon(day, False)))
-
-                    pixmap = pixmap.scaled(25, 25)
-                    week_day_label.setPixmap(pixmap)
+                    week_day_label.setChecked(False)
 
                 second_row_layout.addWidget(week_day_label)
                 second_row_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
@@ -115,70 +123,49 @@ class SchedulesWidget(QWidget):
         self.add_schedule_button = QPushButton("Add schedule")
         self.add_schedule_button.clicked.connect(self.add_schedule)
         self.add_schedule_button.setProperty("class", "device_button")
+        self.add_schedule_button.setObjectName("add_schedule_button")
         self.main_layout.addWidget(self.add_schedule_button, alignment=Qt.AlignmentFlag.AlignBottom)
 
-    def switch_schedule_state(self, button_id):
-        active_button = None
+    def switch_schedule_state(self, button, schedule_id):
+        if isinstance(button, QPushButton):
+            if button.isChecked():
+                value = True
+            else:
+                value = False
 
-        for button in self.active_buttons_group.buttons():
-            if button.objectName() == button_id:
-                active_button = button
+            with open("modules/resources/schedules/schedules.json", 'r', encoding="utf-8") as f:
+                schedules = json.load(f)
 
-        if active_button is not None:
-            if active_button.property("state") == "on":
-                active_button.setIcon(QIcon(":/misc/off.png"))
-                active_button.setProperty("state", "off")
-            elif active_button.property("state") == "off":
-                active_button.setIcon(QIcon(":/misc/on.png"))
-                active_button.setProperty("state", "on")
+            if schedule_id in schedules:
+                schedules[schedule_id]["active"] = value
+
+            with open("modules/resources/schedules/schedules.json", 'w', encoding="utf-8") as f:
+                json.dump(schedules, f, indent=4)
 
     def add_schedule(self):
+        schedule_id = ''.join(random.choices(string.ascii_letters + string.digits, k=15))
         empty_schedule =     {
-        "id": "",
-        "name": "",
+        "alias_name": "",
         "time": "00:00",
-        "days": [],
+        "loops": "0000000",
         "devices": [],
-        "dps": "",
+        "code": "",
         "value": None,
-        "active": False
         }
 
-        self.parent.parent.parent.show_edit_schedule(empty_schedule)
+        self.parent.parent.parent.show_edit_schedule(schedule_id, empty_schedule)
 
-    def get_weekday_icon(self, weekday, is_on):
-        if weekday == "Monday":
-            if is_on:
-                return ":/schedule/mon_on.png"
-            else:
-                return ":/schedule/mon_off.png"
-        elif weekday == "Tuesday":
-            if is_on:
-                return ":/schedule/tue_on.png"
-            else:
-                return ":/schedule/tue_off.png"
-        elif weekday == "Wednesday":
-            if is_on:
-                return ":/schedule/wed_on.png"
-            else:
-                return ":/schedule/wed_off.png"
-        elif weekday == "Thursday":
-            if is_on:
-                return ":/schedule/thu_on.png"
-            else:
-                return ":/schedule/thu_off.png"
-        elif weekday == "Friday":
-            if is_on:
-                return ":/schedule/fri_on.png"
-            else:
-                return ":/schedule/fri_off.png"
-        elif weekday == "Saturday":
-            if is_on:
-                return ":/schedule/sat_on.png"
-            else:
-                return ":/schedule/sat_off.png"
-        elif weekday == "Sunday":
-            if is_on:
-                return ":/schedule/sun_on.png"
-            else:
-                return ":/schedule/sun_off.png"
+    def delete_schedule(self, schedule_id):
+        try:
+            with open("modules/resources/schedules/schedules.json", 'r', encoding="utf-8") as f:
+                schedules = json.load(f)
+
+            if schedule_id in schedules:
+                del schedules[schedule_id]
+
+            with open("modules/resources/schedules/schedules.json", 'w', encoding="utf-8") as f:
+                json.dump(schedules, f, indent=2)
+        except:
+            pass
+
+        self.create_list()

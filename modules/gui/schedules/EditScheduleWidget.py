@@ -7,6 +7,7 @@ from tzlocal import get_localzone
 from modules.dictionaries.loader import load_dictionary
 from modules.gui.device.tabs import WhiteModeTab, ColourModeTab
 from modules.gui.tools import clear_layout
+from modules.tuya import TuyaSchedule
 
 class EditScheduleWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
@@ -39,14 +40,15 @@ class EditScheduleWidget(QWidget):
         self.vlayout = QVBoxLayout(self.scroll_widget)
         self.vlayout.setContentsMargins(15, 0, 15, 0)
 
-    def init_ui(self, schedule):
+    def init_ui(self, schedule_id, schedule):
         clear_layout(self.vlayout)
 
+        self.schedule_id = schedule_id
         self.schedule = schedule
 
         self.name_edit_label = QLabel("1. Set schedule name:")
         self.name_edit = QLineEdit()
-        self.name_edit.setText(self.schedule["name"])
+        self.name_edit.setText(self.schedule["alias_name"])
         self.name_edit.setProperty("class", "credentials_input")
 
         self.time_edit_label = QLabel("2. Set time:")
@@ -196,14 +198,15 @@ class EditScheduleWidget(QWidget):
         self.actions_hlayout.addItem(spacer)
 
     def load_weekdays(self, schedule):
-        for day in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]:
-            week_day_button = QPushButton()
-            week_day_button.setProperty("class", "weekday_button")
-            week_day_button.setObjectName(day)
-            week_day_button.setCheckable(True)
-            week_day_button.setIconSize(QSize(27, 27))
+        weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-            if day in schedule['days']:
+        for i, day in enumerate(weekdays):
+            week_day_button = QPushButton()
+            week_day_button.setObjectName(day)
+            week_day_button.setProperty("class", "weekday_button")
+            week_day_button.setCheckable(True)
+            state = schedule["loops"][i] == "1"
+            if state:
                 week_day_button.setChecked(True)
             else:
                 week_day_button.setChecked(False)
@@ -277,7 +280,6 @@ class EditScheduleWidget(QWidget):
                     "brightness": brightness,
                     "temperature": temperature
                 }
-
         elif action == "colour_data_v2":
             if hasattr(self.value_widget, "hue_slider") and hasattr(self.value_widget, "saturation_slider") and hasattr(self.value_widget, "value_slider"):
                 h = self.value_widget.hue_slider.value()
@@ -289,4 +291,7 @@ class EditScheduleWidget(QWidget):
                     "v": v
                 }
 
-        print(self.schedule["id"], schedule_name, time, user_timezone, weekdays_string, devices, action, value)
+        schedule = TuyaSchedule(self.schedule_id, schedule_name, time, user_timezone, weekdays_string, devices, action, value)
+        schedule.save_to_json()
+
+        self.parent.parent.parent.show_schedules()
