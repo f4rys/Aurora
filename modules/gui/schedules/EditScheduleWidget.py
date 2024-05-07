@@ -6,6 +6,7 @@ from tzlocal import get_localzone
 
 from modules.dictionaries.loader import load_dictionary
 from modules.gui.device.tabs import WhiteModeTab, ColourModeTab
+from modules.gui.tools import clear_layout
 
 class EditScheduleWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
@@ -38,17 +39,8 @@ class EditScheduleWidget(QWidget):
         self.vlayout = QVBoxLayout(self.scroll_widget)
         self.vlayout.setContentsMargins(15, 0, 15, 0)
 
-    def clear_layout(self, layout):
-        if layout is not None:
-            while layout.count():
-                child = layout.takeAt(0)
-                if child.widget() is not None:
-                    child.widget().deleteLater()
-                elif child.layout() is not None:
-                    self.clear_layout(child.layout())
-
     def init_ui(self, schedule):
-        self.clear_layout(self.vlayout)
+        clear_layout(self.vlayout)
 
         self.schedule = schedule
 
@@ -97,7 +89,7 @@ class EditScheduleWidget(QWidget):
         self.vlayout.addWidget(self.save_button)
 
     def create_value_layout(self):
-        self.clear_layout(self.value_vlayout)
+        clear_layout(self.value_vlayout)
 
         action = self.actions_group.button(self.actions_group.checkedId())
         if action is not None:
@@ -156,7 +148,7 @@ class EditScheduleWidget(QWidget):
             return []
 
     def create_actions_list(self):
-        self.clear_layout(self.actions_hlayout)
+        clear_layout(self.actions_hlayout)
 
         ids = []
 

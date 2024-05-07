@@ -6,6 +6,7 @@ from PyQt6.QtGui import QImage, QPixmap, QIcon
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QFrame, QScrollArea, QButtonGroup
 
 from modules.dictionaries.loader import load_dictionary
+from modules.gui.tools import clear_layout
 
 class SchedulesWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
@@ -33,17 +34,8 @@ class SchedulesWidget(QWidget):
 
         self.create_list()
 
-    def clear_layout(self, layout):
-        if layout is not None:
-            while layout.count():
-                child = layout.takeAt(0)
-                if child.widget() is not None:
-                    child.widget().deleteLater()
-                elif child.layout() is not None:
-                    self.clear_layout(child.layout())
-
     def create_list(self):
-        self.clear_layout(self.vlayout)
+        clear_layout(self.vlayout)
 
         if os.path.exists("modules/resources/schedules/schedules.json"):
             with open("modules/resources/schedules/schedules.json", "r", encoding="utf-8") as f:

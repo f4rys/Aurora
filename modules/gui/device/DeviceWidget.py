@@ -3,22 +3,13 @@ from PyQt6.QtWidgets import QWidget, QTabWidget, QVBoxLayout
 from modules.gui.device import BulbSwitchButton
 from modules.gui.device.tabs import WhiteModeTab, ColourModeTab, CountdownTab
 from modules.dictionaries.loader import load_dictionary
-
+from modules.gui.tools import clear_layout
 
 class DeviceWidget(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.dictionary = load_dictionary()
         self.vlayout = QVBoxLayout(self)
-
-    def clear_layout(self, layout):
-        if layout is not None:
-            while layout.count():
-                child = layout.takeAt(0)
-                if child.widget() is not None:
-                    child.widget().deleteLater()
-                elif child.layout() is not None:
-                    self.clear_layout(child.layout())
 
     def switch(self):
         if self.device.is_on():
@@ -35,7 +26,7 @@ class DeviceWidget(QWidget):
             self.bulb_button.set_icon(False)
 
     def init_ui(self, device):
-        self.clear_layout(self.vlayout)
+        clear_layout(self.vlayout)
 
         self.vlayout.setContentsMargins(0, 0, 0, 0)
 

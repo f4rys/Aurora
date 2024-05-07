@@ -6,7 +6,7 @@ from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 
 from modules.tuya import TuyaAnalytics
 from modules.dictionaries import load_dictionary
-
+from modules.gui.tools import clear_layout
 
 class AnalyticsWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
@@ -119,17 +119,8 @@ class AnalyticsWidget(QWidget):
         self.tuya_analytics.get_devices_logs()
         self.select_all()
 
-    def clear_layout(self, layout):
-        if layout is not None:
-            while layout.count():
-                child = layout.takeAt(0)
-                if child.widget() is not None:
-                    child.widget().deleteLater()
-                elif child.layout() is not None:
-                    self.clear_layout(child.layout())
-
     def update_plot(self):
-        self.clear_layout(self.plotlayout)
+        clear_layout(self.plotlayout)
 
         devices = []
         for button in self.button_group.buttons():

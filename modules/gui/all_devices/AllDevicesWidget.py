@@ -7,6 +7,8 @@ from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpac
 from modules.dictionaries.loader import load_dictionary
 from modules.threads import InitiateTuyaManagerThread
 
+from modules.gui.tools import clear_layout
+
 class AllDevicesWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -21,17 +23,8 @@ class AllDevicesWidget(QWidget):
     def open_device(self, device):
         self.parent.parent.parent.show_device(device)
 
-    def clear_layout(self, layout):
-        if layout is not None:
-            while layout.count():
-                child = layout.takeAt(0)
-                if child.widget() is not None:
-                    child.widget().deleteLater()
-                elif child.layout() is not None:
-                    self.clear_layout(child.layout())
-
     def create_list(self):
-        self.clear_layout(self.vlayout)
+        clear_layout(self.vlayout)
         self.add_reload_button(self.dictionary["reload_in_progress"])
         self.reload_button.setEnabled(False)
 
@@ -115,7 +108,7 @@ class AllDevicesWidget(QWidget):
         return hlayout
 
     def update_ui(self, manager):
-        self.clear_layout(self.vlayout)
+        clear_layout(self.vlayout)
 
         self.manager = manager
 
