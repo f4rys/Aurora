@@ -5,33 +5,21 @@ import tinytuya
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from modules.tuya import TuyaCloud
+
 class TuyaAnalytics():
     def __init__(self):
 
-        if os.path.exists("tinytuya.json"):
-            with open("tinytuya.json", "r", encoding="utf-8") as f:
-                credentials = json.load(f)
-        else:
-            credentials = {'apiKey': '', 'apiSecret': '', 'apiRegion': '', 'apiDeviceID': ''}
-
-        self.api_key = credentials["apiKey"]
-        self.api_secret = credentials["apiSecret"]
-        self.api_region = credentials["apiRegion"]
-        self.api_device_id = credentials["apiDeviceID"]
-
-        try:
-            self.cloud = tinytuya.Cloud(apiRegion=self.api_region, apiKey=self.api_key, apiDeviceID=self.api_device_id, apiSecret=self.api_secret)
-        except:
-            self.cloud = None
+        self.tuya_cloud = TuyaCloud()
 
     def get_devices_logs(self):
-        if self.cloud:
+        if self.tuya_cloud.cloud is not None:
             with open("devices.json", encoding="utf-8") as devices_file:
                 devices_data = json.load(devices_file)
 
             for device in devices_data:
                 filename = f'modules/resources/json/logs/{device["id"]}.json'
-                logs = self.cloud.getdevicelog(device["id"], start=-7)
+                logs = self.tuya_cloud.cloud.getdevicelog(device["id"], start=-7)
                 try:
                     with open(filename, 'w', encoding="utf-8") as logs_file:
                         json.dump(logs, logs_file)

@@ -1,5 +1,7 @@
 import json
 
+from modules.tuya import TuyaCloud
+
 class TuyaSchedule():
     def __init__(self, schedule_id, alias_name, time, timezone_id, loops, devices, code, value):
         self.id = schedule_id
@@ -38,10 +40,29 @@ class TuyaSchedule():
             json.dump(schedules, f, indent=4)
 
     def save_to_cloud(self):
-        pass
+        tuya_cloud = TuyaCloud()
+        schedule = {
+            "alias_name": self.alias_name,
+            "time": self.time,
+            "timezone_id": self.timezone_id,
+            "loops": self.loops,
+            "functions": [{   
+                "code": self.code, 
+                "value": self.value
+                }
+            ]
+        }
 
-    def remove_from_json(self):
-        pass
+        for device in self.devices:
+            if tuya_cloud.cloud is not None:
+                response = tuya_cloud.cloud.cloudrequest(url="/v2.0/cloud/timer/device/bff625311501591637uftv", action="GET")
+                print(response)
 
     def remove_from_cloud(self):
+        pass
+
+    def modify_on_cloud(self):
+        pass
+
+    def disable_on_cloud(self):
         pass
