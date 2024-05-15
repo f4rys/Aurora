@@ -1,15 +1,13 @@
 import json
 import os
 
-import tinytuya
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from modules.tuya import TuyaCloud
+from modules.tuya.TuyaCloud import TuyaCloud
 
 class TuyaAnalytics():
     def __init__(self):
-
         self.tuya_cloud = TuyaCloud()
 
     def get_devices_logs(self):

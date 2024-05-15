@@ -1,6 +1,6 @@
 import json
 
-from modules.tuya import TuyaCloud
+from modules.tuya.TuyaCloud import TuyaCloud
 
 class TuyaSchedule():
     def __init__(self, schedule_id, alias_name, time, timezone_id, loops, devices, code, value):
@@ -55,7 +55,7 @@ class TuyaSchedule():
 
         for device in self.devices:
             if tuya_cloud.cloud is not None:
-                response = tuya_cloud.cloud.cloudrequest(url="/v2.0/cloud/timer/device/bff625311501591637uftv", action="GET")
+                response = tuya_cloud.cloud.cloudrequest(url=f"/v2.0/cloud/timer/device/{device}", action="GET")
                 print(response)
 
     def remove_from_cloud(self):
