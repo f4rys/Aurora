@@ -6,6 +6,7 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QFrame
 
 from modules.gui import NavigationBarLayout, MainLayout, ActionBarLayout
+from modules.tuya import TuyaAnalytics
 from modules.tuya import check_credentials
 from modules.resources import resources
 from modules.dictionaries.loader import load_dictionary
@@ -19,6 +20,9 @@ class MainWindow(QMainWindow):
 
         self.parent = parent
         self.animation = QPropertyAnimation(self, b"geometry")
+
+        self.tuya_analytics = TuyaAnalytics()
+        self.tuya_analytics.get_devices_logs()
 
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.SplashScreen)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
@@ -123,8 +127,8 @@ class MainWindow(QMainWindow):
     def restart(self):
         self.parent.restart_window()
 
-    def show_edit_schedule(self, schedule_id, schedule):
-        self.main_layout.stacked_widget.edit_schedule.init_ui(schedule_id, schedule)
+    def show_edit_schedule(self, schedule, new):
+        self.main_layout.stacked_widget.edit_schedule.init_ui(schedule, new)
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.edit_schedule))
         self.action_bar_layout.set_label("Add/edit schedule")
 

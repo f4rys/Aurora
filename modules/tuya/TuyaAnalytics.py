@@ -17,15 +17,24 @@ class TuyaAnalytics():
 
             for device in devices_data:
                 filename = f'modules/resources/json/logs/{device["id"]}.json'
-                logs = self.tuya_cloud.cloud.getdevicelog(device["id"], start=-7)
-                try:
-                    with open(filename, 'w', encoding="utf-8") as logs_file:
-                        json.dump(logs, logs_file)
 
+                try:
+                    with open(filename, 'r', encoding="utf-8") as logs_file:
+                        existing_logs = json.load(logs_file)
                 except FileNotFoundError:
-                    os.makedirs(os.path.dirname(filename), exist_ok=True)
-                    with open(filename, 'w', encoding="utf-8") as logs_file:
-                        json.dump(logs, logs_file)
+                    existing_logs = []
+
+                new_logs = self.tuya_cloud.cloud.getdevicelog(device["id"], start=-7)['result']['logs']
+
+                existing_event_times = set(log["event_time"] for log in existing_logs)
+                filtered_logs = [log for log in new_logs if log["event_time"] not in existing_event_times]
+
+                all_logs = existing_logs + filtered_logs
+
+                os.makedirs(os.path.dirname(filename), exist_ok=True)
+
+                with open(filename, 'w', encoding="utf-8") as logs_file:
+                    json.dump(all_logs, logs_file) 
 
     def create_plot(self, devices):
         df = pd.DataFrame()
@@ -33,7 +42,7 @@ class TuyaAnalytics():
         for device in devices:
             with open(f'modules/resources/json/logs/{device}.json', 'r', encoding="utf-8") as file:
                 data = json.load(file)
-            temp_df = pd.DataFrame(data["result"]["logs"])
+            temp_df = pd.DataFrame(data)
 
             df = pd.concat([temp_df, df])
 

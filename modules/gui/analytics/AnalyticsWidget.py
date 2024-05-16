@@ -56,11 +56,6 @@ class AnalyticsWidget(QWidget):
         self.deselect_all_button.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.deselect_all_button.clicked.connect(self.deselect_all)
 
-        self.pull_logs_button = QPushButton("Pull logs from last 7 days")
-        self.pull_logs_button.setProperty("class", "device_button")
-        self.pull_logs_button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
-        self.pull_logs_button.clicked.connect(self.pull_logs)
-
         self.line = QFrame()
         self.line.setFrameShape(QFrame.Shape.HLine)
         self.line.setFrameShadow(QFrame.Shadow.Sunken)
@@ -73,8 +68,7 @@ class AnalyticsWidget(QWidget):
         self.load_devices()
 
         self.glayout.addWidget(self.title_label, 0, 0, 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
-        self.glayout.addLayout(self.plotlayout, 1, 0, 3, 2, alignment=Qt.AlignmentFlag.AlignCenter)
-        self.glayout.addWidget(self.pull_logs_button, 4, 0, 1, 2)
+        self.glayout.addLayout(self.plotlayout, 1, 0, 4, 2, alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.glayout.addWidget(self.scroll_area, 0, 2, 4, 2)
         self.glayout.addWidget(self.select_all_button, 4, 2, 1, 1)
@@ -114,10 +108,6 @@ class AnalyticsWidget(QWidget):
         for button in self.button_group.buttons():
             button.setChecked(False)
             self.update_plot()
-
-    def pull_logs(self):
-        self.tuya_analytics.get_devices_logs()
-        self.select_all()
 
     def update_plot(self):
         clear_layout(self.plotlayout)
