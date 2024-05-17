@@ -1,43 +1,15 @@
-import json
-
 from modules.tuya.TuyaCloud import TuyaCloud
 
 class TuyaSchedule():
-    def __init__(self, schedule_id, alias_name, time, timezone_id, loops, devices, code, value):
-        self.id = schedule_id
+    def __init__(self, alias_name, enable, time, timezone_id, loops, devices_timers, code, value):
         self.alias_name = alias_name
+        self.enable = enable
         self.time = time
         self.timezone_id = timezone_id
         self.loops = loops
-        self.devices = devices
+        self.devices_timers = devices_timers
         self.code = code
         self.value = value
-
-    def save_to_json(self):
-
-        schedules = {}
-        try:
-            with open("modules/resources/json/schedules.json", "r", encoding="utf-8") as f:
-                schedules = json.load(f)
-        except FileNotFoundError:
-            pass
-
-        schedules[self.id] = {
-            "alias_name": self.alias_name,
-            "time": self.time,
-            "timezone_id": self.timezone_id,
-            "loops": self.loops,
-            "devices": self.devices,
-            "active": True,
-            "functions": [{   
-                "code": self.code, 
-                "value": self.value
-                }
-            ]
-        }
-
-        with open("modules/resources/json/schedules.json", "w", encoding="utf-8") as f:
-            json.dump(schedules, f, indent=4)
 
     def save_to_cloud(self):
         tuya_cloud = TuyaCloud()
@@ -53,16 +25,52 @@ class TuyaSchedule():
             ]
         }
 
-        for device in self.devices:
+        for device in self.devices_timers.keys():
             if tuya_cloud.cloud is not None:
-                response = tuya_cloud.cloud.cloudrequest(url=f"/v2.0/cloud/timer/device/{device}", action="GET")
-                print(response)
+                response = tuya_cloud.cloud.cloudrequest(url=f"/v2.0/cloud/timer/device/{device}", action="POST", post=schedule)
+                return response
+
 
     def remove_from_cloud(self):
-        pass
+        tuya_cloud = TuyaCloud()
+        for device, timer in self.devices_timers.items():
+            if tuya_cloud.cloud is not None:
+                token = tuya_cloud.cloud.token
+                response = tuya_cloud.request_on_cloud(url=f"/v2.0/cloud/timer/device/{device}/batch", action="DELETE", body={"timer_ids": timer}, token=token)
+                return response
 
     def modify_on_cloud(self):
-        pass
+        tuya_cloud = TuyaCloud()
 
-    def disable_on_cloud(self):
-        pass
+        for device, timer in self.devices_timers.items():
+            if tuya_cloud.cloud is not None:
+
+                schedule = {
+                    "timer_id": timer,
+                    "alias_name": self.alias_name,
+                    "time": self.time,
+                    "timezone_id": self.timezone_id,
+                    "loops": self.loops,
+                    "functions": [{   
+                        "code": self.code, 
+                        "value": self.value
+                        }
+                    ]
+                }
+
+                token = tuya_cloud.cloud.token
+                response = tuya_cloud.request_on_cloud(url=f"/v2.0/cloud/timer/device/{device}", action="PUT", body=schedule, token=token)
+                return response
+
+    def change_state_on_cloud(self, state):
+        tuya_cloud = TuyaCloud()
+        for device, timer in self.devices_timers.items():
+            body = {
+                "timer_id": timer,
+                "enable": state
+            }
+
+            if tuya_cloud.cloud is not None:
+                token = tuya_cloud.cloud.token
+                response = tuya_cloud.request_on_cloud(url=f"/v2.0/cloud/timer/device/{device}/state", action="PUT", token=token, body=body)
+                return response

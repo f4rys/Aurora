@@ -1,13 +1,11 @@
-import os
-import json
-import random
-import string
+import requests
 
 from PyQt6.QtCore import Qt, QObject
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QFrame, QScrollArea
 
+from modules.tuya import TuyaSchedulesManager
 from modules.dictionaries.loader import load_dictionary
-from modules.gui.tools import clear_layout
+from modules.gui.tools import clear_layout, show_error_toast
 
 class SchedulesWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
@@ -43,13 +41,9 @@ class SchedulesWidget(QWidget):
                     widget.deleteLater()
                     break
 
-        if os.path.exists("modules/resources/json/schedules.json"):
-            with open("modules/resources/json/schedules.json", "r", encoding="utf-8") as f:
-                schedules = json.load(f)
-        else:
-            schedules = {}
+        self.schedules_manager = TuyaSchedulesManager()
 
-        for schedule_id, schedule in schedules.items():
+        for schedule in self.schedules_manager.schedules:
             frame = QFrame()
             frame.setFrameShadow(QFrame.Shadow.Plain)
             frame.setFrameShape(QFrame.Shape.Box)
@@ -58,31 +52,33 @@ class SchedulesWidget(QWidget):
             schedule_vlayout = QVBoxLayout(frame)
 
             first_row_layout = QHBoxLayout()
+            first_row_layout.setObjectName("first_row")
             second_row_layout = QHBoxLayout()
+            second_row_layout.setObjectName("second_row")
 
             # First row
-            name_label = QLabel(schedule['alias_name'])
-            time_label = QLabel(schedule['time'])
+            name_label = QLabel(schedule.alias_name)
+            time_label = QLabel(schedule.time)
 
             active_button = QPushButton()
             active_button.setProperty("class", "borderless")
             active_button.setObjectName("active_button")
             active_button.setCheckable(True)
 
-            if schedule["active"]:
+            if schedule.enable:
                 active_button.setChecked(True)
 
-            active_button.clicked.connect(lambda checked, schedule_id=schedule_id, button=active_button: self.switch_schedule_state(button, schedule_id))
+            active_button.clicked.connect(lambda checked, schedule=schedule, button=active_button: self.switch_schedule_state(button, schedule))
 
             edit_button = QPushButton()
             edit_button.setProperty("class", "action_bar_button")
             edit_button.setObjectName("edit_button")
-            edit_button.clicked.connect(lambda checked, schedule_id=schedule_id, schedule=schedule: self.parent.parent.parent.show_edit_schedule(schedule_id, schedule))
+            edit_button.clicked.connect(lambda checked, schedule=schedule: self.parent.parent.parent.show_edit_schedule(schedule, False))
 
             delete_button = QPushButton()
             delete_button.setProperty("class", "action_bar_button")
             delete_button.setObjectName("exit_button")
-            delete_button.clicked.connect(lambda checked, schedule_id=schedule_id: self.delete_schedule(schedule_id))
+            delete_button.clicked.connect(lambda checked, schedule=schedule: self.delete_schedule(schedule))
 
             spacer_item = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -101,7 +97,7 @@ class SchedulesWidget(QWidget):
                 week_day_label.setDisabled(True)
                 week_day_label.setProperty("class", "weekday_button")
                 week_day_label.setCheckable(True)
-                state = schedule["loops"][i] == "1"
+                state = schedule.loops[i] == "1"
                 if state:
                     week_day_label.setChecked(True)
                 else:
@@ -110,7 +106,7 @@ class SchedulesWidget(QWidget):
                 second_row_layout.addWidget(week_day_label)
                 second_row_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-            ###
+                ###
             schedule_vlayout.addLayout(first_row_layout)
             schedule_vlayout.addLayout(second_row_layout)
 
@@ -125,46 +121,21 @@ class SchedulesWidget(QWidget):
         self.add_schedule_button.setObjectName("add_schedule_button")
         self.main_layout.addWidget(self.add_schedule_button, alignment=Qt.AlignmentFlag.AlignBottom)
 
-    def switch_schedule_state(self, button, schedule_id):
+    def switch_schedule_state(self, button, schedule):
         if isinstance(button, QPushButton):
             if button.isChecked():
-                value = True
+                response = schedule.change_state_on_cloud(True)
             else:
-                value = False
-
-            with open("modules/resources/json/schedules.json", 'r', encoding="utf-8") as f:
-                schedules = json.load(f)
-
-            if schedule_id in schedules:
-                schedules[schedule_id]["active"] = value
-
-            with open("modules/resources/json/schedules.json", 'w', encoding="utf-8") as f:
-                json.dump(schedules, f, indent=4)
+                response = schedule.change_state_on_cloud(False)
+            if isinstance(response, requests.Response) and not response.json()["success"]:
+                show_error_toast(self)
+            self.create_list()
 
     def add_schedule(self):
-        schedule_id = ''.join(random.choices(string.ascii_letters + string.digits, k=15))
-        empty_schedule =     {
-        "alias_name": "",
-        "time": "00:00",
-        "loops": "0000000",
-        "devices": [],
-        "code": "",
-        "value": None,
-        }
+        self.parent.parent.parent.show_edit_schedule(self.schedules_manager.empty_schedule, True)
 
-        self.parent.parent.parent.show_edit_schedule(schedule_id, empty_schedule)
-
-    def delete_schedule(self, schedule_id):
-        try:
-            with open("modules/resources/json/schedules.json", 'r', encoding="utf-8") as f:
-                schedules = json.load(f)
-
-            if schedule_id in schedules:
-                del schedules[schedule_id]
-
-            with open("modules/resources/json/schedules.json", 'w', encoding="utf-8") as f:
-                json.dump(schedules, f, indent=2)
-        except:
-            pass
-
+    def delete_schedule(self, schedule):
+        response = schedule.remove_from_cloud()
+        if isinstance(response, requests.Response) and not response.json()["success"]:
+            show_error_toast(self)
         self.create_list()

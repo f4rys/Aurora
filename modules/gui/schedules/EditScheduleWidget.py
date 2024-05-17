@@ -1,4 +1,5 @@
 import json
+import requests
 
 from PyQt6.QtCore import QTime
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QScrollArea, QButtonGroup, QLineEdit, QTimeEdit
@@ -6,7 +7,7 @@ from tzlocal import get_localzone
 
 from modules.dictionaries.loader import load_dictionary
 from modules.gui.device.tabs import WhiteModeTab, ColourModeTab
-from modules.gui.tools import clear_layout
+from modules.gui.tools import clear_layout, show_error_toast
 from modules.tuya import TuyaSchedule
 
 class EditScheduleWidget(QWidget):
@@ -40,29 +41,29 @@ class EditScheduleWidget(QWidget):
         self.vlayout = QVBoxLayout(self.scroll_widget)
         self.vlayout.setContentsMargins(15, 0, 15, 0)
 
-    def init_ui(self, schedule_id, schedule):
+    def init_ui(self, schedule, new):
         clear_layout(self.vlayout)
 
-        self.schedule_id = schedule_id
+        self.new = new
         self.schedule = schedule
 
         self.name_edit_label = QLabel("1. Set schedule name:")
         self.name_edit = QLineEdit()
-        self.name_edit.setText(self.schedule["alias_name"])
+        self.name_edit.setText(self.schedule.alias_name)
         self.name_edit.setProperty("class", "credentials_input")
 
         self.time_edit_label = QLabel("2. Set time:")
         self.time_edit = QTimeEdit()
         self.time_edit.setTimeRange(QTime(0, 0, 0), QTime(23, 59, 59))
-        self.set_time(self.schedule)
+        self.set_time()
 
         self.weekdays_label = QLabel("3. Select weekdays:")
         self.weekdays_hlayout = QHBoxLayout()
         self.weekdays_hlayout.setSpacing(0)
-        self.load_weekdays(self.schedule)
+        self.load_weekdays()
 
         self.devices_label = QLabel("4. Select devices:")
-        self.load_devices(self.schedule)
+        self.load_devices()
 
         self.action_label = QLabel("5. Select action:")
         self.actions_hlayout = QHBoxLayout()
@@ -130,8 +131,8 @@ class EditScheduleWidget(QWidget):
                 self.value_widget = ColourModeTab()
                 self.value_vlayout.addWidget(self.value_widget)
 
-    def set_time(self, schedule):
-        hours, minutes = map(int, schedule["time"].split(":"))
+    def set_time(self):
+        hours, minutes = map(int, self.schedule.time.split(":"))
         self.time_edit.setTime(QTime(hours, minutes))
 
     def load_available_actions(self, ids):
@@ -197,7 +198,7 @@ class EditScheduleWidget(QWidget):
 
         self.actions_hlayout.addItem(spacer)
 
-    def load_weekdays(self, schedule):
+    def load_weekdays(self):
         weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
         for i, day in enumerate(weekdays):
@@ -205,7 +206,7 @@ class EditScheduleWidget(QWidget):
             week_day_button.setObjectName(day)
             week_day_button.setProperty("class", "weekday_button")
             week_day_button.setCheckable(True)
-            state = schedule["loops"][i] == "1"
+            state = self.schedule.loops[i] == "1"
             if state:
                 week_day_button.setChecked(True)
             else:
@@ -214,7 +215,7 @@ class EditScheduleWidget(QWidget):
             self.weekdays_group.addButton(week_day_button)
             self.weekdays_hlayout.addWidget(week_day_button)
 
-    def load_devices(self, schedule):
+    def load_devices(self):
         self.devices_vlayout = QVBoxLayout()
 
         with open("devices.json", encoding="utf-8") as file:
@@ -227,7 +228,7 @@ class EditScheduleWidget(QWidget):
             button.setCheckable(True)
             button.clicked.connect(self.create_actions_list)
             self.devices_group.addButton(button)
-            if device["id"] in schedule["devices"]:
+            if device["id"] in self.schedule.devices_timers.keys():
                 button.setChecked(True)
 
             self.devices_vlayout.addWidget(button)
@@ -253,10 +254,10 @@ class EditScheduleWidget(QWidget):
 
         weekdays_string = self.weekarray_to_string(weekdays)
 
-        devices = []
+        new_devices = []
         for button in self.devices_group.buttons():
             if button.isChecked():
-                devices.append(button.objectName())
+                new_devices.append(button.objectName())
 
         action = ""
         action_button = self.actions_group.checkedButton()
@@ -291,7 +292,41 @@ class EditScheduleWidget(QWidget):
                     "v": v
                 }
 
-        schedule = TuyaSchedule(self.schedule_id, schedule_name, time, user_timezone, weekdays_string, devices, action, value)
-        schedule.save_to_json()
+        if self.new:
+            devices = dict.fromkeys(new_devices, "")
+            schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
+            response = schedule.save_to_cloud()
+            if isinstance(response, requests.Response) and not response.json()["success"]:
+                show_error_toast(self)
+        else:
+            old_devices = set(self.schedule.devices_timers.keys())
+            new_devices = set(new_devices)
+
+            # Items only in the first list
+            only_in_list1 = old_devices - new_devices
+            for item in only_in_list1:
+                devices = {item: ""}
+                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
+                response = schedule.remove_from_cloud()
+                if isinstance(response, requests.Response) and not response.json()["success"]:
+                    show_error_toast(self)
+
+            # Items only in the second list
+            only_in_list2 = new_devices - old_devices
+            for item in only_in_list2:
+                devices = {item: ""}
+                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
+                response = schedule.save_to_cloud()
+                if isinstance(response, requests.Response) and not response.json()["success"]:
+                    show_error_toast(self)
+
+            # Items in both lists
+            in_both_lists = old_devices & new_devices
+            for item in in_both_lists:
+                devices = {item: self.schedule.devices_timers[item]}
+                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
+                response = schedule.modify_on_cloud()
+                if isinstance(response, requests.Response) and not response.json()["success"]:
+                    show_error_toast(self)
 
         self.parent.parent.parent.show_schedules()
