@@ -27,7 +27,7 @@ class TuyaManager():
         for device in devices_data:
             device_id = device.get("id")
 
-            for ip_address, device_info in network_devices.items():
+            for device_info in network_devices.values():
                 if device_info.get('id') == device_id:
 
                     local_key = device_info.get('key')
@@ -71,9 +71,6 @@ class TuyaManager():
             device_id = device.get("id")
 
             if device_id not in self.active_devices:
-                id = device.get("id")
                 name = device.get("name")
                 icon_link = device.get("icon")
-
-                self.inactive_devices.update({id: {"name": name, "icon_link": icon_link} })
-                #self.inactive_devices[id]["icon_link"] = icon_link
+                self.inactive_devices.update({device_id: {"name": name, "icon_link": icon_link} })

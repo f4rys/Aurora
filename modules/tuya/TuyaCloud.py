@@ -22,7 +22,7 @@ class TuyaCloud():
 
         try:
             self.cloud = Cloud(apiRegion=self.api_region, apiKey=self.api_key, apiDeviceID=self.api_device_id, apiSecret=self.api_secret)
-        except:
+        except Exception:
             self.cloud = None
 
     def request_on_cloud(self, action, url, body, token):
@@ -42,10 +42,10 @@ class TuyaCloud():
         body = json.dumps(body)
 
         if url[0] == '/':
-            url = "https://%s%s" % (endpoint, url)
+            url = f"https://{endpoint}{url}"
         else:
-            url = "https://%s/%s" % (endpoint, url)
-        
+            url = f"https://{endpoint}/{url}"
+
         now = int(time.time()*1000)
         headers = dict(list(headers.items()) + [('Signature-Headers', ":".join(headers.keys()))]) if headers else {}
 
@@ -55,9 +55,9 @@ class TuyaCloud():
         else:
             payload = self.api_key + token + str(now)
 
-        payload += ('%s\n' % action +                                                # HTTPMethod
+        payload += (f'{action}\n'+                                                # HTTPMethod
             hashlib.sha256(bytes((body or "").encode('utf-8'))).hexdigest() + '\n' + # Content-SHA256 # type: ignore
-            ''.join(['%s:%s\n'%(key, headers[key])                                   # Headers
+            ''.join([f'{key}:{headers[key]}\n'                                  # Headers
                         for key in headers.get("Signature-Headers", "").split(":")
                         if key in headers]) + '\n' +
             '/' + url.split('//', 1)[-1].split('/', 1)[-1])
@@ -76,9 +76,9 @@ class TuyaCloud():
         headers['access_token'] = token
 
         if action == "DELETE":
-            response = requests.delete(url, headers=headers, data=body)
+            response = requests.delete(url, headers=headers, data=body, timeout=5)
         elif action == "PUT":
-            response = requests.put(url, headers=headers, data=body)
+            response = requests.put(url, headers=headers, data=body, timeout=5)
         else:
             response = ""
         return response

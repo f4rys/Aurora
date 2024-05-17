@@ -36,7 +36,7 @@ class TuyaDevice():
                     return countdowns[self.device.id]
             else:
                 return 0
-        except:
+        except Exception:
             return 0
 
     def turn_on(self):
@@ -51,7 +51,7 @@ class TuyaDevice():
                 return True
             else:
                 return False
-        except Exception as e:
+        except Exception:
             return False
 
     def get_brightness(self):

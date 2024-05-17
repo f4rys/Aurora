@@ -8,5 +8,5 @@ class InitiateTuyaManagerThread(QThread):
         try:
             manager = TuyaManager()
             self.finished.emit(manager)
-        except Exception as e:
+        except Exception:
             self.finished.emit(None)

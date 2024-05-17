@@ -48,5 +48,5 @@ class TuyaSchedulesManager():
         result = list(combined_data.values())
 
         for item in result:
-           schedule = TuyaSchedule(item["alias_name"],item["enable"], item["time"],item["timezone_id"],item["loops"],item["devices_timers"],item["functions"][0]["code"],item["functions"][0]["value"])
-           self.schedules.append(schedule)
+            schedule = TuyaSchedule(item["alias_name"],item["enable"], item["time"],item["timezone_id"],item["loops"],item["devices_timers"],item["functions"][0]["code"],item["functions"][0]["value"])
+            self.schedules.append(schedule)
