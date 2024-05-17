@@ -36,10 +36,6 @@ class TuyaSchedulesManager():
 
             # Merge dictionaries, ensuring matching values for other keys
             for k, v in node_data.items():
-                if k == "timer_id":  # Skip timer_id
-                    continue
-                if k != "timer_id" and k in combined_data[alias_name] and combined_data[alias_name][k] != v:
-                    raise ValueError(f"Conflicting values for key '{k}' in alias_name '{alias_name}'")
                 combined_data[alias_name][k] = v
 
             # Collect timer_ids
