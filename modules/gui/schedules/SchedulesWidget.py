@@ -1,5 +1,3 @@
-import requests
-
 from PyQt6.QtCore import Qt, QObject
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QFrame, QScrollArea
 
