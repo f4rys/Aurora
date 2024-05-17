@@ -1,3 +1,5 @@
+import requests
+
 from modules.tuya.TuyaCloud import TuyaCloud
 
 class TuyaSchedule():
@@ -12,6 +14,7 @@ class TuyaSchedule():
         self.value = value
 
     def save_to_cloud(self):
+        response_states = []
         tuya_cloud = TuyaCloud()
         schedule = {
             "alias_name": self.alias_name,
@@ -28,18 +31,30 @@ class TuyaSchedule():
         for device in self.devices_timers.keys():
             if tuya_cloud.cloud is not None:
                 response = tuya_cloud.cloud.cloudrequest(url=f"/v2.0/cloud/timer/device/{device}", action="POST", post=schedule)
-                return response
+                if isinstance(response, requests.Response) and response.json()["success"]:
+                    response_states.append(True)
+                else:
+                    response_states.append(False)
 
+        return response_states
 
     def remove_from_cloud(self):
+        response_states = []
         tuya_cloud = TuyaCloud()
+        
         for device, timer in self.devices_timers.items():
             if tuya_cloud.cloud is not None:
                 token = tuya_cloud.cloud.token
                 response = tuya_cloud.request_on_cloud(url=f"/v2.0/cloud/timer/device/{device}/batch", action="DELETE", body={"timer_ids": timer}, token=token)
-                return response
+                if isinstance(response, requests.Response) and response.json()["success"]:
+                    response_states.append(True)
+                else:
+                    response_states.append(False)
+
+        return response_states
 
     def modify_on_cloud(self):
+        response_states = []
         tuya_cloud = TuyaCloud()
 
         for device, timer in self.devices_timers.items():
@@ -60,10 +75,17 @@ class TuyaSchedule():
 
                 token = tuya_cloud.cloud.token
                 response = tuya_cloud.request_on_cloud(url=f"/v2.0/cloud/timer/device/{device}", action="PUT", body=schedule, token=token)
-                return response
+                if isinstance(response, requests.Response) and response.json()["success"]:
+                    response_states.append(True)
+                else:
+                    response_states.append(False)
+
+        return response_states
 
     def change_state_on_cloud(self, state):
+        response_states = []
         tuya_cloud = TuyaCloud()
+
         for device, timer in self.devices_timers.items():
             body = {
                 "timer_id": timer,
@@ -73,4 +95,9 @@ class TuyaSchedule():
             if tuya_cloud.cloud is not None:
                 token = tuya_cloud.cloud.token
                 response = tuya_cloud.request_on_cloud(url=f"/v2.0/cloud/timer/device/{device}/state", action="PUT", token=token, body=body)
-                return response
+                if isinstance(response, requests.Response) and response.json()["success"]:
+                    response_states.append(True)
+                else:
+                    response_states.append(False)
+
+        return response_states

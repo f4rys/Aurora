@@ -123,19 +123,21 @@ class SchedulesWidget(QWidget):
 
     def switch_schedule_state(self, button, schedule):
         if isinstance(button, QPushButton):
+
             if button.isChecked():
-                response = schedule.change_state_on_cloud(True)
+                value = True
             else:
-                response = schedule.change_state_on_cloud(False)
-            if isinstance(response, requests.Response) and not response.json()["success"]:
+                value = False
+            responses = schedule.change_state_on_cloud(value)
+            if False in responses:
+                button.setChecked(not value)
                 show_error_toast(self)
-            self.create_list()
 
     def add_schedule(self):
         self.parent.parent.parent.show_edit_schedule(self.schedules_manager.empty_schedule, True)
 
     def delete_schedule(self, schedule):
-        response = schedule.remove_from_cloud()
-        if isinstance(response, requests.Response) and not response.json()["success"]:
+        responses = schedule.remove_from_cloud()
+        if False in responses:
             show_error_toast(self)
         self.create_list()
