@@ -148,6 +148,10 @@ BulbNameLabel{
     padding: 2;
 }
 
+.device_button:disabled{
+    color: gray;
+}
+
 QTimeEdit{
     padding: 2;
     border-style: solid;
