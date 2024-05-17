@@ -46,7 +46,7 @@ class TuyaAnalytics():
 
             df = pd.concat([temp_df, df])
 
-        df['event_time'] = pd.to_datetime(df['event_time'].astype(str), unit='ms')
+        df['event_time'] = pd.to_datetime(df['event_time'], unit='ms')
         df['date_str'] = df['event_time'].dt.strftime('%m.%d')
         day_counts = df['date_str'].value_counts(sort=False)
 
