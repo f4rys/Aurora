@@ -3,12 +3,14 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QComboBox, QPushBut
 from pyqttoast import Toast, ToastPreset
 
 from modules.tuya import register
+from modules.dictionaries import load_dictionary
 
 class CredentialsWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.parent = parent
+        self.dictionary = load_dictionary()
 
         self.vlayout = QVBoxLayout(self)
         self.vlayout.setContentsMargins(15, 0, 15, 0)
@@ -17,33 +19,33 @@ class CredentialsWidget(QWidget):
         self.vlayout.addItem(spacer_item)
 
         self.api_key_input = QLineEdit()
-        self.api_key_input.setPlaceholderText("API key")
+        self.api_key_input.setPlaceholderText(self.dictionary["api_key"])
         self.api_key_input.setProperty("class", "credentials_input")
         self.vlayout.addWidget(self.api_key_input)
 
         self.api_secret_input = QLineEdit()
-        self.api_secret_input.setPlaceholderText("API secret")
+        self.api_secret_input.setPlaceholderText(self.dictionary["api_secret"])
         self.api_secret_input.setProperty("class", "credentials_input")
         self.vlayout.addWidget(self.api_secret_input)
 
         self.api_device_id_input = QLineEdit()
-        self.api_device_id_input.setPlaceholderText("Device ID")
+        self.api_device_id_input.setPlaceholderText(self.dictionary["api_device_id"])
         self.api_device_id_input.setProperty("class", "credentials_input")
         self.vlayout.addWidget(self.api_device_id_input)
 
         self.api_region_input = QComboBox()
         self.api_region_input.setProperty("class", "credentials_input")
         self.api_region_input.addItems([
-            "cn\tChina Data Center", 
-            "us\tUS - Western America Data Center", 
-            "us-e\tUS - Eastern America Data Center", 
-            "eu\tCentral Europe Data Center",
-            "eu-w\tWestern Europe Data Center",
-            "in\tIndia Data Center"])
+            f"cn\t{self.dictionary["china_dc"]}",
+            f"us\tUS - {self.dictionary["western_america_dc"]}",
+            f"us-e\tUS - {self.dictionary["eastern_america_dc"]}",
+            f"eu\t{self.dictionary["central_europe_dc"]}",
+            f"eu-w\t{self.dictionary["western_europe_dc"]}",
+            f"in\t{self.dictionary["india_dc"]}"])
         self.api_region_input.setCurrentIndex(3)
         self.vlayout.addWidget(self.api_region_input)
 
-        self.credentials_button = QPushButton("Set credentials")
+        self.credentials_button = QPushButton(self.dictionary["set_credentials"])
         self.credentials_button.setProperty("class", "credentials_button")
         self.vlayout.addWidget(self.credentials_button)
         self.credentials_button.clicked.connect(self.send_credentials)
@@ -102,8 +104,8 @@ class CredentialsWidget(QWidget):
         toast.setBackgroundColor(QColor('#DAD9D3'))
 
         if status:
-            toast.setTitle('Success')
-            toast.setText('Your Tuya credentials has been set and list of your devices has been updated.')
+            toast.setTitle(self.dictionary["success_toast_title"])
+            toast.setText(self.dictionary["success_toast_body_credentials"])
             toast.applyPreset(ToastPreset.SUCCESS)
             toast.show()
 
@@ -111,8 +113,8 @@ class CredentialsWidget(QWidget):
             self.parent.parent.parent.show_all_devices()
 
         else:
-            toast.setTitle('Failure')
-            toast.setText('A problem occured. Check if the data you entered is correct and try again.')
+            toast.setTitle(self.dictionary["error_toast_title"])
+            toast.setText(self.dictionary["error_toast_body_credentials"])
             toast.applyPreset(ToastPreset.ERROR)
             toast.show()
 

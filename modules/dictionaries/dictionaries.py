@@ -51,7 +51,40 @@ dictionary_en = {
     "contrast_tooltip": "Contrast",
     "colour_tooltip": "Colour",
     "time_edit_tooltip": "Enter time",
-    "countdown_accept_button_tooltip": "Switch device state after the specified time has elapsed"
+    "countdown_accept_button_tooltip": "Switch device state after the specified time has elapsed",
+    # Analytics
+    "devices_usage": "Devices usage in the last 7 days",
+    "select_device_prompt": "Select at least one device",
+    # Credentials
+    "china_dc": "China Data Center",
+    "western_america_dc": "Western America Data Center",
+    "eastern_america_dc": "Eastern America Data Center",
+    "central_europe_dc": "Central Europe Data Center",
+    "western_europe_dc": "Western Europe Data Center",
+    "india_dc": "India Data Center",
+    "set_credentials": "Set credentials",
+    # Schedules
+    "add_edit_schedule": "Add/edit schedule",
+    "add_schedule": "Add schedule",
+    # Add/edit schedule
+    "set_schedule_name": "1. Set schedule name:",
+    "set_schedule_time": "2. Set time:",
+    "set_schedule_weekdays": "3. Select weekdays:",
+    "select_schedule_devices": "4. Select devices:",
+    "select_schedule_action": "5. Select action:",
+    "enter_action_value": "6. Enter value:",
+    "save_schedule_changes": "Save changes",
+    "select_switch_value": "6. Enter value for ON/OFF:",
+    "on": "On",
+    "off": "Off",
+    "select_brightness_value": "6. Enter values for brightness and temperature:",
+    "select_colour_value": "6. Enter values for colour and brightness:",
+    # Toasts
+    "success_toast_title": "Success",
+    "success_toast_body_credentials": "Your Tuya credentials has been set and list of your devices has been updated.",
+    "error_toast_title": "Failure",
+    "error_toast_body": "A problem occured. Try later",
+    "error_toast_body_credentials": "A problem occured. Check if the data you entered is correct and try again.",
 }
 
 dictionary_pl = {
@@ -107,5 +140,38 @@ dictionary_pl = {
     "contrast_tooltip": "Kontrast",
     "colour_tooltip": "Kolor",
     "time_edit_tooltip": "Wprowadź czas",
-    "countdown_accept_button_tooltip": "Przełącz stan urządzenia po upłynięciu wyznaczonego czasu"
+    "countdown_accept_button_tooltip": "Przełącz stan urządzenia po upłynięciu wyznaczonego czasu",
+    # Analytics
+    "devices_usage": "Użycie urządzeń (ostatnie 7 dni)",
+    "select_device_prompt": "Wybierz przynajmniej jedno urządzenie",
+    # Credentials
+    "china_dc": "Centrum danych dla Chin",
+    "western_america_dc": "Centrum danych dla Ameryki Zachodniej",
+    "eastern_america_dc": "Centrum danych dla Ameryki Wschodniej",
+    "central_europe_dc": "Centrum danych dla Europy Środkowej",
+    "western_europe_dc": "Centrum danych dla Europy Zachodniej",
+    "india_dc": "Centrum danych dla Indii",
+    "set_credentials": "Ustaw dane uwierzytelniające",
+    # Schedules
+    "add_edit_schedule": "Dodaj/edytuj harmonogram",
+    "add_schedule": "Dodaj harmonogram",
+    # Add/edit schedule
+    "set_schedule_name": "1. Ustaw nazwę harmonogramu:",
+    "set_schedule_time": "2. Ustaw czas:",
+    "set_schedule_weekdays": "3. Wybierz dni tygodnia:",
+    "select_schedule_devices": "4. Wybierz urządzenia:",
+    "select_schedule_action": "5. Wybierz operację:",
+    "enter_action_value": "6. Wprowadź wartość:",
+    "save_schedule_changes": "Zapisz zmiany",
+    "select_switch_value": "6. Wprowadź wartość dla WŁ/WYŁ:",
+    "on": "Wł.",
+    "off": "Wył.",
+    "select_brightness_value": "6. Wprowadź wartość jasności i temperatury:",
+    "select_colour_value": "6. Wprowadź wartość koloru i jasności:",
+    # Toasts
+    "success_toast_title": "Sukces",
+    "success_toast_body_credentials": "Twoje dane uwierzytelniające Tuya zostały ustawione, a lista urządzeń została zaktualizowana.",
+    "error_toast_title": "Błąd",
+    "error_toast_body": "Wystąpił problem. Spróbuj później",
+    "error_toast_body_credentials": "Wystąpił problem. Sprawdź, czy wprowadzone dane są poprawne i spróbuj ponownie.",
 }

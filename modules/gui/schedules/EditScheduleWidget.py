@@ -47,33 +47,33 @@ class EditScheduleWidget(QWidget):
         self.new = new
         self.schedule = schedule
 
-        self.name_edit_label = QLabel("1. Set schedule name:")
+        self.name_edit_label = QLabel(self.dictionary["set_schedule_name"])
         self.name_edit = QLineEdit()
         self.name_edit.setText(self.schedule.alias_name)
         self.name_edit.setProperty("class", "credentials_input")
 
-        self.time_edit_label = QLabel("2. Set time:")
+        self.time_edit_label = QLabel(self.dictionary["set_schedule_time"])
         self.time_edit = QTimeEdit()
         self.time_edit.setTimeRange(QTime(0, 0, 0), QTime(23, 59, 59))
         self.set_time()
 
-        self.weekdays_label = QLabel("3. Select weekdays:")
+        self.weekdays_label = QLabel(self.dictionary["set_schedule_weekdays"])
         self.weekdays_hlayout = QHBoxLayout()
         self.weekdays_hlayout.setSpacing(0)
         self.load_weekdays()
 
-        self.devices_label = QLabel("4. Select devices:")
+        self.devices_label = QLabel(self.dictionary["select_schedule_devices"])
         self.load_devices()
 
-        self.action_label = QLabel("5. Select action:")
+        self.action_label = QLabel(self.dictionary["select_schedule_action"])
         self.actions_hlayout = QHBoxLayout()
         self.create_actions_list()
 
-        self.value_label = QLabel("6. Enter value:")
+        self.value_label = QLabel(self.dictionary["enter_action_value"])
         self.value_vlayout = QVBoxLayout()
         self.create_value_layout()
 
-        self.save_button = QPushButton("Save changes")
+        self.save_button = QPushButton(self.dictionary["save_schedule_changes"])
         self.save_button.setProperty("class", "device_button")
         self.save_button.clicked.connect(self.save_changes)
 
@@ -99,12 +99,12 @@ class EditScheduleWidget(QWidget):
             action = action.objectName()
 
             if action == "switch_led":
-                self.value_label.setText("6. Enter value for ON/OFF:")
+                self.value_label.setText(self.dictionary["select_switch_value"])
                 value_layout = QHBoxLayout()
                 value_layout.setContentsMargins(0, 0, 0, 0)
 
-                on_button = QPushButton("On")
-                off_button = QPushButton("Off")
+                on_button = QPushButton(self.dictionary["on"])
+                off_button = QPushButton(self.dictionary["off"])
 
                 on_button.setProperty("class", "device_button")
                 off_button.setProperty("class", "device_button")
@@ -123,11 +123,11 @@ class EditScheduleWidget(QWidget):
 
                 self.value_vlayout.addLayout(value_layout)
             elif action == "bright_value_v2":
-                self.value_label.setText("6. Enter values for brightness and temperature:")
+                self.value_label.setText(self.dictionary["select_brightness_value"])
                 self.value_widget = WhiteModeTab()
                 self.value_vlayout.addWidget(self.value_widget)
             elif action == "colour_data_v2":
-                self.value_label.setText("6. Enter values for colour and brightness:")
+                self.value_label.setText(self.dictionary["select_colour_value"])
                 self.value_widget = ColourModeTab()
                 self.value_vlayout.addWidget(self.value_widget)
 
@@ -164,7 +164,7 @@ class EditScheduleWidget(QWidget):
         spacer = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         if not common_actions:
-            warning_label = QLabel("Select at least one device")
+            warning_label = QLabel(self.dictionary["select_device_prompt"])
             self.actions_hlayout.addWidget(warning_label)
         else:
             for action in common_actions:

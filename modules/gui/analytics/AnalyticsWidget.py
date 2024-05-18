@@ -25,7 +25,7 @@ class AnalyticsWidget(QWidget):
         self.glayout = QGridLayout()
         self.glayout.setContentsMargins(0, 0, 0, 0)
 
-        self.title_label = QLabel("Devices usage in last 7 days")
+        self.title_label = QLabel(self.dictionary["devices_usage"])
         self.title_label.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
 
         self.plotlayout = QVBoxLayout()
@@ -122,5 +122,5 @@ class AnalyticsWidget(QWidget):
             plot = FigureCanvasQTAgg(figure)
             self.plotlayout.addWidget(plot)
         else:
-            label = QLabel("Select at least one device")
+            label = QLabel(self.dictionary["select_device_prompt"])
             self.plotlayout.addWidget(label, alignment=Qt.AlignmentFlag.AlignCenter)

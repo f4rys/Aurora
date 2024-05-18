@@ -113,7 +113,7 @@ class SchedulesWidget(QWidget):
         spacer_item = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.vlayout.addItem(spacer_item)
 
-        self.add_schedule_button = QPushButton("Add schedule")
+        self.add_schedule_button = QPushButton(self.dictionary["add_schedule"])
         self.add_schedule_button.clicked.connect(self.add_schedule)
         self.add_schedule_button.setProperty("class", "device_button")
         self.add_schedule_button.setObjectName("add_schedule_button")
