@@ -1,5 +1,4 @@
 import json
-import requests
 
 from PyQt6.QtCore import QTime
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QScrollArea, QButtonGroup, QLineEdit, QTimeEdit
@@ -295,8 +294,8 @@ class EditScheduleWidget(QWidget):
         if self.new:
             devices = dict.fromkeys(new_devices, "")
             schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
-            response = schedule.save_to_cloud()
-            if isinstance(response, requests.Response) and not response.json()["success"]:
+            responses = schedule.save_to_cloud()
+            if False in responses:
                 show_error_toast(self)
         else:
             old_devices = set(self.schedule.devices_timers.keys())
@@ -307,8 +306,8 @@ class EditScheduleWidget(QWidget):
             for item in only_in_list1:
                 devices = {item: ""}
                 schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
-                response = schedule.remove_from_cloud()
-                if isinstance(response, requests.Response) and not response.json()["success"]:
+                responses = schedule.remove_from_cloud()
+                if False in responses:
                     show_error_toast(self)
 
             # Items only in the second list
@@ -316,8 +315,8 @@ class EditScheduleWidget(QWidget):
             for item in only_in_list2:
                 devices = {item: ""}
                 schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
-                response = schedule.save_to_cloud()
-                if isinstance(response, requests.Response) and not response.json()["success"]:
+                responses = schedule.save_to_cloud()
+                if False in responses:
                     show_error_toast(self)
 
             # Items in both lists
@@ -325,8 +324,8 @@ class EditScheduleWidget(QWidget):
             for item in in_both_lists:
                 devices = {item: self.schedule.devices_timers[item]}
                 schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
-                response = schedule.modify_on_cloud()
-                if isinstance(response, requests.Response) and not response.json()["success"]:
+                responses = schedule.modify_on_cloud()
+                if False in responses:
                     show_error_toast(self)
 
         self.parent.parent.parent.show_schedules()
