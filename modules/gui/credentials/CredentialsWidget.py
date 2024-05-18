@@ -35,13 +35,14 @@ class CredentialsWidget(QWidget):
 
         self.api_region_input = QComboBox()
         self.api_region_input.setProperty("class", "credentials_input")
+        self.api_region_input.setPlaceholderText(self.dictionary["api_region_prompt"])
         self.api_region_input.addItems([
-            f"cn\t{self.dictionary["china_dc"]}",
-            f"us\tUS - {self.dictionary["western_america_dc"]}",
-            f"us-e\tUS - {self.dictionary["eastern_america_dc"]}",
-            f"eu\t{self.dictionary["central_europe_dc"]}",
-            f"eu-w\t{self.dictionary["western_europe_dc"]}",
-            f"in\t{self.dictionary["india_dc"]}"])
+            self.dictionary["china_dc"],
+            self.dictionary["western_america_dc"],
+            self.dictionary["eastern_america_dc"],
+            self.dictionary["central_europe_dc"],
+            self.dictionary["western_europe_dc"],
+            self.dictionary["india_dc"]])
         self.api_region_input.setCurrentIndex(3)
         self.vlayout.addWidget(self.api_region_input)
 
