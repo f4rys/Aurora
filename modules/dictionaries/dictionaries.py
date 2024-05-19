@@ -66,6 +66,7 @@ dictionary_en = {
     "set_credentials": "Set credentials",
     # Schedules
     "add_edit_schedule": "Add/edit schedule",
+    "reloading_schedules": "Reloading schedules..",
     "add_schedule": "Add schedule",
     # Add/edit schedule
     "set_schedule_name": "1. Set schedule name:",
@@ -156,6 +157,7 @@ dictionary_pl = {
     "set_credentials": "Ustaw dane uwierzytelniające",
     # Schedules
     "add_edit_schedule": "Dodaj/edytuj harmonogram",
+    "reloading_schedules": "Ładowanie harmonogramów..",
     "add_schedule": "Dodaj harmonogram",
     # Add/edit schedule
     "set_schedule_name": "1. Ustaw nazwę harmonogramu:",

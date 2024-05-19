@@ -1,2 +1,3 @@
 from modules.threads.InitiateTuyaManagerThread import InitiateTuyaManagerThread
+from modules.threads.InitiateTuyaSchedulesManagerThread import InitiateTuyaSchedulesManagerThread
 from modules.threads.CountdownThread import CountdownThread

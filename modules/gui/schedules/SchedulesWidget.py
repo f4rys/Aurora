@@ -1,9 +1,9 @@
 from PyQt6.QtCore import Qt, QObject
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QFrame, QScrollArea
 
-from modules.tuya import TuyaSchedulesManager
 from modules.dictionaries.loader import load_dictionary
 from modules.gui.tools import clear_layout, show_error_toast
+from modules.threads import InitiateTuyaSchedulesManagerThread
 
 class SchedulesWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
@@ -29,17 +29,30 @@ class SchedulesWidget(QWidget):
 
     def create_list(self):
         clear_layout(self.vlayout)
+        self.delete_add_schedule_button()
 
-        for i in range(self.main_layout.count()):
-            item = self.main_layout.itemAt(i)
-            if item:
-                widget = item.widget()
-                if isinstance(widget, QObject) and widget.objectName() == "add_schedule_button":
-                    self.main_layout.removeItem(item)
-                    widget.deleteLater()
-                    break
+        self.append_add_schedule_button(self.dictionary["reloading_schedules"])
+        self.add_schedule_button.setEnabled(False)
 
-        self.schedules_manager = TuyaSchedulesManager()
+        self.thread_worker = InitiateTuyaSchedulesManagerThread()
+        self.thread_worker.finished.connect(self.update_ui)
+        self.thread_worker.start()
+
+    def append_add_schedule_button(self, text):
+        spacer_item = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.vlayout.addItem(spacer_item)
+
+        self.add_schedule_button = QPushButton(text)
+        self.add_schedule_button.clicked.connect(self.create_list)
+        self.add_schedule_button.setProperty("class", "device_button")
+        self.add_schedule_button.setObjectName("add_schedule_button")
+        self.main_layout.addWidget(self.add_schedule_button, alignment=Qt.AlignmentFlag.AlignBottom)
+
+    def update_ui(self, manager):
+        clear_layout(self.vlayout)
+        self.delete_add_schedule_button()
+
+        self.schedules_manager = manager
 
         for schedule in self.schedules_manager.schedules:
             frame = QFrame()
@@ -110,14 +123,7 @@ class SchedulesWidget(QWidget):
 
             self.vlayout.addWidget(frame, alignment=Qt.AlignmentFlag.AlignTop)
 
-        spacer_item = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-        self.vlayout.addItem(spacer_item)
-
-        self.add_schedule_button = QPushButton(self.dictionary["add_schedule"])
-        self.add_schedule_button.clicked.connect(self.add_schedule)
-        self.add_schedule_button.setProperty("class", "device_button")
-        self.add_schedule_button.setObjectName("add_schedule_button")
-        self.main_layout.addWidget(self.add_schedule_button, alignment=Qt.AlignmentFlag.AlignBottom)
+        self.append_add_schedule_button(self.dictionary["add_schedule"])
 
     def switch_schedule_state(self, button, schedule):
         if isinstance(button, QPushButton):
@@ -139,3 +145,13 @@ class SchedulesWidget(QWidget):
         if False in responses:
             show_error_toast(self)
         self.create_list()
+
+    def delete_add_schedule_button(self):
+        for i in range(self.main_layout.count()):
+            item = self.main_layout.itemAt(i)
+            if item:
+                widget = item.widget()
+                if isinstance(widget, QObject) and widget.objectName() == "add_schedule_button":
+                    self.main_layout.removeItem(item)
+                    widget.deleteLater()
+                    break
