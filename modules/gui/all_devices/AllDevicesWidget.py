@@ -1,8 +1,8 @@
 import requests
 
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QObject
 from PyQt6.QtGui import QImage, QPixmap, QIcon
-from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QScrollArea
 
 from modules.dictionaries.loader import load_dictionary
 from modules.threads import InitiateTuyaManagerThread
@@ -15,7 +15,20 @@ class AllDevicesWidget(QWidget):
 
         self.parent = parent
         self.dictionary = load_dictionary()
-        self.vlayout = QVBoxLayout(self)
+
+        self.main_layout = QVBoxLayout(self)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setProperty("class", "borderless")
+        self.scroll_area.setWidgetResizable(True)
+        self.main_layout.addWidget(self.scroll_area)
+
+        self.scroll_widget = QWidget()
+        self.scroll_widget.setProperty("class", "borderless")
+        self.scroll_area.setWidget(self.scroll_widget)
+
+        self.vlayout = QVBoxLayout(self.scroll_widget)
         self.vlayout.setContentsMargins(15, 0, 15, 0)
 
         self.create_list()
@@ -25,6 +38,8 @@ class AllDevicesWidget(QWidget):
 
     def create_list(self):
         clear_layout(self.vlayout)
+        self.delete_reload_button()
+
         self.add_reload_button(self.dictionary["reload_in_progress"])
         self.reload_button.setEnabled(False)
 
@@ -39,7 +54,8 @@ class AllDevicesWidget(QWidget):
         self.reload_button = QPushButton(text)
         self.reload_button.clicked.connect(self.create_list)
         self.reload_button.setProperty("class", "device_button")
-        self.vlayout.addWidget(self.reload_button, alignment=Qt.AlignmentFlag.AlignBottom)
+        self.reload_button.setObjectName("reload_button")
+        self.main_layout.addWidget(self.reload_button, alignment=Qt.AlignmentFlag.AlignBottom)
 
     def switch(self, device, state, device_status_button, device_button):
         if state:
@@ -53,7 +69,7 @@ class AllDevicesWidget(QWidget):
         try:
             device_status_button.clicked.disconnect()
             device_button.clicked.disconnect()
-        except Exception as e:
+        except Exception:
             pass
 
         if device is not None:
@@ -109,14 +125,15 @@ class AllDevicesWidget(QWidget):
 
     def update_ui(self, manager):
         clear_layout(self.vlayout)
+        self.delete_reload_button()
 
         self.manager = manager
 
-        for dev_id, device in self.manager.active_devices.items():
+        for device in self.manager.active_devices.values():
             hlayout = self.add_device_button(device.name, device.icon_link, device)
             self.vlayout.addLayout(hlayout)
 
-        for dev_id, device in self.manager.inactive_devices.items():
+        for device in self.manager.inactive_devices.values():
             hlayout = self.add_device_button(device["name"], device.get("icon_link"), None)
             self.vlayout.addLayout(hlayout)
 
@@ -124,3 +141,13 @@ class AllDevicesWidget(QWidget):
 
         self.update()
         self.repaint()
+
+    def delete_reload_button(self):
+        for i in range(self.main_layout.count()):
+            item = self.main_layout.itemAt(i)
+            if item:
+                widget = item.widget()
+                if isinstance(widget, QObject) and widget.objectName() == "reload_button":
+                    self.main_layout.removeItem(item)
+                    widget.deleteLater()
+                    break
