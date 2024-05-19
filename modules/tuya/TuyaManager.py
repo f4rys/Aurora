@@ -1,4 +1,5 @@
 import json
+import os
 from configparser import ConfigParser
 
 from tinytuya import deviceScan
@@ -18,10 +19,11 @@ class TuyaManager():
         max_retry = self.config.get("General", "max_retry")
 
         network_devices = deviceScan(maxretry=float(max_retry))
-
-        devices_file = open('devices.json', encoding="utf-8")
-        devices_data = json.load(devices_file)
-        devices_file.close()
+        if os.path.exists("devices.json"):
+            with open('devices.json', encoding="utf-8") as f:
+                devices_data = json.load(f)
+        else:
+            devices_data = {}
 
         # Active devices
         for device in devices_data:

@@ -30,9 +30,6 @@ def register(api_key, api_secret, api_region, api_device_id):
 
     tuyadevices = cloud.getdevices(verbose=False, oldlist={}, include_map=True)
 
-    if isinstance(tuyadevices, list):
-        return False
-
     for dev in tuyadevices:
         if 'gateway_id' in dev:
             if dev['gateway_id']:
@@ -73,7 +70,7 @@ def register(api_key, api_secret, api_region, api_device_id):
     try:
         with open(RAWFILE, "w", encoding="utf-8") as outfile:
             outfile.write(json.dumps(cloud.getdevices_raw, indent=4))
-    except:
+    except Exception:
         return False
 
     return True
@@ -85,5 +82,5 @@ def check_credentials():
             if (config['apiKey'] != '' and config['apiSecret'] != '' and config['apiRegion'] != ''):
                 return True
             return False
-    except:
+    except Exception:
         return False

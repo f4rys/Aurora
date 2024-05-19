@@ -112,7 +112,6 @@ class CredentialsWidget(QWidget):
 
             self.parent.parent.parent.enable_buttons()
             self.parent.parent.parent.show_all_devices()
-
         else:
             toast.setTitle(self.dictionary["error_toast_title"])
             toast.setText(self.dictionary["error_toast_body_credentials"])

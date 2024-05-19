@@ -83,24 +83,24 @@ class MainWindow(QMainWindow):
             with open("devices.json", "r", encoding="utf-8") as f:
                 devices = json.load(f)
 
-        if os.path.exists("modules/resources/json/actions.json"):
-            os.remove("modules/resources/json/actions.json")
+            if os.path.exists("modules/resources/json/actions.json"):
+                os.remove("modules/resources/json/actions.json")
 
-        actions = []
+            actions = []
 
-        for device in devices:
-            device_actions = []
-            for action in device.get("mapping").values():
-                device_actions.append(action["code"])
+            for device in devices:
+                device_actions = []
+                for action in device.get("mapping").values():
+                    device_actions.append(action["code"])
 
-            actions.append({
-                device["id"] : {
-                    "actions" : device_actions
-                }
-            })
+                actions.append({
+                    device["id"] : {
+                        "actions" : device_actions
+                    }
+                })
 
-        with open("modules/resources/json/actions.json", "w", encoding="utf-8") as f:
-            json.dump(actions, f, indent=2)
+            with open("modules/resources/json/actions.json", "w", encoding="utf-8") as f:
+                json.dump(actions, f, indent=2)
 
     def hide_window(self):
         self.hide()
@@ -130,7 +130,7 @@ class MainWindow(QMainWindow):
     def show_edit_schedule(self, schedule, new):
         self.main_layout.stacked_widget.edit_schedule.init_ui(schedule, new)
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.edit_schedule))
-        self.action_bar_layout.set_label("Add/edit schedule")
+        self.action_bar_layout.set_label(self.dictionary["add_edit_schedule"])
 
     def show_device(self, device):
         self.reset_navigation_bar_buttons_checked()
@@ -169,10 +169,10 @@ class MainWindow(QMainWindow):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.profile))
         self.action_bar_layout.set_label(self.dictionary["profile_title"])
 
-    def show_credentials(self, api_key, api_secret, api_region, api_device_id):
+    def show_credentials(self, api_key, api_secret, api_device_id, api_region):
         self.reset_navigation_bar_buttons_checked()
         self.disable_buttons()
-        self.main_layout.stacked_widget.credentials.set_credentials(api_key, api_secret, api_device_id, api_region)
+        self.main_layout.stacked_widget.credentials.set_credentials(api_key=api_key, api_secret=api_secret, api_device_id=api_device_id, api_region=api_region)
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.credentials))
         self.action_bar_layout.set_label(self.dictionary["credentials_title"])
 

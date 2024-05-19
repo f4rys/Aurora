@@ -1,4 +1,5 @@
 import json
+import os
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QGridLayout, QScrollArea, QSizePolicy, QPushButton, QSpacerItem, QFrame, QButtonGroup
@@ -93,8 +94,11 @@ class AnalyticsWidget(QWidget):
         self.button_group.buttonClicked.connect(self.update_plot)
 
     def load_devices(self):
-        with open("devices.json", encoding="utf-8") as file:
-            data = json.load(file)
+        if os.path.exists("devices.json"):
+            with open("devices.json", encoding="utf-8") as file:
+                data = json.load(file)
+        else:
+            data = {}
 
         for device in data:
             label_text = device["name"]
