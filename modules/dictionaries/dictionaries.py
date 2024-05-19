@@ -53,6 +53,7 @@ dictionary_en = {
     "time_edit_tooltip": "Enter time",
     "countdown_accept_button_tooltip": "Switch device state after the specified time has elapsed",
     # Analytics
+    "computing_analytics": "Computing analytics..",
     "devices_usage": "Devices usage in the last 7 days",
     "select_device_prompt": "Select at least one device",
     # Credentials
@@ -144,6 +145,7 @@ dictionary_pl = {
     "time_edit_tooltip": "Wprowadź czas",
     "countdown_accept_button_tooltip": "Przełącz stan urządzenia po upłynięciu wyznaczonego czasu",
     # Analytics
+    "computing_analytics": "Obliczanie statystyk..",
     "devices_usage": "Użycie urządzeń (ostatnie 7 dni)",
     "select_device_prompt": "Wybierz przynajmniej jedno urządzenie",
     # Credentials

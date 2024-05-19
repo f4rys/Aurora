@@ -4,9 +4,9 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QGridLayout, QScrollArea, QSizePolicy, QPushButton, QSpacerItem, QFrame, QButtonGroup
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 
-from modules.tuya import TuyaAnalytics
 from modules.dictionaries import load_dictionary
 from modules.gui.tools import clear_layout
+from modules.threads import InitiateTuyaAnalyticsThread
 
 class AnalyticsWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
@@ -17,10 +17,22 @@ class AnalyticsWidget(QWidget):
         self.button_group = QButtonGroup()
         self.button_group.setExclusive(False)
 
-        self.tuya_analytics = TuyaAnalytics()
-
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setContentsMargins(5, 0, 5, 0)
+
+        self.get_tuya_analytics()
+
+    def get_tuya_analytics(self):
+        wait_label = QLabel(self.dictionary["computing_analytics"])
+        self.main_layout.addWidget(wait_label)
+
+        self.thread_worker = InitiateTuyaAnalyticsThread()
+        self.thread_worker.finished.connect(self.init_ui)
+        self.thread_worker.start()
+
+    def init_ui(self, tuya_analytics):
+        clear_layout(self.main_layout)
+        self.tuya_analytics = tuya_analytics
 
         self.glayout = QGridLayout()
         self.glayout.setContentsMargins(0, 0, 0, 0)
