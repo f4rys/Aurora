@@ -1,4 +1,5 @@
 import json
+import os
 
 from PyQt6.QtCore import QTime
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QScrollArea, QButtonGroup, QLineEdit, QTimeEdit
@@ -66,11 +67,13 @@ class EditScheduleWidget(QWidget):
 
         self.action_label = QLabel(self.dictionary["select_schedule_action"])
         self.actions_hlayout = QHBoxLayout()
-        self.create_actions_list()
+        if self.schedule.devices_timers != {}:
+            self.create_actions_list()
 
         self.value_label = QLabel(self.dictionary["enter_action_value"])
         self.value_vlayout = QVBoxLayout()
-        self.create_value_layout()
+        if self.schedule.devices_timers != {}:
+            self.create_value_layout()
 
         self.save_button = QPushButton(self.dictionary["save_schedule_changes"])
         self.save_button.setProperty("class", "device_button")
@@ -93,6 +96,8 @@ class EditScheduleWidget(QWidget):
     def create_value_layout(self):
         clear_layout(self.value_vlayout)
 
+        ranges = self.get_ranges()
+
         action = self.actions_group.button(self.actions_group.checkedId())
         if action is not None:
             action = action.objectName()
@@ -114,6 +119,14 @@ class EditScheduleWidget(QWidget):
                 on_button.setCheckable(True)
                 off_button.setCheckable(True)
 
+                try:
+                    if self.schedule.functions[0]["value"]:
+                        on_button.setChecked(True)
+                    else:
+                        off_button.setChecked(True)
+                except Exception:
+                    pass
+
                 self.switch_button_group.addButton(on_button)
                 self.switch_button_group.addButton(off_button)
 
@@ -121,13 +134,38 @@ class EditScheduleWidget(QWidget):
                 value_layout.addWidget(off_button)
 
                 self.value_vlayout.addLayout(value_layout)
-            elif action == "bright_value_v2":
+            elif action == "bright_value":
                 self.value_label.setText(self.dictionary["select_brightness_value"])
                 self.value_widget = WhiteModeTab()
+
+                self.value_widget.brightness_slider.setRange(max(ranges["brightness"]["min"]), min(ranges["brightness"]["max"]))
+                self.value_widget.temperature_slider.setRange(max(ranges["temperature"]["min"]), min(ranges["temperature"]["max"]))
+
+                try:
+                    self.value_widget.brightness_slider.setValue(int(float(self.schedule.functions[0]["value"]["Value"])))
+                    self.value_widget.temperature_slider.setValue(int(float(self.schedule.functions[1]["value"]["Value"])))
+                except Exception:
+                    self.value_widget.brightness_slider.setValue(0)
+                    self.value_widget.temperature_slider.setValue(0)
+
                 self.value_vlayout.addWidget(self.value_widget)
-            elif action == "colour_data_v2":
+            elif action == "colour_data":
                 self.value_label.setText(self.dictionary["select_colour_value"])
                 self.value_widget = ColourModeTab()
+
+                self.value_widget.hue_slider.setRange(max(ranges["h"]["min"]), min(ranges["h"]["max"]))
+                self.value_widget.value_slider.setRange(max(ranges["s"]["min"]), min(ranges["s"]["max"]))
+                self.value_widget.saturation_slider.setRange(max(ranges["v"]["min"]), min(ranges["v"]["max"]))
+
+                try:
+                    self.value_widget.hue_slider.setValue(int(float(self.schedule.functions[0]["value"]["h"]["Value"])))
+                    self.value_widget.value_slider.setValue(int(float(self.schedule.functions[0]["value"]["s"]["Value"])))
+                    self.value_widget.saturation_slider.setValue(int(float(self.schedule.functions[0]["value"]["v"]["Value"])))
+                except Exception:
+                    self.value_widget.hue_slider.setValue(0)
+                    self.value_widget.value_slider.setValue(0)
+                    self.value_widget.saturation_slider.setValue(0)
+
                 self.value_vlayout.addWidget(self.value_widget)
 
     def set_time(self):
@@ -135,25 +173,27 @@ class EditScheduleWidget(QWidget):
         self.time_edit.setTime(QTime(hours, minutes))
 
     def load_available_actions(self, ids):
-        with open("modules/resources/json/actions.json", "r", encoding="utf-8") as f:
-            data = json.load(f)
+        if os.path.exists("actions.json"):
+            with open("modules/resources/json/actions.json", "r", encoding="utf-8") as f:
+                data = json.load(f)
 
-        try:
-            filtered_data = [node for node in data if list(node.keys())[0] in ids]
-            actions_sets = [set(list(node.values())[0]["actions"]) for node in filtered_data]
-            common_actions = set.intersection(*actions_sets)
-            common_actions = list(common_actions)
+            try:
+                filtered_data = [node for node in data if list(node.keys())[0] in ids]
+                actions_sets = [set(list(node.values())[0]["actions"]) for node in filtered_data]
+                common_actions = set.intersection(*actions_sets)
+                common_actions = list(common_actions)
 
-            return common_actions
+                return common_actions
 
-        except TypeError:
+            except TypeError:
+                return []
+        else:
             return []
 
     def create_actions_list(self):
         clear_layout(self.actions_hlayout)
 
         ids = []
-
         for button in self.devices_group.buttons():
             if button.isChecked():
                 ids.append(button.objectName())
@@ -176,24 +216,33 @@ class EditScheduleWidget(QWidget):
                     action_button.clicked.connect(self.create_value_layout)
                     self.actions_group.addButton(action_button)
                     self.actions_hlayout.addWidget(action_button)
+                    if self.schedule.functions != []:
+                        if self.schedule.functions[0]["code"] == "switch_led" and action_button:
+                            action_button.setChecked(True)
                 elif action == "bright_value_v2":
                     action_button = QPushButton()
                     action_button.setProperty("class", "weekday_button")
                     action_button.setCheckable(True)
-                    action_button.setObjectName(action)
+                    action_button.setObjectName("bright_value")
                     action_button.setMinimumSize(25, 25)
                     action_button.clicked.connect(self.create_value_layout)
                     self.actions_group.addButton(action_button)
                     self.actions_hlayout.addWidget(action_button)
+                    if self.schedule.functions != []:
+                        if self.schedule.functions[0]["code"] == "bright_value" and action_button:
+                            action_button.setChecked(True)
                 elif action == "colour_data_v2":
                     action_button = QPushButton()
                     action_button.setProperty("class", "weekday_button")
                     action_button.setCheckable(True)
-                    action_button.setObjectName(action)
+                    action_button.setObjectName("colour_data")
                     action_button.setMinimumSize(25, 25)
                     action_button.clicked.connect(self.create_value_layout)
                     self.actions_group.addButton(action_button)
                     self.actions_hlayout.addWidget(action_button)
+                    if self.schedule.functions != []:
+                        if self.schedule.functions[0]["code"] == "colour_data" and action_button:
+                            action_button.setChecked(True)
 
         self.actions_hlayout.addItem(spacer)
 
@@ -216,21 +265,20 @@ class EditScheduleWidget(QWidget):
 
     def load_devices(self):
         self.devices_vlayout = QVBoxLayout()
+        if os.path.exists("devices.json"):
+            with open("devices.json", encoding="utf-8") as file:
+                data = json.load(file)
 
-        with open("devices.json", encoding="utf-8") as file:
-            data = json.load(file)
-
-        for device in data:
-            button = QPushButton(device["name"])
-            button.setObjectName(device["id"])
-            button.setProperty("class", "device_button")
-            button.setCheckable(True)
-            button.clicked.connect(self.create_actions_list)
-            self.devices_group.addButton(button)
-            if device["id"] in self.schedule.devices_timers.keys():
-                button.setChecked(True)
-
-            self.devices_vlayout.addWidget(button)
+            for device in data:
+                button = QPushButton(device["name"])
+                button.setObjectName(device["id"])
+                button.setProperty("class", "device_button")
+                button.setCheckable(True)
+                button.clicked.connect(self.create_actions_list)
+                self.devices_group.addButton(button)
+                if device["id"] in self.schedule.devices_timers.keys():
+                    button.setChecked(True)
+                self.devices_vlayout.addWidget(button)
 
     def weekarray_to_string(self, weekarray):
         days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -238,6 +286,43 @@ class EditScheduleWidget(QWidget):
         for day in weekarray:
             weekday_dict[day] = 1
         return ''.join(str(weekday_dict[day]) for day in days)
+
+    def get_ranges(self):
+        ids = []
+
+        results = {
+                "brightness": {"min": [], "max": []},
+                "temperature": {"min": [], "max": []},
+                "h": {"min": [], "max": []},
+                "s": {"min": [], "max": []},
+                "v": {"min": [], "max": []},
+            }
+        
+        for button in self.devices_group.buttons():
+            if button.isChecked():
+                ids.append(button.objectName())
+
+        if os.path.exists("devices.json"):
+            with open("devices.json", encoding="utf-8") as file:
+                data = json.load(file)
+
+            for device in data:
+                if device["id"] in ids:
+                    mapping = device["mapping"]
+                    results["brightness"]["min"].append(mapping["22"]["values"]["min"])
+                    results["brightness"]["max"].append(mapping["22"]["values"]["max"])
+                    results["temperature"]["min"].append(mapping["23"]["values"]["min"])
+                    results["temperature"]["max"].append(mapping["23"]["values"]["max"])
+
+                    if "24" in mapping:
+                        results["h"]["min"].append(mapping["24"]["values"]["h"]["min"])
+                        results["h"]["max"].append(mapping["24"]["values"]["h"]["max"])
+                        results["s"]["min"].append(mapping["24"]["values"]["s"]["min"])
+                        results["s"]["max"].append(mapping["24"]["values"]["s"]["max"])
+                        results["v"]["min"].append(mapping["24"]["values"]["v"]["min"])
+                        results["v"]["max"].append(mapping["24"]["values"]["v"]["max"])
+
+        return results
 
     def save_changes(self):
         schedule_name = self.name_edit.text()
@@ -264,6 +349,7 @@ class EditScheduleWidget(QWidget):
             action = action_button.objectName()
 
         value = ""
+        functions = []
         if action == "switch_led":
             checked_button = self.switch_button_group.checkedButton()
             if checked_button:
@@ -272,28 +358,23 @@ class EditScheduleWidget(QWidget):
                     value = True
                 elif button_name == "OFF":
                     value = False
-        elif action == "bright_value_v2":
+            functions.append({"code": action, "value": value})
+        elif action == "bright_value":
             if isinstance(self.value_widget, WhiteModeTab):
                 brightness = self.value_widget.brightness_slider.value()
                 temperature = self.value_widget.temperature_slider.value()
-                value = {
-                    "brightness": brightness,
-                    "temperature": temperature
-                }
-        elif action == "colour_data_v2":
+                functions.append({"code": "bright_value", "value": brightness})
+                functions.append({"code": "temp_value", "value": temperature})
+        elif action == "colour_data":
             if isinstance(self.value_widget, ColourModeTab):
                 h = self.value_widget.hue_slider.value()
                 s = self.value_widget.saturation_slider.value()
                 v = self.value_widget.value_slider.value()
-                value = {
-                    "h": h,
-                    "s": s,
-                    "v": v
-                }
+                functions.append({"code": "colour_data", "value": {"h": h, "s": s, "v": v}})
 
         if self.new:
             devices = dict.fromkeys(new_devices, "")
-            schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
+            schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, functions)
             responses = schedule.save_to_cloud()
             if False in responses:
                 show_error_toast(self)
@@ -305,7 +386,7 @@ class EditScheduleWidget(QWidget):
             only_in_list1 = old_devices - new_devices
             for item in only_in_list1:
                 devices = {item: ""}
-                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
+                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, functions)
                 responses = schedule.remove_from_cloud()
                 if False in responses:
                     show_error_toast(self)
@@ -314,7 +395,7 @@ class EditScheduleWidget(QWidget):
             only_in_list2 = new_devices - old_devices
             for item in only_in_list2:
                 devices = {item: ""}
-                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
+                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, functions)
                 responses = schedule.save_to_cloud()
                 if False in responses:
                     show_error_toast(self)
@@ -323,7 +404,7 @@ class EditScheduleWidget(QWidget):
             in_both_lists = old_devices & new_devices
             for item in in_both_lists:
                 devices = {item: self.schedule.devices_timers[item]}
-                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, action, value)
+                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, functions)
                 responses = schedule.modify_on_cloud()
                 if False in responses:
                     show_error_toast(self)

@@ -1,4 +1,5 @@
 from configparser import ConfigParser
+import os
 
 from PyQt6.QtWidgets import QWidget, QCheckBox, QComboBox, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel
 
@@ -70,9 +71,10 @@ class SettingsWidget(QWidget):
 
     def change_max_retry(self, val):
         self.config.set("General", "max_retry", str(val))
-
-        with open('settings.ini', 'w', encoding="utf-8") as configfile:
-            self.config.write(configfile)
+        
+        if os.path.exists("settings.ini"):
+            with open('settings.ini', 'w', encoding="utf-8") as configfile:
+                self.config.write(configfile)
 
     def change_language(self, val):
         if val == 0:
@@ -81,8 +83,8 @@ class SettingsWidget(QWidget):
             language = 'pl'
 
         self.config.set("GUI", "interface_language", language)
-
-        with open('settings.ini', 'w', encoding="utf-8") as configfile:
-            self.config.write(configfile)
+        if os.path.exists("settings.ini"):
+            with open('settings.ini', 'w', encoding="utf-8") as configfile:
+                self.config.write(configfile)
 
         self.parent.parent.parent.restart()

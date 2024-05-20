@@ -1,4 +1,5 @@
 import json
+import os
 
 from PyQt6.QtCore import Qt, QObject
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QFrame, QScrollArea
@@ -45,7 +46,7 @@ class SchedulesWidget(QWidget):
         self.vlayout.addItem(spacer_item)
 
         self.add_schedule_button = QPushButton(text)
-        self.add_schedule_button.clicked.connect(self.create_list)
+        self.add_schedule_button.clicked.connect(self.add_schedule)
         self.add_schedule_button.setProperty("class", "device_button")
         self.add_schedule_button.setObjectName("add_schedule_button")
         self.main_layout.addWidget(self.add_schedule_button, alignment=Qt.AlignmentFlag.AlignBottom)
@@ -78,7 +79,14 @@ class SchedulesWidget(QWidget):
             time_label = QLabel(schedule.time)
 
             action_button = QPushButton()
-            action_button.setObjectName(schedule.code)
+            if schedule.functions[0]["code"] == "switch_led":
+                if schedule.functions[0]["value"]:
+                    action_button.setObjectName("switch_led_on")
+                else:
+                    action_button.setObjectName("switch_led_off")
+            else:
+                action_button.setObjectName(schedule.functions[0]["code"])
+
             action_button.setProperty("class", "borderless")
             action_button.setCheckable(True)
             action_button.setChecked(True)
@@ -106,20 +114,16 @@ class SchedulesWidget(QWidget):
 
             spacer_item1 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
             spacer_item2 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-            spacer_item3 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-            spacer_item4 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-            first_row_layout.addItem(spacer_item1)
             first_row_layout.addWidget(name_label)
-            first_row_layout.addItem(spacer_item2)
+            first_row_layout.addItem(spacer_item1)
 
-            second_row_layout.addItem(spacer_item3)
+            second_row_layout.addItem(spacer_item2)
             second_row_layout.addWidget(time_label)
             second_row_layout.addWidget(action_button)
             second_row_layout.addWidget(active_button)
             second_row_layout.addWidget(edit_button)
             second_row_layout.addWidget(delete_button)
-            second_row_layout.addItem(spacer_item4)
 
             # Third row
             weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -141,18 +145,18 @@ class SchedulesWidget(QWidget):
 
             # Devices
             devices_layout = QVBoxLayout()
+            if os.path.exists("devices.json"):
+                with open("devices.json", "r") as f:
+                    devices_data = json.load(f)
 
-            with open("devices.json", "r") as f:
-                devices_data = json.load(f)
-
-            for device_id in schedule.devices_timers.keys():
-                for device in devices_data:
-                    if device["id"] == device_id:
-                        device_label = QLabel(device["name"])
-                        device_label.setProperty("class", "credentials_input")
-                        device_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-                        devices_layout.addWidget(device_label)
-                        break
+                for device_id in schedule.devices_timers.keys():
+                    for device in devices_data:
+                        if device["id"] == device_id:
+                            device_label = QLabel(device["name"])
+                            device_label.setProperty("class", "credentials_input")
+                            device_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+                            devices_layout.addWidget(device_label)
+                            break
 
             schedule_vlayout.addLayout(first_row_layout)
             schedule_vlayout.addLayout(second_row_layout)

@@ -1,3 +1,5 @@
+import os
+
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QSystemTrayIcon
 
@@ -11,9 +13,10 @@ class Application(QApplication):
 
         self.window = MainWindow(self)
 
-        with open('styles.qss', 'r', encoding="utf-8") as f:
-            style = f.read()
-            self.setStyleSheet(style)
+        if os.path.exists("styles.qss"):
+            with open('styles.qss', 'r', encoding="utf-8") as f:
+                style = f.read()
+                self.setStyleSheet(style)
 
         icon = QIcon(":/icon/icon.png")
         tray = QSystemTrayIcon()

@@ -9,7 +9,7 @@ class TuyaSchedulesManager():
         self.raw_schedules = []
         self.schedules = []
         self.tuya_cloud = TuyaCloud()
-        self.empty_schedule = TuyaSchedule("", False, "00:00", "", "0000000", {}, "", "")
+        self.empty_schedule = TuyaSchedule("", False, "00:00", "", "0000000", {}, [])
 
         with open('devices.json', 'r', encoding="utf-8") as f:
             devices_data = json.load(f)
@@ -44,5 +44,5 @@ class TuyaSchedulesManager():
         result = list(combined_data.values())
 
         for item in result:
-            schedule = TuyaSchedule(item["alias_name"],item["enable"], item["time"],item["timezone_id"],item["loops"],item["devices_timers"],item["functions"][0]["code"],item["functions"][0]["value"])
+            schedule = TuyaSchedule(item["alias_name"],item["enable"], item["time"],item["timezone_id"],item["loops"],item["devices_timers"],item["functions"])
             self.schedules.append(schedule)

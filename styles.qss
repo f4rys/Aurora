@@ -302,15 +302,23 @@ QComboBox::down-arrow{
     image: url(":/all_devices/device_on.png") no-repeat center;
 }
 
-#bright_value_v2{
+#switch_led_on{
+    image: url(":/all_devices/device_on.png") no-repeat center;
+}
+
+#switch_led_off{
+    image: url(":/all_devices/device_off_gray.png") no-repeat center;
+}
+
+#bright_value{
     image: url(":/device/brightness_off.png") no-repeat center;
 }
 
-#bright_value_v2:checked{
+#bright_value:checked{
     image: url(":/device/brightness.png") no-repeat center;
 }
 
-#temp_value_v2{
+#temp_value{
     image: url(":/device/warmth_off.png") no-repeat center;
 }
 
@@ -318,11 +326,11 @@ QComboBox::down-arrow{
     image: url(":/device/warmth.png") no-repeat center;
 }
 
-#colour_data_v2{
+#colour_data{
     image: url(":/device/colours_off.png") no-repeat center;
 }
 
-#colour_data_v2:checked{
+#colour_data:checked{
     image: url(":/device/colours.png") no-repeat center;
 }
 
