@@ -173,7 +173,7 @@ class EditScheduleWidget(QWidget):
         self.time_edit.setTime(QTime(hours, minutes))
 
     def load_available_actions(self, ids):
-        if os.path.exists("actions.json"):
+        if os.path.exists("modules/resources/json/actions.json"):
             with open("modules/resources/json/actions.json", "r", encoding="utf-8") as f:
                 data = json.load(f)
 
@@ -297,7 +297,7 @@ class EditScheduleWidget(QWidget):
                 "s": {"min": [], "max": []},
                 "v": {"min": [], "max": []},
             }
-        
+
         for button in self.devices_group.buttons():
             if button.isChecked():
                 ids.append(button.objectName())
@@ -385,7 +385,7 @@ class EditScheduleWidget(QWidget):
             # Items only in the first list
             only_in_list1 = old_devices - new_devices
             for item in only_in_list1:
-                devices = {item: ""}
+                devices = {item: self.schedule.devices_timers[item]}
                 schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, functions)
                 responses = schedule.remove_from_cloud()
                 if False in responses:
