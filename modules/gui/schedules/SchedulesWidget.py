@@ -1,3 +1,5 @@
+import json
+
 from PyQt6.QtCore import Qt, QObject
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QFrame, QScrollArea
 
@@ -66,10 +68,21 @@ class SchedulesWidget(QWidget):
             first_row_layout.setObjectName("first_row")
             second_row_layout = QHBoxLayout()
             second_row_layout.setObjectName("second_row")
+            third_row_layout = QHBoxLayout()
+            second_row_layout.setObjectName("third_row")
 
             # First row
             name_label = QLabel(schedule.alias_name)
+
+            # Second row
             time_label = QLabel(schedule.time)
+
+            action_button = QPushButton()
+            action_button.setObjectName(schedule.code)
+            action_button.setProperty("class", "borderless")
+            action_button.setCheckable(True)
+            action_button.setChecked(True)
+            action_button.setDisabled(True)
 
             active_button = QPushButton()
             active_button.setProperty("class", "borderless")
@@ -91,15 +104,24 @@ class SchedulesWidget(QWidget):
             delete_button.setObjectName("exit_button")
             delete_button.clicked.connect(lambda checked, schedule=schedule: self.delete_schedule(schedule))
 
-            spacer_item = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+            spacer_item1 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+            spacer_item2 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+            spacer_item3 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+            spacer_item4 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
+            first_row_layout.addItem(spacer_item1)
             first_row_layout.addWidget(name_label)
-            first_row_layout.addItem(spacer_item)
-            first_row_layout.addWidget(time_label)
-            first_row_layout.addWidget(active_button)
-            first_row_layout.addWidget(edit_button)
-            first_row_layout.addWidget(delete_button)
+            first_row_layout.addItem(spacer_item2)
 
+            second_row_layout.addItem(spacer_item3)
+            second_row_layout.addWidget(time_label)
+            second_row_layout.addWidget(action_button)
+            second_row_layout.addWidget(active_button)
+            second_row_layout.addWidget(edit_button)
+            second_row_layout.addWidget(delete_button)
+            second_row_layout.addItem(spacer_item4)
+
+            # Third row
             weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
             for i, day in enumerate(weekdays):
@@ -114,12 +136,28 @@ class SchedulesWidget(QWidget):
                 else:
                     week_day_label.setChecked(False)
 
-                second_row_layout.addWidget(week_day_label)
-                second_row_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+                third_row_layout.addWidget(week_day_label)
+                third_row_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-                ###
+            # Devices
+            devices_layout = QVBoxLayout()
+
+            with open("devices.json", "r") as f:
+                devices_data = json.load(f)
+
+            for device_id in schedule.devices_timers.keys():
+                for device in devices_data:
+                    if device["id"] == device_id:
+                        device_label = QLabel(device["name"])
+                        device_label.setProperty("class", "credentials_input")
+                        device_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+                        devices_layout.addWidget(device_label)
+                        break
+
             schedule_vlayout.addLayout(first_row_layout)
             schedule_vlayout.addLayout(second_row_layout)
+            schedule_vlayout.addLayout(third_row_layout)
+            schedule_vlayout.addLayout(devices_layout)
 
             self.vlayout.addWidget(frame, alignment=Qt.AlignmentFlag.AlignTop)
 
