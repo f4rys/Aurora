@@ -80,24 +80,26 @@ class TuyaDevice():
         return self.device.colour_hsv()
 
     def set_countdown(self, sec):
-        with open("modules/resources/json/countdowns.json", "r+", encoding="utf-8") as f:
-            data = json.load(f)
-            data[self.id] = time.time() + sec
+        if os.path.exists("modules/resources/json/countdowns.json"):
+            with open("modules/resources/json/countdowns.json", "r+", encoding="utf-8") as f:
+                data = json.load(f)
+                data[self.id] = time.time() + sec
 
-            f.seek(0)
-            json.dump(data, f)
+                f.seek(0)
+                json.dump(data, f)
 
-        self.device.set_timer(sec, 26)
+            self.device.set_timer(sec, 26)
 
     def delete_countdown(self):
-        with open("modules/resources/json/countdowns.json", "r", encoding="utf-8") as file:
-            data = json.load(file)
+        if os.path.exists("modules/resources/json/countdowns.json"):
+            with open("modules/resources/json/countdowns.json", "r", encoding="utf-8") as file:
+                data = json.load(file)
 
-        if self.id in data:
-            data.pop(self.id)
+            if self.id in data:
+                data.pop(self.id)
 
-        with open("modules/resources/json/countdowns.json", 'w', encoding="utf-8") as file:
-            json.dump(data, file, indent=2)
+            with open("modules/resources/json/countdowns.json", 'w', encoding="utf-8") as file:
+                json.dump(data, file, indent=2)
 
     def cancel_countdown(self):
         self.device.set_timer(0, 26)

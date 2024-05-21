@@ -135,8 +135,12 @@ class AnalyticsWidget(QWidget):
 
         if devices:
             figure = self.tuya_analytics.create_plot(devices)
-            plot = FigureCanvasQTAgg(figure)
-            self.plotlayout.addWidget(plot)
+            if figure is not None:
+                plot = FigureCanvasQTAgg(figure)
+                self.plotlayout.addWidget(plot)
+            else:
+                label = QLabel(self.dictionary["plot_error"])
+                self.plotlayout.addWidget(label, alignment=Qt.AlignmentFlag.AlignCenter)
         else:
             label = QLabel(self.dictionary["select_device_prompt"])
             self.plotlayout.addWidget(label, alignment=Qt.AlignmentFlag.AlignCenter)
