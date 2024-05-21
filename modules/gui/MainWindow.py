@@ -73,6 +73,7 @@ class MainWindow(QMainWindow):
 
         if check_credentials():
             self.show_all_devices()
+            self.navigation_bar_layout.devices_button.setChecked(True)
         else:
             self.show_credentials("", "", "", "")
 
