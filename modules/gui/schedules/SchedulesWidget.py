@@ -21,6 +21,8 @@ class SchedulesWidget(QWidget):
         self.scroll_area = QScrollArea()
         self.scroll_area.setProperty("class", "borderless")
         self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.horizontalScrollBar().setEnabled(False) # type: ignore
+        self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.main_layout.addWidget(self.scroll_area)
 
         self.scroll_widget = QWidget()
