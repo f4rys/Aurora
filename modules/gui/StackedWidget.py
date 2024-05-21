@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QStackedWidget, QSizePolicy
 from modules.gui.credentials import CredentialsWidget
 from modules.gui.device import DeviceWidget
 from modules.gui.all_devices import AllDevicesWidget
-from modules.gui.scenes import ScenesWidget
+from modules.gui.smart_mode import SmartModeWidget
 from modules.gui.analytics import AnalyticsWidget
 from modules.gui.schedules import SchedulesWidget, EditScheduleWidget
 from modules.gui.help import HelpWidget
@@ -33,8 +33,8 @@ class StackedWidget(QStackedWidget):
         self.all_devices = AllDevicesWidget(self)
         self.addWidget(self.all_devices)
 
-        self.scenes = ScenesWidget()
-        self.addWidget(self.scenes)
+        self.smart_mode = SmartModeWidget()
+        self.addWidget(self.smart_mode)
 
         self.analytics = AnalyticsWidget(self)
         self.addWidget(self.analytics)

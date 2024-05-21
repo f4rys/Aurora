@@ -48,7 +48,7 @@ class MainWindow(QMainWindow):
 
         self.navigation_bar_layout = NavigationBarLayout()
         self.navigation_bar_layout.devices_button.clicked.connect(self.show_all_devices)
-        self.navigation_bar_layout.scenes_button.clicked.connect(self.show_scenes)
+        self.navigation_bar_layout.smart_mode_button.clicked.connect(self.show_smart_mode)
         self.navigation_bar_layout.analytics_button.clicked.connect(self.show_analytics)
         self.navigation_bar_layout.schedules_button.clicked.connect(self.show_schedules)
         self.navigation_bar_layout.help_button.clicked.connect(self.show_help)
@@ -142,9 +142,9 @@ class MainWindow(QMainWindow):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.all_devices))
         self.action_bar_layout.set_label(self.dictionary["devices_title"])
 
-    def show_scenes(self):
-        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.scenes))
-        self.action_bar_layout.set_label(self.dictionary["scenes_title"])
+    def show_smart_mode(self):
+        self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.smart_mode))
+        self.action_bar_layout.set_label(self.dictionary["smart_mode_title"])
 
     def show_analytics(self):
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.analytics))
@@ -178,7 +178,7 @@ class MainWindow(QMainWindow):
 
     def disable_buttons(self):
         self.navigation_bar_layout.devices_button.setEnabled(False)
-        self.navigation_bar_layout.scenes_button.setEnabled(False)
+        self.navigation_bar_layout.smart_mode_button.setEnabled(False)
         self.navigation_bar_layout.analytics_button.setEnabled(False)
         self.navigation_bar_layout.schedules_button.setEnabled(False)
         self.navigation_bar_layout.help_button.setEnabled(False)
@@ -187,7 +187,7 @@ class MainWindow(QMainWindow):
 
     def enable_buttons(self):
         self.navigation_bar_layout.devices_button.setEnabled(True)
-        self.navigation_bar_layout.scenes_button.setEnabled(True)
+        self.navigation_bar_layout.smart_mode_button.setEnabled(True)
         self.navigation_bar_layout.analytics_button.setEnabled(True)
         self.navigation_bar_layout.schedules_button.setEnabled(True)
         self.navigation_bar_layout.help_button.setEnabled(True)
@@ -198,13 +198,13 @@ class MainWindow(QMainWindow):
         self.navigation_bar_layout.button_group.setExclusive(False)
 
         self.navigation_bar_layout.devices_button.setChecked(False)
-        self.navigation_bar_layout.scenes_button.setChecked(False)
+        self.navigation_bar_layout.smart_mode_button.setChecked(False)
         self.navigation_bar_layout.analytics_button.setChecked(False)
         self.navigation_bar_layout.schedules_button.setChecked(False)
         self.navigation_bar_layout.help_button.setChecked(False)
 
         self.navigation_bar_layout.devices_button.update()
-        self.navigation_bar_layout.scenes_button.update()
+        self.navigation_bar_layout.smart_mode_button.update()
         self.navigation_bar_layout.analytics_button.update()
         self.navigation_bar_layout.schedules_button.update()
         self.navigation_bar_layout.help_button.update()

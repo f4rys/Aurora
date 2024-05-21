@@ -35,7 +35,7 @@
     </qresource>
     <qresource prefix="navigation">
         <file alias="devices.png">../../assets/devices.png</file>
-        <file alias="scenes.png">../../assets/scenes.png</file>
+        <file alias="smart_mode.png">../../assets/smart_mode.png</file>
         <file alias="analytics.png">../../assets/analytics.png</file>
         <file alias="schedules.png">../../assets/schedules.png</file>
         <file alias="help.png">../../assets/help.png</file>

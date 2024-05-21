@@ -26,7 +26,7 @@ class SettingsWidget(QWidget):
         self.smart_mode_label = QLabel(self.dictionary["smart_mode_label"])
 
         self.smart_mode = QCheckBox(self)
-        self.smart_mode.setText(self.dictionary["smart_mode"])
+        self.smart_mode.setText(self.dictionary["smart_mode_settings"])
 
         if mode == 'on':
             self.smart_mode.setChecked(True)

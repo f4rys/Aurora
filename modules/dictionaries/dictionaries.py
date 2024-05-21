@@ -1,7 +1,7 @@
 dictionary_en = {
     # Navigation bar
     "devices": "DEVICES",
-    "scenes": "SCENES",
+    "smart_mode": "SMART MODE",
     "analytics": "ANALYTICS",
     "schedules": "SCHEDULES",
     "help": "HELP",
@@ -16,7 +16,7 @@ dictionary_en = {
     "reload_in_progress": "Reloading devices...",
     "reload_completed": "Reload",
     # Settings
-    "smart_mode": "Smart Mode",
+    "smart_mode_settings": "Smart Mode",
     "language": "Language",
     "smart_mode_label": "Assistance with device control",
     "language_label": "Interface language",
@@ -32,7 +32,7 @@ dictionary_en = {
     "change_credentials_button": "Change credentials",
     # Action bar label titles
     "devices_title": "Devices",
-    "scenes_title": "Scenes",
+    "smart_mode_title": "Smart mode",
     "analytics_title": "Analytics",
     "schedules_title": "Schedules",
     "help_title": "Help",
@@ -115,9 +115,9 @@ dictionary_en = {
 dictionary_pl = {
     # Navigation bar
     "devices": "URZĄDZENIA",
-    "scenes": "SCENARIUSZE",
+    "smart_mode": "ASYSTENT",
     "analytics": "STATYSTYKI",
-    "schedules": "KALENDARZ",
+    "schedules": "HARMONOGRAMY",
     "help": "POMOC",
     # Device widget
     "white": "Białe",
@@ -130,9 +130,9 @@ dictionary_pl = {
     "reload_in_progress": "Odświeżanie w toku...",
     "reload_completed": "Odśwież",
     # Settings
-    "smart_mode": "Tryb inteligentny",
+    "smart_mode_settings": "Tryb inteligentny",
     "language": "Język",
-    "smart_mode_label": "Wspomaganie sterowaniem urządzeniami",
+    "smart_mode_label": "Asystent wspomagania sterowaniem urządzeniami",
     "language_label": "Język interfejsu",
     "max_retry_label": "Liczba prób połączenia się z urządzeniem",
     "max_retry_0": "Najszybsze, ale mało skuteczne",
@@ -146,9 +146,9 @@ dictionary_pl = {
     "change_credentials_button": "Zmień konfigurację",
     # Action bar label titles
     "devices_title": "Urządzenia",
-    "scenes_title": "Scenariusze",
+    "smart_mode_title": "Tryb inteligentny",
     "analytics_title": "Statystyki",
-    "schedules_title": "Kalendarz",
+    "schedules_title": "Harmonogramy",
     "help_title": "Pomoc",
     "settings_title": "Ustawienia",
     "profile_title": "Profil",
