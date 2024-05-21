@@ -88,6 +88,27 @@ dictionary_en = {
     "error_toast_title": "Failure",
     "error_toast_body": "A problem occured. Try later",
     "error_toast_body_credentials": "A problem occured. Check if the data you entered is correct and try again.",
+    # Help
+    "tooltips_q": "What does this [thing] do?",
+    "tooltips_a": "Hover the cursor over the item and wait. \nA tooltip will tell you what this particular \nelement is for.",
+    "devices_offline_q": "All / some of my devices appear \nto be offline.",
+    "devices_offline_a": "Try reloading. If it doesn't change anything, \ngo to settings (gear icon in the top right corner) \nand change 'number of attempts to connect \nto the device' to a higher number. If the problem \nstill persists, there may be a problem with your \nWi-Fi signal strength or bandwidth. Not all Tuya \ndevices seem to work with 5Ghz, so try changing \nit to 2.4Ghz in your router settings.",
+    "countdown_execution_requirements_q": "Will the countdown still work \neven if I close the application / turn off \nmy PC?",
+    "countdown_execution_requirements_a": "Yes, the countdown is saved in the device's \nmemory, so it will be executed regardless of \nthe application running or not. Wi-Fi connection \nalso isn't necessary here. ",
+    "countdown_limit_q": "What's with the countdown limit?",
+    "countdown_limit_a": "Most of Tuya devices accept countdowns \nup to 24 hours.",
+    "analytics_plot_q": "What does the analytics plot represent?",
+    "analytics_plot_a": "It shows you the number of commands sent to \ndevice/devices over the last 7 days. It also includes \nall the actions that were taken from any other \napplication, not only Aurora.",
+    "schedule_error_q": "I get an error trying to \nadd/modify/delete schedule.",
+    "schedule_error_a": "Try again later. There may be problems \nestablishing a connection with Tuya cloud.",
+    "schedule_execution_requirements_q": "Will the schedule be executed \nif I close the application / turn off my PC?",
+    "schedule_execution_requirements_a": "Yes, it is saved in Tuya Cloud, so the application \nisn't necessary, but device still needs to have \na stable Wi-Fi connection.",
+    "smart_mode_q": "What if the suggestions made by \nthe smart mode are not accurate?",
+    "smart_mode_a": "If you inspected smart mode suggestions \nand decided that some of them are mismatched, \nyou can delete them so they will not be executed.",
+    "question_not_listed_q": "My question isn't listed here.",
+    "question_not_listed_a_1": "Feel free to email me on",
+    "question_not_listed_a_2": "or visit Aurora's repository",
+    "author" : "Author:"
 }
 
 dictionary_pl = {
@@ -180,4 +201,25 @@ dictionary_pl = {
     "error_toast_title": "Błąd",
     "error_toast_body": "Wystąpił problem. Spróbuj później",
     "error_toast_body_credentials": "Wystąpił problem. Sprawdź, czy wprowadzone dane są poprawne i spróbuj ponownie.",
+    # Help
+    "tooltips_q": "Do czego [to] służy?",
+    "tooltips_a": "Najedź kursorem na element i poczekaj. \nEtykieta narzędzia powie ci, do czego służy \ndany element.",
+    "devices_offline_q": "Wszystkie / niektóre z moich urządzeń \nwydają się być niedostępne.",
+    "devices_offline_a": "Spróbuj ponownie załadować urządzenia. \nJeśli nic to nie zmieni, przejdź do ustawień \n(ikona koła zębatego w prawym górnym rogu) \ni zmień „liczbę prób połączenia z urządzeniem” \nna wyższą. Jeśli problem nadal się utrzymuje, \nmoże to oznaczać problem z siłą sygnału \nWi-Fi lub przepustowością łącza. Wygląda na \nto, że nie wszystkie urządzenia Tuya działają z \nczęstotliwością 5 GHz, więc spróbuj zmienić ją \nna 2,4 GHz w ustawieniach routera.",
+    "countdown_execution_requirements_q": "Czy odliczanie będzie nadal działać, \nnawet jeśli zamknę aplikację / wyłączę \nkomputer?",
+    "countdown_execution_requirements_a": "Tak, odliczanie jest zapisywane w pamięci \nurządzenia, więc zostanie wykonane niezależnie \nod tego, czy aplikacja jest uruchomiona, czy nie. \nPołączenie Wi-Fi również nie jest tutaj konieczne.",
+    "countdown_limit_q": "O co chodzi z limitem odliczania?",
+    "countdown_limit_a": "Większość urządzeń Tuya akceptuje \nodliczanie do maksymalnie 24 godzin.",
+    "analytics_plot_q": "Co przedstawia wykres statystyczny?",
+    "analytics_plot_a": "Pokazuje liczbę poleceń wysłanych do \nurządzenia/urządzeń w ciągu ostatnich 7 dni. \nObejmuje również wszystkie działania, które \nzostały podjęte z dowolnej innej aplikacji, \nnie tylko z Aurory.",
+    "schedule_error_q": "Pojawia się błąd podczas próby \ndodania/modyfikacji/usunięcia \nharmonogramu.",
+    "schedule_error_a": "Spróbuj ponownie później. Mogą wystąpić \nproblemy z nawiązaniem połączenia z chmurą \nTuya.",
+    "schedule_execution_requirements_q": "Czy harmonogram zostanie wykonany, \njeśli zamknę aplikację / wyłączę \nkomputer?",
+    "schedule_execution_requirements_a": "Tak, jest on zapisywany w chmurze Tuya, \nwięc aplikacja nie jest konieczna, ale urządzenie \nnadal musi mieć stabilne połączenie Wi-Fi.",
+    "smart_mode_q": "Co jeśli sugestie trybu inteligentnego \nnie są trafne?",
+    "smart_mode_a": "Jeśli sprawdziłeś sugestie trybu inteligentnego \ni zdecydowałeś, że niektóre z nich są nietrafione, \nmożesz je usunąć, aby nie zostały wykonane.",
+    "question_not_listed_q": "Mojego pytania nie ma na liście.",
+    "question_not_listed_a_1": "Zapraszam do kontaktu mailowego:",
+    "question_not_listed_a_2": "lub odwiedź repozytorium projektu Aurora:",
+    "author" : "Autor:"
 }

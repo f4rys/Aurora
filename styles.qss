@@ -397,3 +397,22 @@ QComboBox::down-arrow{
 #active_button:checked{
     image: url(":/misc/on.png") no-repeat center;
 }
+
+.question{
+    font-weight: bold;
+    margin-top: 14px;
+}
+
+.faq{
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+.link{
+    text-decoration: none;
+}
+
+#app_icon{
+    margin-top: 20px;
+    margin-bottom: 6px;
+}
