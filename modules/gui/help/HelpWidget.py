@@ -69,7 +69,7 @@ class HelpWidget(QWidget):
         self.question_not_listed_a_1_label = QLabel(self.dictionary["question_not_listed_a_1"])
         self.email_label = QLabel()
         self.email_label.setProperty("class", "link")
-        self.email_label.setText("<a href='"'mailto:wojciech.michal.bartoszek@gmail.com'"'>wojciech.michal.bartoszek@gmail.com</a")
+        self.email_label.setText("<a href='mailto:wojciech.michal.bartoszek@gmail.com'>wojciech.michal.bartoszek@gmail.com</a")
         self.email_label.setOpenExternalLinks(True)
         self.question_not_listed_a_2_label = QLabel(self.dictionary["question_not_listed_a_2"])
         self.repository_label = QLabel()
