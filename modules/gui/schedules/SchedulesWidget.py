@@ -148,7 +148,7 @@ class SchedulesWidget(QWidget):
             # Devices
             devices_layout = QVBoxLayout()
             if os.path.exists("devices.json"):
-                with open("devices.json", "r") as f:
+                with open("devices.json", "r", encoding="utf-8") as f:
                     devices_data = json.load(f)
 
                 for device_id in schedule.devices_timers.keys():
