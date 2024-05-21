@@ -6,7 +6,7 @@ class InitiateTuyaSchedulesManagerThread(QThread):
 
     def run(self):
         try:
-            manager = TuyaSchedulesManager()
+            manager = TuyaSchedulesManager("general")
             self.finished.emit(manager)
         except Exception:
             self.finished.emit(None)

@@ -6,11 +6,12 @@ from modules.tuya.TuyaCloud import TuyaCloud
 from modules.tuya import TuyaSchedule
 
 class TuyaSchedulesManager():
-    def __init__(self):
+    def __init__(self, category):
+        self.category = category
         self.raw_schedules = []
         self.schedules = []
         self.tuya_cloud = TuyaCloud()
-        self.empty_schedule = TuyaSchedule("", False, "00:00", "", "0000000", {}, [])
+        self.empty_schedule = TuyaSchedule(alias_name="", enable=False, time="00:00", timezone_id="", loops="0000000", devices_timers={}, functions=[])
 
         if os.path.exists('devices.json'):
             try:
@@ -25,11 +26,14 @@ class TuyaSchedulesManager():
                         if response is not None:
                             if response["result"]:
                                 for i in range(0, len(response["result"])):
-                                    schedule = {
-                                        device_id: response["result"][i]
-                                    }
-                                    self.raw_schedules.append(schedule)
-
+                                        if self.category == "smart_mode":
+                                            if response["result"][i]["category"] == "smart_mode":
+                                                    schedule = {device_id: response["result"][i]}
+                                                    self.raw_schedules.append(schedule)
+                                        if self.category == "general":
+                                            if response["result"][i]["category"] == "":
+                                                    schedule = {device_id: response["result"][i]}
+                                                    self.raw_schedules.append(schedule)
                 combined_data = defaultdict(dict)
 
                 for item in self.raw_schedules:
@@ -47,7 +51,10 @@ class TuyaSchedulesManager():
                 result = list(combined_data.values())
 
                 for item in result:
-                    schedule = TuyaSchedule(item["alias_name"],item["enable"], item["time"],item["timezone_id"],item["loops"],item["devices_timers"],item["functions"])
+                    if self.category == "general":
+                        schedule = TuyaSchedule(alias_name=item["alias_name"],enable=item["enable"], time=item["time"],timezone_id=item["timezone_id"],loops=item["loops"],devices_timers=item["devices_timers"],functions=item["functions"])
+                    elif self.category == "smart_mode":
+                        schedule = TuyaSchedule(alias_name=item["alias_name"],enable=item["enable"], time=item["time"],timezone_id=item["timezone_id"],loops=item["loops"],devices_timers=item["devices_timers"],functions=item["functions"])
                     self.schedules.append(schedule)
             except Exception:
                 pass

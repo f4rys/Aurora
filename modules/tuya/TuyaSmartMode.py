@@ -10,13 +10,14 @@ from tzlocal import get_localzone
 import pandas as pd
 from prophet import Prophet
 
+from modules.tuya import TuyaSchedule, TuyaSchedulesManager
 
 class TuyaSmartMode():
     def __init__(self):
         today = date.today()
         self.last_prediction = today
         file_path = r"modules\resources\json\predictions.json"
-        
+
         if not os.path.exists(file_path):
             data = {"last_prediction": today.strftime('%Y-%m-%d')}
             with open(file_path, 'w', encoding="utf-8") as f:
@@ -36,11 +37,27 @@ class TuyaSmartMode():
                     json.dump(data, f)
                 self.smart_mode()
 
+    def load_schedules(self):
+        tuya_schedules_manager = TuyaSchedulesManager("smart_mode")
+        return tuya_schedules_manager
+
+    def save_as_schedules(self, predictions):
+        for prediction in predictions:
+            schedule = TuyaSchedule(alias_name=prediction["alias_name"],
+                                    enable=prediction["enable"],
+                                    time=prediction["time"],
+                                    timezone_id=prediction["timezone_id"],
+                                    category=prediction["category"],
+                                    devices_timers=prediction["devices_timers"],
+                                    date=prediction["date"],
+                                    functions=prediction["functions"])
+            schedule.save_to_cloud()
+
     def smart_mode(self):
         df = self.create_dataframe()
         predicted_actions = self.predict(df)
         formatted_predictions = self.format_predictions(predicted_actions)
-        print(formatted_predictions)
+        self.save_as_schedules(formatted_predictions)
 
     def create_dataframe(self):
         directory = 'modules/resources/json/logs'
@@ -140,10 +157,20 @@ class TuyaSmartMode():
                     "timezone_id": str(get_localzone()),
                     "category": "smart_mode",
                     "devices_timers": {prediction["device_id"]: ""},
-                    "date": datetime.now().strftime("%Y-%m-%d"),
-                    "functions": {}
+                    "date": datetime.now().strftime("%Y%m%d"),
+                    "functions": []
                 }
-            merged_predictions[key]["functions"][prediction["code"]] = prediction["value"]
+
+            if prediction["code"] == "switch_led":
+                code = "switch_led"
+            elif prediction["code"] == "bright_value_v2":
+                code = "bright_value"
+            elif prediction["code"] == "temp_value_v2":
+                code = "temp_value"
+            elif prediction["code"] == "colour_data_v2":
+                code = "colour_data"
+
+            merged_predictions[key]["functions"].append({"code": code, "value": prediction["value"]})
 
         for key, value in merged_predictions.items():
             result.append(value)

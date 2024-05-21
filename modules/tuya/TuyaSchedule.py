@@ -3,25 +3,38 @@ import requests
 from modules.tuya.TuyaCloud import TuyaCloud
 
 class TuyaSchedule():
-    def __init__(self, alias_name, enable, time, timezone_id, loops, devices_timers, functions):
+    def __init__(self, alias_name, enable, time, timezone_id, devices_timers, functions, loops=None, category=None, date=None):
         self.alias_name = alias_name
         self.enable = enable
         self.time = time
         self.timezone_id = timezone_id
-        self.loops = loops
         self.devices_timers = devices_timers
         self.functions = functions
+        self.loops = loops
+        self.category = category
+        self.date = date
 
     def save_to_cloud(self):
         response_states = []
         tuya_cloud = TuyaCloud()
-        schedule = {
-            "alias_name": self.alias_name,
-            "time": self.time,
-            "timezone_id": self.timezone_id,
-            "loops": self.loops,
-            "functions": self.functions
-        }
+
+        if self.loops is not None:
+            schedule = {
+                "alias_name": self.alias_name,
+                "time": self.time,
+                "timezone_id": self.timezone_id,
+                "loops": self.loops,
+                "functions": self.functions
+            }
+        elif self.category is not None and self.date is not None:
+            schedule = {
+                "alias_name": self.alias_name,
+                "time": self.time,
+                "category": self.category,
+                "date": self.date,
+                "timezone_id": self.timezone_id,
+                "functions": self.functions
+            }
 
         for device in self.devices_timers.keys():
             if tuya_cloud.cloud is not None:

@@ -374,7 +374,7 @@ class EditScheduleWidget(QWidget):
 
         if self.new:
             devices = dict.fromkeys(new_devices, "")
-            schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, functions)
+            schedule = TuyaSchedule(alias_name=schedule_name, enable=True, time=time, timezone_id=user_timezone, loops=weekdays_string, devices_timers=devices, functions=functions)
             responses = schedule.save_to_cloud()
             if False in responses:
                 show_error_toast(self)
@@ -386,7 +386,7 @@ class EditScheduleWidget(QWidget):
             only_in_list1 = old_devices - new_devices
             for item in only_in_list1:
                 devices = {item: self.schedule.devices_timers[item]}
-                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, functions)
+                schedule = TuyaSchedule(alias_name=schedule_name, enable=True, time=time, timezone_id=user_timezone, loops=weekdays_string, devices_timers=devices, functions=functions)
                 responses = schedule.remove_from_cloud()
                 if False in responses:
                     show_error_toast(self)
@@ -395,7 +395,7 @@ class EditScheduleWidget(QWidget):
             only_in_list2 = new_devices - old_devices
             for item in only_in_list2:
                 devices = {item: ""}
-                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, functions)
+                schedule = TuyaSchedule(alias_name=schedule_name, enable=True, time=time, timezone_id=user_timezone, loops=weekdays_string, devices_timers=devices, functions=functions)
                 responses = schedule.save_to_cloud()
                 if False in responses:
                     show_error_toast(self)
@@ -404,7 +404,7 @@ class EditScheduleWidget(QWidget):
             in_both_lists = old_devices & new_devices
             for item in in_both_lists:
                 devices = {item: self.schedule.devices_timers[item]}
-                schedule = TuyaSchedule(schedule_name, True, time, user_timezone, weekdays_string, devices, functions)
+                schedule = TuyaSchedule(alias_name=schedule_name, enable=True, time=time, timezone_id=user_timezone, loops=weekdays_string, devices_timers=devices, functions=functions)
                 responses = schedule.modify_on_cloud()
                 if False in responses:
                     show_error_toast(self)
