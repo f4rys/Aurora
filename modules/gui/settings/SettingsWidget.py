@@ -71,7 +71,7 @@ class SettingsWidget(QWidget):
 
     def change_max_retry(self, val):
         self.config.set("General", "max_retry", str(val))
-        
+
         if os.path.exists("settings.ini"):
             with open('settings.ini', 'w', encoding="utf-8") as configfile:
                 self.config.write(configfile)
