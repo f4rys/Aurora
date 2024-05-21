@@ -1,8 +1,9 @@
 import os
-from datetime import datetime, timedelta
+import json
 import random
 import string
 import colorsys
+from datetime import datetime, timedelta, date
 
 from tzlocal import get_localzone
 
@@ -12,41 +13,34 @@ from prophet import Prophet
 
 class TuyaSmartMode():
     def __init__(self):
-        self.last_prediction = 0
+        today = date.today()
+        self.last_prediction = today
+        file_path = r"modules\resources\json\predictions.json"
+        
+        if not os.path.exists(file_path):
+            data = {"last_prediction": today.strftime('%Y-%m-%d')}
+            with open(file_path, 'w', encoding="utf-8") as f:
+                json.dump(data, f)
 
-    def hex_to_hsv(self, hex_str):
-        if not hex_str:
-            return {'h': 0, 's': 0, 'v': 0}
+            self.smart_mode()
+        else:
+            with open(file_path, 'r', encoding="utf-8") as f:
+                data = json.load(f)
 
-        hex_str = hex_str.lstrip('0x')
+            last_prediction_str = data["last_prediction"]
+            last_prediction_date = datetime.strptime(last_prediction_str, '%Y-%m-%d').date()
 
-        if len(hex_str) % 2 != 0:
-            hex_str = '0' + hex_str
+            if last_prediction_date < today:
+                data["last_prediction"] = today
+                with open(file_path, 'w', encoding="utf-8") as f:
+                    json.dump(data, f)
+                self.smart_mode()
 
-        try:
-            r, g, b = tuple(int(hex_str[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
-            h, s, v = colorsys.rgb_to_hsv(r, g, b)
-            return {
-                'h': round(h * 360, 2),
-                's': round(s * 1000, 2),
-                'v': round(v * 1000, 2)
-            }
-        except ValueError:
-            return {'h': 0, 's': 0, 'v': 0}
-
-    def hex_to_rgb(self, hex_str):
-        if not hex_str:
-            return 0
-        hex_str = hex_str.lstrip('0x')
-
-        if len(hex_str) % 2 != 0:
-            hex_str = '0' + hex_str
-
-        try:
-            r, g, b = tuple(int(hex_str[i:i + 2], 16) for i in (0, 2, 4))
-            return (r + g + b) / 3
-        except ValueError:
-            return 0
+    def smart_mode(self):
+        df = self.create_dataframe()
+        predicted_actions = self.predict(df)
+        formatted_predictions = self.format_predictions(predicted_actions)
+        print(formatted_predictions)
 
     def create_dataframe(self):
         directory = 'modules/resources/json/logs'
@@ -68,13 +62,7 @@ class TuyaSmartMode():
 
         return final_df
 
-    def train_model(self):
-        df = self.create_dataframe()
-        predicted_actions = self.train_and_predict(df)
-        formatted_predictions = self.format_and_save_output(predicted_actions)
-        print(formatted_predictions)
-
-    def train_and_predict(self, df):
+    def predict(self, df):
         df['event_time'] = pd.to_datetime(df['event_time'])
         df = df.sort_values(by=['device_id', 'code', 'event_time'])
         df['time'] = df['event_time'].dt.time
@@ -138,7 +126,7 @@ class TuyaSmartMode():
 
         return result
 
-    def format_and_save_output(self, predictions):
+    def format_predictions(self, predictions):
         merged_predictions = {}
         result = []
 
@@ -165,3 +153,37 @@ class TuyaSmartMode():
                 item["functions"] = {"switch_led": item["functions"]["switch_led"]}
 
         return result
+
+    def hex_to_hsv(self, hex_str):
+        if not hex_str:
+            return {'h': 0, 's': 0, 'v': 0}
+
+        hex_str = hex_str.lstrip('0x')
+
+        if len(hex_str) % 2 != 0:
+            hex_str = '0' + hex_str
+
+        try:
+            r, g, b = tuple(int(hex_str[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
+            h, s, v = colorsys.rgb_to_hsv(r, g, b)
+            return {
+                'h': round(h * 360, 2),
+                's': round(s * 1000, 2),
+                'v': round(v * 1000, 2)
+            }
+        except ValueError:
+            return {'h': 0, 's': 0, 'v': 0}
+
+    def hex_to_rgb(self, hex_str):
+        if not hex_str:
+            return 0
+        hex_str = hex_str.lstrip('0x')
+
+        if len(hex_str) % 2 != 0:
+            hex_str = '0' + hex_str
+
+        try:
+            r, g, b = tuple(int(hex_str[i:i + 2], 16) for i in (0, 2, 4))
+            return (r + g + b) / 3
+        except ValueError:
+            return 0

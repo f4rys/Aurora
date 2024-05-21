@@ -11,4 +11,3 @@ class SmartModeWidget(QWidget):
         self.label.setGeometry(QRect(10, 10, 50, 23))
 
         smart_mode = TuyaSmartMode()
-        smart_mode.train_model()
