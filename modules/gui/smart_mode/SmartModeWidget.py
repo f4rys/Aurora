@@ -53,86 +53,90 @@ class SmartModeWidget(QWidget):
         self.tuya_smart_mode = TuyaSmartMode()
         self.tuya_schedules_manager = TuyaSchedulesManager("smart_mode")
 
-        for schedule in self.tuya_schedules_manager.schedules:
-            frame = QFrame()
-            frame.setFrameShadow(QFrame.Shadow.Plain)
-            frame.setFrameShape(QFrame.Shape.Box)
-            frame.setProperty("class", "bordered_box")
+        if not self.tuya_schedules_manager.schedules:
+            empty_list_label = QLabel("No more actions planned for today.")
+            self.vlayout.addWidget(empty_list_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        else:
+            for schedule in self.tuya_schedules_manager.schedules:
+                frame = QFrame()
+                frame.setFrameShadow(QFrame.Shadow.Plain)
+                frame.setFrameShape(QFrame.Shape.Box)
+                frame.setProperty("class", "bordered_box")
 
-            schedule_vlayout = QVBoxLayout(frame)
+                schedule_vlayout = QVBoxLayout(frame)
 
-            first_row_layout = QHBoxLayout()
-            first_row_layout.setObjectName("first_row")
+                first_row_layout = QHBoxLayout()
+                first_row_layout.setObjectName("first_row")
 
-            time_label = QLabel(schedule.time)
+                time_label = QLabel(schedule.time)
 
-            delete_button = QPushButton()
-            delete_button.setProperty("class", "action_bar_button")
-            delete_button.setObjectName("exit_button")
-            delete_button.clicked.connect(lambda checked, schedule=schedule: self.delete_schedule(schedule))
+                delete_button = QPushButton()
+                delete_button.setProperty("class", "action_bar_button")
+                delete_button.setObjectName("exit_button")
+                delete_button.clicked.connect(lambda checked, schedule=schedule: self.delete_schedule(schedule))
 
-            spacer_item1 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+                spacer_item1 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-            first_row_layout.addItem(spacer_item1)
-            first_row_layout.addWidget(time_label)
-            first_row_layout.addWidget(delete_button)
+                first_row_layout.addItem(spacer_item1)
+                first_row_layout.addWidget(time_label)
+                first_row_layout.addWidget(delete_button)
 
-            # Actions
+                # Actions
 
-            actions_vlayout = QVBoxLayout()
+                actions_vlayout = QVBoxLayout()
 
-            for function in schedule.functions:
+                for function in schedule.functions:
 
-                action_hlayout = QHBoxLayout()
-                spacer_item = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+                    action_hlayout = QHBoxLayout()
+                    spacer_item = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-                action_button = QPushButton()
-                value_label = QLabel()
+                    action_button = QPushButton()
+                    value_label = QLabel()
 
-                if function["code"] == "switch_led":
-                    if function["value"]:
-                        value_label.setText("Switch: ON")
-                    else:
-                        value_label.setText("Switch: OFF")
-                elif function["code"] == "bright_value":
-                    value_label.setText("Brightness: " + str(int(float(function["value"]["Value"]))))
-                elif function["code"] == "temp_value":
-                    value_label.setText("Temperature: " + str(int(float(function["value"]["Value"]))))
-                elif function["code"] == "colour_data":
-                    value_label.setText("Colour: " + f"H: {str(int(float(function["value"]["h"]["Value"])))}, S: {str(int(float(function["value"]["s"]["Value"])))}, V: {str(int(float(function["value"]["v"]["Value"])))}")
+                    if function["code"] == "switch_led":
+                        if function["value"]:
+                            value_label.setText("Switch: ON")
+                        else:
+                            value_label.setText("Switch: OFF")
+                    elif function["code"] == "bright_value":
+                        value_label.setText("Brightness: " + str(int(float(function["value"]["Value"]))))
+                    elif function["code"] == "temp_value":
+                        value_label.setText("Temperature: " + str(int(float(function["value"]["Value"]))))
+                    elif function["code"] == "colour_data":
+                        value_label.setText("Colour: " + f"H: {str(int(float(function["value"]["h"]["Value"])))}, S: {str(int(float(function["value"]["s"]["Value"])))}, V: {str(int(float(function["value"]["v"]["Value"])))}")
 
-                action_button.setObjectName(function["code"])
-                action_button.setProperty("class", "borderless")
-                action_button.setCheckable(True)
-                action_button.setChecked(True)
-                action_button.setDisabled(True)
+                    action_button.setObjectName(function["code"])
+                    action_button.setProperty("class", "borderless")
+                    action_button.setCheckable(True)
+                    action_button.setChecked(True)
+                    action_button.setDisabled(True)
 
-                action_hlayout.addWidget(action_button)
-                action_hlayout.addWidget(value_label)
-                action_hlayout.addItem(spacer_item)
+                    action_hlayout.addWidget(action_button)
+                    action_hlayout.addWidget(value_label)
+                    action_hlayout.addItem(spacer_item)
 
-                actions_vlayout.addLayout(action_hlayout)
+                    actions_vlayout.addLayout(action_hlayout)
 
-            # Devices
-            devices_layout = QVBoxLayout()
-            if os.path.exists("devices.json"):
-                with open("devices.json", "r", encoding="utf-8") as f:
-                    devices_data = json.load(f)
+                # Devices
+                devices_layout = QVBoxLayout()
+                if os.path.exists("devices.json"):
+                    with open("devices.json", "r", encoding="utf-8") as f:
+                        devices_data = json.load(f)
 
-                for device_id in schedule.devices_timers.keys():
-                    for device in devices_data:
-                        if device["id"] == device_id:
-                            device_label = QLabel(device["name"])
-                            device_label.setProperty("class", "credentials_input")
-                            device_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-                            devices_layout.addWidget(device_label)
-                            break
+                    for device_id in schedule.devices_timers.keys():
+                        for device in devices_data:
+                            if device["id"] == device_id:
+                                device_label = QLabel(device["name"])
+                                device_label.setProperty("class", "credentials_input")
+                                device_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+                                devices_layout.addWidget(device_label)
+                                break
 
-            schedule_vlayout.addLayout(first_row_layout)
-            schedule_vlayout.addLayout(actions_vlayout)
-            schedule_vlayout.addLayout(devices_layout)
+                schedule_vlayout.addLayout(first_row_layout)
+                schedule_vlayout.addLayout(actions_vlayout)
+                schedule_vlayout.addLayout(devices_layout)
 
-            self.vlayout.addWidget(frame, alignment=Qt.AlignmentFlag.AlignTop)
+                self.vlayout.addWidget(frame, alignment=Qt.AlignmentFlag.AlignTop)
 
     def delete_schedule(self, schedule):
         schedule.remove_from_cloud()

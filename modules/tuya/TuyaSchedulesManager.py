@@ -54,7 +54,7 @@ class TuyaSchedulesManager():
                     if self.category == "general":
                         schedule = TuyaSchedule(alias_name=item["alias_name"],enable=item["enable"], time=item["time"],timezone_id=item["timezone_id"],loops=item["loops"],devices_timers=item["devices_timers"],functions=item["functions"])
                     elif self.category == "smart_mode":
-                        schedule = TuyaSchedule(alias_name=item["alias_name"],enable=item["enable"], time=item["time"],timezone_id=item["timezone_id"],loops=item["loops"],devices_timers=item["devices_timers"],functions=item["functions"])
+                        schedule = TuyaSchedule(alias_name=item["alias_name"],enable=item["enable"], time=item["time"],timezone_id=item["timezone_id"],category=item["category"],devices_timers=item["devices_timers"],functions=item["functions"], date=item["date"])
                     self.schedules.append(schedule)
             except Exception:
                 pass

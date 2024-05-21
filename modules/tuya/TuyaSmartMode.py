@@ -18,6 +18,8 @@ class TuyaSmartMode():
         self.last_prediction = today
         file_path = r"modules\resources\json\predictions.json"
 
+        self.delete_used_schedules()
+
         if not os.path.exists(file_path):
             data = {"last_prediction": today.strftime('%Y-%m-%d')}
             with open(file_path, 'w', encoding="utf-8") as f:
@@ -37,21 +39,38 @@ class TuyaSmartMode():
                     json.dump(data, f)
                 self.smart_mode()
 
-    def load_schedules(self):
-        tuya_schedules_manager = TuyaSchedulesManager("smart_mode")
-        return tuya_schedules_manager
+    def delete_used_schedules(self):
+        manager = TuyaSchedulesManager("smart_mode")
+
+        today = date.today()
+        now = datetime.now().time()
+
+        try:
+            for schedule in manager.schedules:
+                target_date = datetime.strptime(schedule.date, "%Y%m%d").date()
+                target_time = datetime.strptime(schedule.time, "%H:%M").time()
+                if target_date < today:
+                    schedule.remove_from_cloud()
+                if target_date == today:
+                    if target_time <= now:
+                        schedule.remove_from_cloud()
+        except Exception:
+            pass
 
     def save_as_schedules(self, predictions):
         for prediction in predictions:
-            schedule = TuyaSchedule(alias_name=prediction["alias_name"],
-                                    enable=prediction["enable"],
-                                    time=prediction["time"],
-                                    timezone_id=prediction["timezone_id"],
-                                    category=prediction["category"],
-                                    devices_timers=prediction["devices_timers"],
-                                    date=prediction["date"],
-                                    functions=prediction["functions"])
-            schedule.save_to_cloud()
+            target_time = datetime.strptime(prediction["time"], "%H:%M").time()
+            now = datetime.now().time()
+            if target_time > now:
+                schedule = TuyaSchedule(alias_name=prediction["alias_name"],
+                                        enable=prediction["enable"],
+                                        time=prediction["time"],
+                                        timezone_id=prediction["timezone_id"],
+                                        category=prediction["category"],
+                                        devices_timers=prediction["devices_timers"],
+                                        date=prediction["date"],
+                                        functions=prediction["functions"])
+                schedule.save_to_cloud()
 
     def smart_mode(self):
         df = self.create_dataframe()

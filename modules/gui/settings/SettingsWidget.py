@@ -4,7 +4,7 @@ import os
 from PyQt6.QtWidgets import QWidget, QCheckBox, QComboBox, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel
 
 from modules.dictionaries.loader import load_dictionary
-
+from modules.tuya import TuyaSchedulesManager
 
 class SettingsWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
@@ -95,10 +95,15 @@ class SettingsWidget(QWidget):
             smart_mode = "on"
         else:
             smart_mode = "off"
+            # If off, delete all schedules from cloud
+            self.tuya_schedules_manager = TuyaSchedulesManager("smart_mode")
+            for schedule in self.tuya_schedules_manager.schedules:
+                schedule.remove_from_cloud()
+
+            if os.path.exists(r"modules\resources\json\predictions.json"):
+                os.remove(r"modules\resources\json\predictions.json")
 
         self.config.set("General", "smart_mode", smart_mode)
         if os.path.exists("settings.ini"):
             with open('settings.ini', 'w', encoding="utf-8") as configfile:
                 self.config.write(configfile)
-
-        # If off, delete all schedules from cloud
