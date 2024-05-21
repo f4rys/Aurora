@@ -144,6 +144,7 @@ class MainWindow(QMainWindow):
         self.action_bar_layout.set_label(self.dictionary["devices_title"])
 
     def show_smart_mode(self):
+        self.main_layout.stacked_widget.smart_mode.check_settings()
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.smart_mode))
         self.action_bar_layout.set_label(self.dictionary["smart_mode_title"])
 

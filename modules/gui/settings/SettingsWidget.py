@@ -27,6 +27,7 @@ class SettingsWidget(QWidget):
 
         self.smart_mode = QCheckBox(self)
         self.smart_mode.setText(self.dictionary["smart_mode_settings"])
+        self.smart_mode.stateChanged.connect(self.switch_smart_mode)
 
         if mode == 'on':
             self.smart_mode.setChecked(True)
@@ -88,3 +89,16 @@ class SettingsWidget(QWidget):
                 self.config.write(configfile)
 
         self.parent.parent.parent.restart()
+
+    def switch_smart_mode(self, val):
+        if val:
+            smart_mode = "on"
+        else:
+            smart_mode = "off"
+
+        self.config.set("General", "smart_mode", smart_mode)
+        if os.path.exists("settings.ini"):
+            with open('settings.ini', 'w', encoding="utf-8") as configfile:
+                self.config.write(configfile)
+
+        # If off, delete all schedules from cloud

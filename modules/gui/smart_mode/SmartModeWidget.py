@@ -1,5 +1,6 @@
 import json
 import os
+from configparser import ConfigParser
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, QFrame, QScrollArea
@@ -14,7 +15,6 @@ class SmartModeWidget(QWidget):
         super().__init__(*args, **kwargs)
 
         self.dictionary = load_dictionary()
-        self.tuya_smart_mode = TuyaSmartMode()
 
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
@@ -33,11 +33,24 @@ class SmartModeWidget(QWidget):
         self.vlayout = QVBoxLayout(self.scroll_widget)
         self.vlayout.setContentsMargins(15, 0, 15, 0)
 
-        self.init_ui()
+        self.check_settings()
 
-    def init_ui(self):
+    def check_settings(self):
         clear_layout(self.vlayout)
 
+        self.config = ConfigParser()
+        self.config.read('settings.ini')
+
+        mode = self.config.get("General", "smart_mode")
+
+        if mode == 'on':
+            self.init_ui()
+        else:
+            smart_mode_off_label = QLabel("Smart mode is off")
+            self.vlayout.addWidget(smart_mode_off_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
+    def init_ui(self):
+        self.tuya_smart_mode = TuyaSmartMode()
         self.tuya_schedules_manager = TuyaSchedulesManager("smart_mode")
 
         for schedule in self.tuya_schedules_manager.schedules:
@@ -122,4 +135,5 @@ class SmartModeWidget(QWidget):
             self.vlayout.addWidget(frame, alignment=Qt.AlignmentFlag.AlignTop)
 
     def delete_schedule(self, schedule):
-        pass
+        schedule.remove_from_cloud()
+        self.init_ui()
