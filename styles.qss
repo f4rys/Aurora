@@ -175,13 +175,13 @@ QTimeEdit::down-button{
 QTimeEdit::up-arrow{
     image: url(:/misc/up_arrow.png);
     width: 8px;
-    margin-top: 3px;
+    margin-top: 0px;
 }
 
 QTimeEdit::down-arrow{
     image: url(:/misc/down_arrow.png);
     width: 8px;
-    margin-bottom: 3px;
+    margin-bottom: 0px;
 }
 
 .vline{
