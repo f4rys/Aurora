@@ -18,9 +18,8 @@ class Application(QApplication):
                 style = f.read()
                 self.setStyleSheet(style)
 
-        icon = QIcon(":/icon/icon.png")
         tray = QSystemTrayIcon()
-        tray.setIcon(icon)
+        tray.setIcon(QIcon(":/icon/icon.png"))
         tray.setVisible(True)
         tray.activated.connect(self.window.show_window)
 
