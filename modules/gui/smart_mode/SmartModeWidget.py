@@ -45,7 +45,7 @@ class SmartModeWidget(QWidget):
         if mode == 'on':
             self.get_tuya_smart_mode()
         else:
-            smart_mode_off_label = QLabel("Smart mode is off")
+            smart_mode_off_label = QLabel(self.dictionary["smart_mode_off"])
             self.vlayout.addWidget(smart_mode_off_label, alignment=Qt.AlignmentFlag.AlignCenter)
 
     def get_tuya_smart_mode(self):
@@ -63,7 +63,7 @@ class SmartModeWidget(QWidget):
         self.tuya_schedules_manager = TuyaSchedulesManager("smart_mode")
 
         if not self.tuya_schedules_manager.schedules:
-            empty_list_label = QLabel("No more actions planned for today.")
+            empty_list_label = QLabel(self.dictionary["no_more_actions"])
             self.vlayout.addWidget(empty_list_label, alignment=Qt.AlignmentFlag.AlignCenter)
         else:
             for schedule in self.tuya_schedules_manager.schedules:
@@ -104,15 +104,15 @@ class SmartModeWidget(QWidget):
 
                     if function["code"] == "switch_led":
                         if function["value"]:
-                            value_label.setText("Switch: ON")
+                            value_label.setText(f"{self.dictionary["switch"]}: {self.dictionary["on"]}")
                         else:
-                            value_label.setText("Switch: OFF")
+                            value_label.setText(f"{self.dictionary["switch"]}: {self.dictionary["off"]}")
                     elif function["code"] == "bright_value":
-                        value_label.setText("Brightness: " + str(int(float(function["value"]["Value"]))))
+                        value_label.setText(f"{self.dictionary["brightness"]}: " + str(int(float(function["value"]["Value"]))))
                     elif function["code"] == "temp_value":
-                        value_label.setText("Temperature: " + str(int(float(function["value"]["Value"]))))
+                        value_label.setText(f"{self.dictionary["temperature"]}: " + str(int(float(function["value"]["Value"]))))
                     elif function["code"] == "colour_data":
-                        value_label.setText("Colour: " + f"H: {str(int(float(function["value"]["h"]["Value"])))}, S: {str(int(float(function["value"]["s"]["Value"])))}, V: {str(int(float(function["value"]["v"]["Value"])))}")
+                        value_label.setText(f"{self.dictionary["colour"]}: " + f"H: {str(int(float(function["value"]["h"]["Value"])))}, S: {str(int(float(function["value"]["s"]["Value"])))}, V: {str(int(float(function["value"]["v"]["Value"])))}")
 
                     action_button.setObjectName(function["code"])
                     action_button.setProperty("class", "borderless")

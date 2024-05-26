@@ -86,6 +86,11 @@ dictionary_en = {
     "select_colour_value": "6. Enter values for colour and brightness:",
     # Smart mode
     "computing_smart_mode": "Calculating smart mode suggestions..",
+    "smart_mode_off": "Smart mode is off.",
+    "no_more_actions": "No more actions planned for today.",
+    "brightness": "Brightness",
+    "switch": "Switch",
+    "temperature": "Temperature",
     # Toasts
     "success_toast_title": "Success",
     "success_toast_body_credentials": "Your Tuya credentials has been set and list of your devices has been updated.",
@@ -121,7 +126,7 @@ dictionary_pl = {
     "devices": "URZĄDZENIA",
     "smart_mode": "ASYSTENT",
     "analytics": "STATYSTYKI",
-    "schedules": "HARMONOGRAMY",
+    "schedules": "KALENDARZ",
     "help": "POMOC",
     # Device widget
     "white": "Białe",
@@ -204,6 +209,11 @@ dictionary_pl = {
     "select_colour_value": "6. Wprowadź wartość koloru i jasności:",
     # Smart mode
     "computing_smart_mode": "Obliczanie sugestii trybu inteligentego..",
+    "smart_mode_off": "Tryb inteligentny jest wyłączony.",
+    "no_more_actions": "Na dziś nie zaplanowano więcej działań.",
+    "brightness": "Jasność",
+    "switch": "Przełącznik",
+    "temperature": "Temperatura",
     # Toasts
     "success_toast_title": "Sukces",
     "success_toast_body_credentials": "Twoje dane uwierzytelniające Tuya zostały ustawione, a lista urządzeń została zaktualizowana.",
