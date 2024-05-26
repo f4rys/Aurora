@@ -120,7 +120,7 @@ class TuyaSmartMode():
                 model = Prophet()
                 model.fit(df_filtered[['ds', 'value']].rename(columns={'value': 'y'}))
 
-                future_df = model.make_future_dataframe(periods=24 * 60, freq='T')
+                future_df = model.make_future_dataframe(periods=24 * 60, freq='min')
 
                 future_df['time'] = df_filtered['time'].iloc[0]
                 future_df['ds'] = pd.to_datetime(future_df['ds'].dt.date.astype(str) + ' ' + future_df['time'].astype(str))
