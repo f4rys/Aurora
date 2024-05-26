@@ -29,8 +29,8 @@ class MainWindow(QMainWindow):
         self.resize(400, 300)
 
         font = QFont()
-        font.setFamily("Segoe UI Light")
-        font.setPointSize(9)
+        font.setFamily("Helvetica")
+        font.setPointSize(8)
         font.setBold(False)
         self.setFont(font)
 

@@ -30,7 +30,7 @@ class SchedulesWidget(QWidget):
         self.scroll_area.setWidget(self.scroll_widget)
 
         self.vlayout = QVBoxLayout(self.scroll_widget)
-        self.vlayout.setContentsMargins(15, 0, 15, 0)
+        self.vlayout.setContentsMargins(5, 0, 5, 0)
 
     def create_list(self):
         clear_layout(self.vlayout)
