@@ -34,7 +34,7 @@ class TuyaSmartMode():
             last_prediction_date = datetime.strptime(last_prediction_str, '%Y-%m-%d').date()
 
             if last_prediction_date < today:
-                data["last_prediction"] = today
+                data["last_prediction"] = today.strftime('%Y-%m-%d')
                 with open(file_path, 'w', encoding="utf-8") as f:
                     json.dump(data, f)
                 self.smart_mode()
