@@ -54,3 +54,4 @@ This project is a subject of my bachelor thesis, yet it is a fully functional pr
 - Schedule edit icon by Feather Icons on <a href="https://www.iconfinder.com/icons/8666681/edit_icon">Iconfinder</a>
 - Analytics select all icon by Microsoft on <a href="https://www.iconfinder.com/icons/8673728/ic_fluent_select_all_off_filled_icon">Iconfinder</a>
 - Analytics deselect all by Microsoft on <a href="https://www.iconfinder.com/icons/8675434/ic_fluent_select_all_off_regular_icon">Iconfinder</a>
+- App icon created by DALLE-3
