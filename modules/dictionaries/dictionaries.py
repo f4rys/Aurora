@@ -30,6 +30,7 @@ dictionary_en = {
     "api_region": "API Region",
     "api_device_id": "API Device ID",
     "change_credentials_button": "Change credentials",
+    "fetch_data_button": "Fetch new devices and local keys",
     # Action bar label titles
     "devices_title": "Devices",
     "smart_mode_title": "Smart mode",
@@ -89,6 +90,7 @@ dictionary_en = {
     "error_toast_title": "Failure",
     "error_toast_body": "A problem occured. Try later",
     "error_toast_body_credentials": "A problem occured. Check if the data you entered is correct and try again.",
+    "success_toast_body_fetch_data": "Successfully fetched new devices and local keys.",
     # Help
     "tooltips_q": "What does this [thing] do?",
     "tooltips_a": "Hover the cursor over the item and wait. \nA tooltip will tell you what this particular \nelement is for.",
@@ -144,6 +146,7 @@ dictionary_pl = {
     "api_region": "Region",
     "api_device_id": "ID urządzenia",
     "change_credentials_button": "Zmień konfigurację",
+    "fetch_data_button": "Pobierz nowe urządzenia i klucze lokalne",
     # Action bar label titles
     "devices_title": "Urządzenia",
     "smart_mode_title": "Tryb inteligentny",
@@ -203,6 +206,7 @@ dictionary_pl = {
     "error_toast_title": "Błąd",
     "error_toast_body": "Wystąpił problem. Spróbuj później",
     "error_toast_body_credentials": "Wystąpił problem. Sprawdź, czy wprowadzone dane są poprawne i spróbuj ponownie.",
+    "success_toast_body_fetch_data": "Pobrano nowe urządzenia i klucze lokalne.",
     # Help
     "tooltips_q": "Do czego [to] służy?",
     "tooltips_a": "Najedź kursorem na element i poczekaj. \nEtykieta narzędzia powie ci, do czego służy \ndany element.",

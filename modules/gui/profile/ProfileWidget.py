@@ -2,8 +2,11 @@ import json
 import os
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout, QSizePolicy, QGridLayout, QSpacerItem
+from PyQt6.QtGui import QColor
+from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout, QSizePolicy, QGridLayout, QSpacerItem 
+from pyqttoast import Toast, ToastPreset
 
+from modules.tuya import register
 from modules.dictionaries.loader import load_dictionary
 
 class ProfileWidget(QWidget):
@@ -46,6 +49,11 @@ class ProfileWidget(QWidget):
         self.change_credentials_button.clicked.connect(lambda: self.parent.parent.parent.show_credentials(self.api_key, self.api_secret, self.api_device_id, self.api_region))
         self.change_credentials_button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
+        self.fetch_data_button = QPushButton(self.dictionary["fetch_data_button"])
+        self.fetch_data_button.setProperty("class", "device_button")
+        self.fetch_data_button.clicked.connect(self.fetch_data)
+        self.fetch_data_button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
         self.glayout.addWidget(self.api_key_description_label, 0, 0)
         self.glayout.addWidget(self.api_key_label, 0, 1)
 
@@ -62,7 +70,8 @@ class ProfileWidget(QWidget):
 
         spacer_item = QSpacerItem(20, 100, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.vlayout.addItem(spacer_item)
-
+        
+        self.vlayout.addWidget(self.fetch_data_button, Qt.AlignmentFlag.AlignBottom)
         self.vlayout.addWidget(self.change_credentials_button, Qt.AlignmentFlag.AlignBottom)
 
     def get_credentials(self):
@@ -72,3 +81,28 @@ class ProfileWidget(QWidget):
                 return credentials["apiKey"], credentials["apiSecret"], credentials["apiRegion"], credentials["apiDeviceID"]
         else:
             return "", "", "", ""
+
+    def fetch_data(self):
+        status = register(self.api_key, self.api_secret, self.api_region, self.api_device_id)
+
+        toast = Toast(self)
+        toast.setAlwaysOnMainScreen(True)
+        toast.setShowDurationBar(False)
+        toast.setBorderRadius(15)
+        toast.setResetDurationOnHover(False)
+        toast.setMaximumWidth(300)
+        toast.setMaximumHeight(100)
+        toast.setDuration(5000)
+        toast.setBackgroundColor(QColor('#DAD9D3'))
+
+        if status:
+            toast.setTitle(self.dictionary["success_toast_title"])
+            toast.setText(self.dictionary["success_toast_body_fetch_data"])
+            toast.applyPreset(ToastPreset.SUCCESS)
+            toast.show()
+
+        else:
+            toast.setTitle(self.dictionary["error_toast_title"])
+            toast.setText(self.dictionary["error_toast_body"])
+            toast.applyPreset(ToastPreset.ERROR)
+            toast.show()
