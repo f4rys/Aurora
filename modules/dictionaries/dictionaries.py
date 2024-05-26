@@ -84,6 +84,8 @@ dictionary_en = {
     "off": "Off",
     "select_brightness_value": "6. Enter values for brightness and temperature:",
     "select_colour_value": "6. Enter values for colour and brightness:",
+    # Smart mode
+    "computing_smart_mode": "Calculating smart mode suggestions..",
     # Toasts
     "success_toast_title": "Success",
     "success_toast_body_credentials": "Your Tuya credentials has been set and list of your devices has been updated.",
@@ -200,6 +202,8 @@ dictionary_pl = {
     "off": "Wył.",
     "select_brightness_value": "6. Wprowadź wartość jasności i temperatury:",
     "select_colour_value": "6. Wprowadź wartość koloru i jasności:",
+    # Smart mode
+    "computing_smart_mode": "Obliczanie sugestii trybu inteligentego..",
     # Toasts
     "success_toast_title": "Sukces",
     "success_toast_body_credentials": "Twoje dane uwierzytelniające Tuya zostały ustawione, a lista urządzeń została zaktualizowana.",

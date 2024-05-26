@@ -1,4 +1,5 @@
 from modules.threads.InitiateTuyaManagerThread import InitiateTuyaManagerThread
 from modules.threads.InitiateTuyaSchedulesManagerThread import InitiateTuyaSchedulesManagerThread
 from modules.threads.InitiateTuyaAnalyticsThread import InitiateTuyaAnalyticsThread
+from modules.threads.InitiateTuyaSmartModeThread import InitiateTuyaSmartModeThread
 from modules.threads.CountdownThread import CountdownThread

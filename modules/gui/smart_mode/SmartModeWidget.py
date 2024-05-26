@@ -8,7 +8,7 @@ from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpac
 from modules.dictionaries.loader import load_dictionary
 from modules.gui.tools import clear_layout
 from modules.tuya import TuyaSchedulesManager
-from modules.tuya import TuyaSmartMode
+from modules.threads import InitiateTuyaSmartModeThread
 
 class SmartModeWidget(QWidget):
     def __init__(self, *args, **kwargs):
@@ -37,20 +37,29 @@ class SmartModeWidget(QWidget):
 
     def check_settings(self):
         clear_layout(self.vlayout)
-
         self.config = ConfigParser()
         self.config.read('settings.ini')
 
         mode = self.config.get("General", "smart_mode")
 
         if mode == 'on':
-            self.init_ui()
+            self.get_tuya_smart_mode()
         else:
             smart_mode_off_label = QLabel("Smart mode is off")
             self.vlayout.addWidget(smart_mode_off_label, alignment=Qt.AlignmentFlag.AlignCenter)
 
-    def init_ui(self):
-        self.tuya_smart_mode = TuyaSmartMode()
+    def get_tuya_smart_mode(self):
+        wait_label = QLabel(self.dictionary["computing_smart_mode"])
+        self.vlayout.addWidget(wait_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        self.thread_worker = InitiateTuyaSmartModeThread()
+        self.thread_worker.finished.connect(self.init_ui)
+        self.thread_worker.start()
+
+    def init_ui(self, tuya_smart_mode):
+        clear_layout(self.vlayout)
+
+        self.tuya_smart_mode = tuya_smart_mode
         self.tuya_schedules_manager = TuyaSchedulesManager("smart_mode")
 
         if not self.tuya_schedules_manager.schedules:
@@ -140,4 +149,4 @@ class SmartModeWidget(QWidget):
 
     def delete_schedule(self, schedule):
         schedule.remove_from_cloud()
-        self.init_ui()
+        self.init_ui(self.tuya_smart_mode)
