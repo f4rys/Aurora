@@ -20,22 +20,22 @@ class TuyaAnalytics():
                     filename = f'modules/resources/json/logs/{device["id"]}.json'
 
                     try:
-                        with open(filename, 'r', encoding="utf-8") as logs_file:
-                            existing_logs = json.load(logs_file)
-                    except FileNotFoundError:
-                        existing_logs = []
+                        new_logs = self.tuya_cloud.cloud.getdevicelog(device["id"], start=-7)['result']['logs']
 
-                    new_logs = self.tuya_cloud.cloud.getdevicelog(device["id"], start=-7)['result']['logs']
+                        if os.path.exists(filename):
+                            with open(filename, 'r', encoding="utf-8") as logs_file:
+                                existing_logs = json.load(logs_file)
+                            existing_event_times = set(log["event_time"] for log in existing_logs)
+                            filtered_logs = [log for log in new_logs if log["event_time"] not in existing_event_times]
+                            all_logs = existing_logs + filtered_logs
+                        else:
+                            os.makedirs(os.path.dirname(filename), exist_ok=True)
+                            all_logs = new_logs
 
-                    existing_event_times = set(log["event_time"] for log in existing_logs)
-                    filtered_logs = [log for log in new_logs if log["event_time"] not in existing_event_times]
-
-                    all_logs = existing_logs + filtered_logs
-
-                    os.makedirs(os.path.dirname(filename), exist_ok=True)
-
-                    with open(filename, 'w', encoding="utf-8") as logs_file:
-                        json.dump(all_logs, logs_file) 
+                        with open(filename, 'w', encoding="utf-8") as logs_file:
+                            json.dump(all_logs, logs_file)
+                    except Exception:
+                        pass
 
     def create_plot(self, devices):
         try:
@@ -76,6 +76,7 @@ class TuyaAnalytics():
             ax.tick_params(bottom=False, left=False, labelsize=7, rotation=45)
             ax.set_xticks(day_counts.index)
             plt.subplots_adjust(bottom=0.2)
+            plt.close()
 
             return figure
         except Exception:

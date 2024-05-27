@@ -3,11 +3,12 @@ import os
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
-from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout, QSizePolicy, QGridLayout, QSpacerItem 
+from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout, QSizePolicy, QGridLayout, QSpacerItem
 from pyqttoast import Toast, ToastPreset
 
 from modules.tuya import register
 from modules.dictionaries.loader import load_dictionary
+from modules.gui.tools import clear_layout
 
 class ProfileWidget(QWidget):
     def __init__(self, parent, *args, **kwargs):
@@ -18,6 +19,9 @@ class ProfileWidget(QWidget):
 
         self.vlayout = QVBoxLayout(self)
         self.vlayout.setContentsMargins(10, 10, 10, 0)
+
+    def init_ui(self):
+        clear_layout(self.vlayout)
 
         self.glayout = QGridLayout()
         self.glayout.setContentsMargins(0, 0, 0, 0)
@@ -72,7 +76,7 @@ class ProfileWidget(QWidget):
 
         spacer_item = QSpacerItem(20, 100, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.vlayout.addItem(spacer_item)
-        
+
         self.vlayout.addWidget(self.fetch_data_button, Qt.AlignmentFlag.AlignBottom)
         self.vlayout.addWidget(self.change_credentials_button, Qt.AlignmentFlag.AlignBottom)
 

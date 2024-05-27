@@ -24,9 +24,6 @@ class AnalyticsWidget(QWidget):
         self.get_tuya_analytics()
 
     def get_tuya_analytics(self):
-        wait_label = QLabel(self.dictionary["computing_analytics"])
-        self.main_layout.addWidget(wait_label)
-
         self.thread_worker = InitiateTuyaAnalyticsThread()
         self.thread_worker.finished.connect(self.init_ui)
         self.thread_worker.start()

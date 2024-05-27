@@ -100,6 +100,8 @@ class MainWindow(QMainWindow):
                     }
                 })
 
+            os.makedirs(os.path.dirname("modules/resources/json/actions.json"), exist_ok=True)
+
             with open("modules/resources/json/actions.json", "w", encoding="utf-8") as f:
                 json.dump(actions, f, indent=2)
 
@@ -149,6 +151,7 @@ class MainWindow(QMainWindow):
         self.action_bar_layout.set_label(self.dictionary["smart_mode_title"])
 
     def show_analytics(self):
+        self.main_layout.stacked_widget.analytics.get_tuya_analytics()
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.analytics))
         self.action_bar_layout.set_label(self.dictionary["analytics_title"])
 
@@ -168,6 +171,7 @@ class MainWindow(QMainWindow):
 
     def show_profile(self):
         self.reset_navigation_bar_buttons_checked()
+        self.main_layout.stacked_widget.profile.init_ui()
         self.main_layout.stacked_widget.setCurrentIndex(self.main_layout.stacked_widget.indexOf(self.main_layout.stacked_widget.profile))
         self.action_bar_layout.set_label(self.dictionary["profile_title"])
 

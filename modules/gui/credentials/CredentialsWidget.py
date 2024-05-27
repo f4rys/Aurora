@@ -110,8 +110,9 @@ class CredentialsWidget(QWidget):
             toast.applyPreset(ToastPreset.SUCCESS)
             toast.show()
 
-            self.parent.parent.parent.enable_buttons()
-            self.parent.parent.parent.show_all_devices()
+            #self.parent.parent.parent.enable_buttons()
+            #self.parent.parent.parent.show_all_devices()
+            self.parent.parent.parent.parent.restart_window()
         else:
             toast.setTitle(self.dictionary["error_toast_title"])
             toast.setText(self.dictionary["error_toast_body_credentials"])

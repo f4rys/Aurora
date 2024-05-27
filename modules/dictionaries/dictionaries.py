@@ -84,7 +84,7 @@ dictionary_en = {
     "computing_analytics": "Computing analytics..",
     "devices_usage": "Devices usage in the last 7 days",
     "select_device_prompt": "Select at least one device",
-    "plot_error": "Something went wrong. Restart program to try again.",
+    "plot_error": "Something went wrong.\nRestart program to try again.",
     # Credentials
     "api_region_prompt": "Select your region",
     "china_dc": "China",
@@ -234,7 +234,7 @@ dictionary_pl = {
     "computing_analytics": "Obliczanie statystyk..",
     "devices_usage": "Użycie urządzeń (ostatnie 7 dni)",
     "select_device_prompt": "Wybierz przynajmniej jedno urządzenie",
-    "plot_error": "Coś poszło nie tak. Zrestartuj program, aby ponowić próbę.",
+    "plot_error": "Coś poszło nie tak\nZrestartuj program, aby ponowić próbę.",
     # Credentials
     "api_region_prompt": "Wybierz swój region",
     "china_dc": "Chiny",

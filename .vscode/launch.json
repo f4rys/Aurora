@@ -5,7 +5,7 @@
             "name": "Aurora",
             "type": "debugpy",
             "request": "launch",
-            "program": "Aurora.py",
+            "program": "Aurora.pyw",
             "console": "integratedTerminal"
         },
         {

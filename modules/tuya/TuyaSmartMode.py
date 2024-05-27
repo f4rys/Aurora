@@ -22,6 +22,7 @@ class TuyaSmartMode():
 
         if not os.path.exists(file_path):
             data = {"last_prediction": today.strftime('%Y-%m-%d')}
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
             with open(file_path, 'w', encoding="utf-8") as f:
                 json.dump(data, f)
 
