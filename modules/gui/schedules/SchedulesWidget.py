@@ -84,8 +84,10 @@ class SchedulesWidget(QWidget):
             if schedule.functions[0]["code"] == "switch_led":
                 if schedule.functions[0]["value"]:
                     action_button.setObjectName("switch_led_on")
+                    action_button.setToolTip(self.dictionary["switch_on_tooltip"])
                 else:
                     action_button.setObjectName("switch_led_off")
+                    action_button.setToolTip(self.dictionary["switch_off_tooltip"])
             else:
                 action_button.setObjectName(schedule.functions[0]["code"])
 
@@ -97,6 +99,7 @@ class SchedulesWidget(QWidget):
             active_button = QPushButton()
             active_button.setProperty("class", "borderless")
             active_button.setObjectName("active_button")
+            active_button.setToolTip(self.dictionary["enable_disable_schedule_tooltip"])
             active_button.setCheckable(True)
 
             if schedule.enable:
@@ -107,11 +110,13 @@ class SchedulesWidget(QWidget):
             edit_button = QPushButton()
             edit_button.setProperty("class", "action_bar_button")
             edit_button.setObjectName("edit_button")
+            edit_button.setToolTip(self.dictionary["edit_schedule_tooltip"])
             edit_button.clicked.connect(lambda checked, schedule=schedule: self.parent.parent.parent.show_edit_schedule(schedule, False))
 
             delete_button = QPushButton()
             delete_button.setProperty("class", "action_bar_button")
             delete_button.setObjectName("exit_button")
+            delete_button.setToolTip(self.dictionary["delete_schedule_tooltip"])
             delete_button.clicked.connect(lambda checked, schedule=schedule: self.delete_schedule(schedule))
 
             spacer_item1 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
@@ -133,6 +138,7 @@ class SchedulesWidget(QWidget):
             for i, day in enumerate(weekdays):
                 week_day_label = QPushButton()
                 week_day_label.setObjectName(day)
+                week_day_label.setToolTip(self.dictionary[day.lower()])
                 week_day_label.setDisabled(True)
                 week_day_label.setProperty("class", "weekday_button")
                 week_day_label.setCheckable(True)

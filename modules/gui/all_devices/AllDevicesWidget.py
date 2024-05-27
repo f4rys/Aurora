@@ -57,6 +57,7 @@ class AllDevicesWidget(QWidget):
         self.reload_button.clicked.connect(self.create_list)
         self.reload_button.setProperty("class", "device_button")
         self.reload_button.setObjectName("reload_button")
+        self.reload_button.setToolTip(self.dictionary["reload_button_tooltip"])
         self.main_layout.addWidget(self.reload_button, alignment=Qt.AlignmentFlag.AlignBottom)
 
     def switch(self, device, state, device_status_button, device_button):
@@ -75,16 +76,21 @@ class AllDevicesWidget(QWidget):
             pass
 
         if device is not None:
+            device_button.setToolTip(self.dictionary["device_button_tooltip"])
             device_button.clicked.connect(lambda: self.open_device(device))
             status = device.is_on()
             if status:
                 device_status_button.setIcon(QIcon(":/all_devices/device_on.png"))
+                device_status_button.setToolTip(self.dictionary["device_on_tooltip"])
                 device_status_button.clicked.connect(lambda: self.switch(device, False, device_status_button, device_button))
             else:
                 device_status_button.setIcon(QIcon(":/all_devices/device_off.png"))
+                device_status_button.setToolTip(self.dictionary["device_off_tooltip"])
                 device_status_button.clicked.connect(lambda: self.switch(device, True, device_status_button, device_button))
         else:
             device_status_button.setIcon(QIcon(":/all_devices/device_offline.png"))
+            device_status_button.setToolTip(self.dictionary["device_offline_tooltip"])
+            device_button.setToolTip(self.dictionary["device_offline_tooltip"])
             device_button.setEnabled(False)
 
     def add_device_button(self, name, icon_link, device):

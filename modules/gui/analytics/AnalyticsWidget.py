@@ -47,6 +47,7 @@ class AnalyticsWidget(QWidget):
         self.scroll_area = QScrollArea()
         self.scroll_area.setProperty("class", "borderless")
         self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setToolTip(self.dictionary["analytics_devices_tooltip"])
         self.scroll_area.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.scroll_widget = QWidget()
@@ -59,6 +60,7 @@ class AnalyticsWidget(QWidget):
         self.select_all_button.setFlat(True)
         self.select_all_button.setProperty("class", "borderless")
         self.select_all_button.setObjectName("select_all")
+        self.select_all_button.setToolTip(self.dictionary["select_all_tooltip"])
         self.select_all_button.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.select_all_button.clicked.connect(self.select_all)
 
@@ -66,6 +68,7 @@ class AnalyticsWidget(QWidget):
         self.deselect_all_button.setFlat(True)
         self.deselect_all_button.setProperty("class", "borderless")
         self.deselect_all_button.setObjectName("deselect_all")
+        self.deselect_all_button.setToolTip(self.dictionary["deselect_all_tooltip"])
         self.deselect_all_button.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.deselect_all_button.clicked.connect(self.deselect_all)
 
@@ -137,6 +140,7 @@ class AnalyticsWidget(QWidget):
             figure = self.tuya_analytics.create_plot(devices)
             if figure is not None:
                 plot = FigureCanvasQTAgg(figure)
+                plot.setToolTip(self.dictionary["analytics_plot_tooltip"])
                 self.plotlayout.addWidget(plot)
             else:
                 label = QLabel(self.dictionary["plot_error"])

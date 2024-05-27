@@ -82,6 +82,7 @@ class SmartModeWidget(QWidget):
                 delete_button = QPushButton()
                 delete_button.setProperty("class", "action_bar_button")
                 delete_button.setObjectName("exit_button")
+                delete_button.setToolTip(self.dictionary["delete_schedule_tooltip"])
                 delete_button.clicked.connect(lambda checked, schedule=schedule: self.delete_schedule(schedule))
 
                 spacer_item1 = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)

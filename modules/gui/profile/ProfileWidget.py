@@ -47,11 +47,13 @@ class ProfileWidget(QWidget):
         self.change_credentials_button = QPushButton(self.dictionary["change_credentials_button"])
         self.change_credentials_button.setProperty("class", "device_button")
         self.change_credentials_button.clicked.connect(lambda: self.parent.parent.parent.show_credentials(self.api_key, self.api_secret, self.api_device_id, self.api_region))
+        self.change_credentials_button.setToolTip(self.dictionary["change_credentials_tooltip"])
         self.change_credentials_button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.fetch_data_button = QPushButton(self.dictionary["fetch_data_button"])
         self.fetch_data_button.setProperty("class", "device_button")
         self.fetch_data_button.clicked.connect(self.fetch_data)
+        self.fetch_data_button.setToolTip(self.dictionary["fetch_data_tooltip"])
         self.fetch_data_button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.glayout.addWidget(self.api_key_description_label, 0, 0)

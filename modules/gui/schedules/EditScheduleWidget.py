@@ -215,6 +215,7 @@ class EditScheduleWidget(QWidget):
                     action_button.setCheckable(True)
                     action_button.setObjectName(action)
                     action_button.setMinimumSize(25, 25)
+                    action_button.setToolTip(self.dictionary["switch_action_tooltip"])
                     action_button.clicked.connect(self.create_value_layout)
                     self.actions_group.addButton(action_button)
                     self.actions_hlayout.addWidget(action_button)
@@ -227,6 +228,7 @@ class EditScheduleWidget(QWidget):
                     action_button.setCheckable(True)
                     action_button.setObjectName("bright_value")
                     action_button.setMinimumSize(25, 25)
+                    action_button.setToolTip(self.dictionary["bright_and_temp_action_tooltip"])
                     action_button.clicked.connect(self.create_value_layout)
                     self.actions_group.addButton(action_button)
                     self.actions_hlayout.addWidget(action_button)
@@ -239,6 +241,7 @@ class EditScheduleWidget(QWidget):
                     action_button.setCheckable(True)
                     action_button.setObjectName("colour_data")
                     action_button.setMinimumSize(25, 25)
+                    action_button.setToolTip(self.dictionary["colour_action_tooltip"])
                     action_button.clicked.connect(self.create_value_layout)
                     self.actions_group.addButton(action_button)
                     self.actions_hlayout.addWidget(action_button)
@@ -254,6 +257,7 @@ class EditScheduleWidget(QWidget):
         for i, day in enumerate(weekdays):
             week_day_button = QPushButton()
             week_day_button.setObjectName(day)
+            week_day_button.setToolTip(self.dictionary[day.lower()])
             week_day_button.setProperty("class", "weekday_button")
             week_day_button.setCheckable(True)
             state = self.schedule.loops[i] == "1"
