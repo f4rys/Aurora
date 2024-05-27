@@ -29,6 +29,11 @@ In order to use Aurora, you need to have cloud development project on Tuya platf
 - tinytuya
 - Prophet
 
+## Release
+- exe binaries created with pyinstaller
+- Windows installer created with Inno Setup
+The program is automatically registered for Windows startup at installation.
+
 ## Windows defender
 Since the .exe release of the program isn't signed, Windows Defender may throw a false positive when trying to run this app. If you are concerned, please build the application directly from the source.
 
