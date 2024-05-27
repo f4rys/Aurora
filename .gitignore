@@ -13,3 +13,6 @@ aurora.ui
 aurora_ui.py
 
 modules/resources/json
+
+build
+dist
