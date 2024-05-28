@@ -8,21 +8,21 @@ Windows system tray application to control Tuya light bulbs.
 </div>
 
 ## Overview
-This application can start at Windows startup and work in background. You can access it anytime from the Windows system tray. The window is tiny and comfortable to use while doing anything on your computer.
+This application can start at Windows startup and work in the background. You can access it anytime from the Windows system tray. The window is tiny and comfortable to use while doing anything on your computer.
 
 ## Features
-Available functionalities may change due to the capabilities of the particular devices, but in general, the application offers following features:
+Available functionalities may change due to the capabilities of the particular devices, but in general, the application offers the following features:
 - Device control (switch, change brightness, temperature, colour, set up a countdown)
 - Schedules
 - Analytics (usage of devices in last days)
-- Smart mode (learning from user's previous interactions and calculating new schedules to automate devices control)
+- Smart mode (learning from user's previous interactions and calculating new schedules to automate device control)
 - Help (you can find answers to most important questions regarding the application)
 - Profile (where you can inspect and change your Tuya credentials)
 - Settings (where you can enable/disable smart mode)
 
 ## Setup
-In order to use Aurora, you need to have cloud development project on Tuya platform and devices connected to it. Follow this and this <a href="https://developer.tuya.com/en/docs/iot/user-manual-for-tuya-smart-v3177?id=K9obrofrfk4sk
-">guide</a> to use Tuya Smart or Smart Life app and connect devices to it and this <a href="https://github.com/jasonacox/tinytuya/files/12836816/Tuya.IoT.API.Setup.v2.pdf">guide</a> to set up cloud development project and bind devices from app.
+To use Aurora, you need to have a cloud development project on the Tuya platform and devices connected to it. Follow this and this <a href="https://developer.tuya.com/en/docs/iot/user-manual-for-tuya-smart-v3177?id=K9obrofrfk4sk
+">guide</a> to use the Tuya Smart or Smart Life app and connect devices to it and this <a href="https://github.com/jasonacox/tinytuya/files/12836816/Tuya.IoT.API.Setup.v2.pdf">guide</a> to set up a cloud development project and bind devices from the app.
 
 ## Libraries
 - PyQt6
@@ -59,4 +59,4 @@ This project is a subject of my bachelor thesis, yet it is a fully functional pr
 - Schedule edit icon by Feather Icons on <a href="https://www.iconfinder.com/icons/8666681/edit_icon">Iconfinder</a>
 - Analytics select all icon by Microsoft on <a href="https://www.iconfinder.com/icons/8673728/ic_fluent_select_all_off_filled_icon">Iconfinder</a>
 - Analytics deselect all by Microsoft on <a href="https://www.iconfinder.com/icons/8675434/ic_fluent_select_all_off_regular_icon">Iconfinder</a>
-- App icon created by DALLE-3
+- App icon created with DALLE-3
