@@ -1,0 +1,1 @@
+import tests.gui.all_devices.AllDevicesWidgetTest
