@@ -1,1 +1,1 @@
-import tests.dictionaries.LoaderTest
+import tests.dictionaries.LoadDictionaryTest
