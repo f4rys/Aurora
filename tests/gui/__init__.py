@@ -1,5 +1,11 @@
 import tests.gui.all_devices.AllDevicesWidgetTest
 import tests.gui.analytics.AnalyticsWidgetTest
 import tests.gui.credentials.CredentialsWidgetTest
+import tests.gui.device.BulbNameLabelTest
+import tests.gui.device.BulbSwitchButtonTest
+import tests.gui.device.DeviceWidgetTest
+import tests.gui.device.tabs.ColourModeTabTest
+import tests.gui.device.tabs.CountdownTabTest
+import tests.gui.device.tabs.WhiteModeTabTest
 import tests.gui.tools.ClearLayoutTest
 import tests.gui.tools.ShowErrorToastTest
