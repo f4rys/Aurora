@@ -7,5 +7,6 @@ import tests.gui.device.DeviceWidgetTest
 import tests.gui.device.tabs.ColourModeTabTest
 import tests.gui.device.tabs.CountdownTabTest
 import tests.gui.device.tabs.WhiteModeTabTest
+import tests.gui.help.HelpWidgetTest
 import tests.gui.tools.ClearLayoutTest
 import tests.gui.tools.ShowErrorToastTest
