@@ -64,13 +64,13 @@ class ProfileWidgetTest(unittest.TestCase):
     def tearDown(self):
         if os.path.exists(self.backup_file_path):
             shutil.copy(self.backup_file_path, self.original_file_path)
+        if os.path.exists('tinytuya_backup.json'):
+            os.remove('tinytuya_backup.json')
 
     @classmethod
     def tearDownClass(cls):
         cls.app.quit()
         del cls.app
-        if os.path.exists('tinytuya_backup.json'):
-            os.remove('tinytuya_backup.json')
 
 
 if __name__ == '__main__':
