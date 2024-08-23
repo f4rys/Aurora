@@ -15,3 +15,8 @@ import tests.gui.settings.SettingsWidgetTest
 import tests.gui.smart_mode.SmartModeWidgetTest
 import tests.gui.tools.ClearLayoutTest
 import tests.gui.tools.ShowErrorToastTest
+import tests.gui.ActionBarLayoutTest
+import tests.gui.MainLayoutTest
+import tests.gui.MainWindowTest
+import tests.gui.NavigationBarLayoutTest
+import tests.gui.StackedWidgetTest
