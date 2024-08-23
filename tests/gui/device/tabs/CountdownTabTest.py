@@ -11,7 +11,7 @@ from modules.gui.device.tabs import CountdownTab
 class CountdownTabTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.app = QApplication(sys.argv)
+        cls.app = QApplication([])
 
     def setUp(self):
         self.parent = MagicMock()

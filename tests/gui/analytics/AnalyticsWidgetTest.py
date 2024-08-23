@@ -63,5 +63,10 @@ class AnalyticsWidgetTest(unittest.TestCase):
         self.widget.update_plot()
         self.assertEqual(self.widget.plotlayout.count(), 1)
 
+    @classmethod
+    def tearDownClass(cls):
+        cls.app.quit()
+
+
 if __name__ == "__main__":
     unittest.main()

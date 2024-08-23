@@ -38,6 +38,10 @@ class WhiteModeTabTest(unittest.TestCase):
         self.assertEqual(layout.itemAt(0).widget(), self.white_mode_tab.brightness_slider)
         self.assertEqual(layout.itemAt(1).widget(), self.white_mode_tab.temperature_slider)
 
+    @classmethod
+    def tearDownClass(cls):
+        cls.app.quit()
+
 
 if __name__ == "__main__":
     unittest.main()

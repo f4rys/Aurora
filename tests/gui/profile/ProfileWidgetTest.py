@@ -1,5 +1,8 @@
+import os
+import shutil
 import unittest
-from unittest.mock import patch, MagicMock, mock_open
+from unittest.mock import MagicMock, mock_open, patch
+
 from PyQt6.QtWidgets import QApplication
 
 from modules.gui.profile import ProfileWidget
@@ -13,6 +16,11 @@ class ProfileWidgetTest(unittest.TestCase):
     def setUp(self):
         self.parent_mock = MagicMock()
         self.widget = ProfileWidget(self.parent_mock)
+
+        self.backup_file_path = 'tinytuya_backup.json'
+        self.original_file_path = 'tinytuya.json'
+        if os.path.exists(self.original_file_path):
+            shutil.copy(self.original_file_path, self.backup_file_path)
 
     @patch('os.path.exists')
     @patch('builtins.open', new_callable=mock_open, read_data='{"apiKey": "key", "apiSecret": "secret", "apiRegion": "region", "apiDeviceID": "device_id"}')
@@ -40,7 +48,6 @@ class ProfileWidgetTest(unittest.TestCase):
         """Test the fetch data functionality when registration is successful"""
         mock_register.return_value = True
         self.widget.api_key, self.widget.api_secret, self.widget.api_region, self.widget.api_device_id = "key", "secret", "region", "device_id"
-
         with patch('pyqttoast.Toast.show') as mock_show:
             self.widget.fetch_data()
             mock_show.assert_called_once()
@@ -50,14 +57,19 @@ class ProfileWidgetTest(unittest.TestCase):
         """Test the fetch data functionality when registration fails"""
         mock_register.return_value = False
         self.widget.api_key, self.widget.api_secret, self.widget.api_region, self.widget.api_device_id = "key", "secret", "region", "device_id"
-
         with patch('pyqttoast.Toast.show') as mock_show:
             self.widget.fetch_data()
             mock_show.assert_called_once()
 
+    def tearDown(self):
+        if os.path.exists(self.backup_file_path):
+            shutil.copy(self.backup_file_path, self.original_file_path)
+
     @classmethod
     def tearDownClass(cls):
         cls.app.quit()
+        if os.path.exists('tinytuya_backup.json'):
+            os.remove('tinytuya_backup.json')
 
 
 if __name__ == '__main__':
