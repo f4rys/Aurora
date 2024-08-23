@@ -66,6 +66,7 @@ class AnalyticsWidgetTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.app.quit()
+        del cls.app
 
 
 if __name__ == "__main__":

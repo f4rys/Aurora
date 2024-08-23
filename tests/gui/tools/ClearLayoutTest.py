@@ -79,6 +79,7 @@ class ClearLayoutTest(unittest.TestCase):
         """
 
         cls.app.quit()
+        del cls.app
 
 if __name__ == '__main__':
     unittest.main()

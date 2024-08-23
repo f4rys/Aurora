@@ -3,8 +3,11 @@ from PyQt6.QtCore import QCoreApplication
 from modules.threads import CountdownThread
 
 class CountdownThreadTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.app = QCoreApplication([])
+
     def setUp(self):
-        self.app = QCoreApplication([])
         self.thread = CountdownThread(total_time=5)
 
     def test_initial_total_time(self):
@@ -39,6 +42,12 @@ class CountdownThreadTest(unittest.TestCase):
     def tearDown(self):
         self.thread.quit()
         self.thread.wait()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.app.quit()
+        del cls.app
+
 
 if __name__ == '__main__':
     unittest.main()

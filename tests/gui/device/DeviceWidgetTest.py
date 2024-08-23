@@ -124,6 +124,7 @@ class DeviceWidgetTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.app.exit()
+        del cls.app
 
 
 if __name__ == '__main__':

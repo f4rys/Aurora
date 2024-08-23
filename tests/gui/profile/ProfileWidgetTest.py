@@ -68,6 +68,7 @@ class ProfileWidgetTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.app.quit()
+        del cls.app
         if os.path.exists('tinytuya_backup.json'):
             os.remove('tinytuya_backup.json')
 

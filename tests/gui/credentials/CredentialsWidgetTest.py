@@ -53,6 +53,7 @@ class CredentialsWidgetTest(unittest.TestCase):
         shutil.copy(cls.backup_file, cls.original_file)
         os.remove(cls.backup_file)
         cls.app.quit()
+        del cls.app
 
 
 if __name__ == '__main__':
