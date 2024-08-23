@@ -1,0 +1,1 @@
+import tests.gui.smart_mode.SmartModeWidgetTest
