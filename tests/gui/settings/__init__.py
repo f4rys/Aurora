@@ -1,0 +1,1 @@
+import tests.gui.settings.SettingsWidgetTest

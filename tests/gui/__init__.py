@@ -11,5 +11,6 @@ import tests.gui.help.HelpWidgetTest
 import tests.gui.profile.ProfileWidgetTest
 import tests.gui.schedules.EditScheduleWidgetTest
 import tests.gui.schedules.SchedulesWidgetTest
+import tests.gui.settings.SettingsWidgetTest
 import tests.gui.tools.ClearLayoutTest
 import tests.gui.tools.ShowErrorToastTest
