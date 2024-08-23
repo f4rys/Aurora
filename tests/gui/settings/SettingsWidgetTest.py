@@ -24,30 +24,35 @@ class SettingsWidgetTest(unittest.TestCase):
 
     @patch('builtins.open', new_callable=mock_open)
     def test_change_max_retry(self, mock_file):
+        """Test changing the maximum retry setting."""
         self.widget.change_max_retry(2)
         self.assertEqual(self.widget.config.get("General", "max_retry"), "2")
         mock_file.assert_called_once_with('settings.ini', 'w', encoding='utf-8')
 
     @patch('builtins.open', new_callable=mock_open)
     def test_change_language_to_english(self, mock_file):
+        """Test changing the language setting to English."""
         self.widget.change_language(0)
         self.assertEqual(self.widget.config.get("GUI", "interface_language"), 'en')
         mock_file.assert_called_once_with('settings.ini', 'w', encoding='utf-8')
 
     @patch('builtins.open', new_callable=mock_open)
     def test_change_language_to_polish(self, mock_file):
+        """Test changing the language setting to Polish."""
         self.widget.change_language(1)
         self.assertEqual(self.widget.config.get("GUI", "interface_language"), 'pl')
         mock_file.assert_called_once_with('settings.ini', 'w', encoding='utf-8')
 
     @patch('os.remove')
     def test_switch_smart_mode_on(self, mock_remove):
+        """Test switching smart mode on."""
         self.widget.switch_smart_mode(True)
         self.assertEqual(self.widget.config.get("General", "smart_mode"), "on")
         mock_remove.assert_not_called()
 
     @patch('os.remove')
     def test_switch_smart_mode_off(self, mock_remove):
+        """Test switching smart mode off."""
         self.widget.switch_smart_mode(False)
         self.assertEqual(self.widget.config.get("General", "smart_mode"), "off")
         mock_remove.assert_called_once_with(r"modules\resources\json\predictions.json")
