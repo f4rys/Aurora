@@ -1,0 +1,9 @@
+import tests.tuya.CheckCredentialsTest
+import tests.tuya.RegisterTest
+import tests.tuya.TuyaAnalyticsTest
+import tests.tuya.TuyaCloudTest
+import tests.tuya.TuyaDeviceTest
+import tests.tuya.TuyaManagerTest
+import tests.tuya.TuyaScheduleTest
+import tests.tuya.TuyaSchedulesManagerTest
+import tests.tuya.TuyaSmartModeTest
