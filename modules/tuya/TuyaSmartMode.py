@@ -15,17 +15,15 @@ from modules.tuya import TuyaSchedule, TuyaSchedulesManager
 class TuyaSmartMode():
     def __init__(self):
         today = date.today()
-        self.last_prediction = today
-        if not os.path.isdir(r"modules\resources\json"):
-            os.makedirs(r"modules\resources\json", exist_ok=True)
+        last_prediction = today.strftime('%Y-%m-%d')
 
-        file_path = r"modules\resources\json\predictions.json"
+        directory_path = os.path.join("modules", "resources", "json")
+        os.makedirs(directory_path, exist_ok=True)
 
-        self.delete_used_schedules()
+        file_path = os.path.join(directory_path, "predictions.json")
 
-        if not os.path.exists(file_path):
-            data = {"last_prediction": today.strftime('%Y-%m-%d')}
-            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        if not os.path.isfile(file_path):
+            data = {"last_prediction": last_prediction}
             with open(file_path, 'w', encoding="utf-8") as f:
                 json.dump(data, f)
 
@@ -77,28 +75,42 @@ class TuyaSmartMode():
                 schedule.save_to_cloud()
 
     def smart_mode(self):
-        df = self.create_dataframe()
-        predicted_actions = self.predict(df)
-        formatted_predictions = self.format_predictions(predicted_actions)
-        self.save_as_schedules(formatted_predictions)
+        directory = os.path.join("modules", "resources", "json")
+        os.makedirs(directory, exist_ok=True)
+
+        logs_directory = os.path.join(directory, "logs")
+        os.makedirs(logs_directory, exist_ok=True)
+
+        if len(os.listdir(logs_directory)) > 0:
+            df = self.create_dataframe()
+            predicted_actions = self.predict(df)
+            formatted_predictions = self.format_predictions(predicted_actions)
+            self.save_as_schedules(formatted_predictions)
 
     def create_dataframe(self):
-        directory = 'modules/resources/json/logs'
+        directory = os.path.join("modules", "resources", "json", "logs")
+        os.makedirs(directory, exist_ok=True)
+
         json_files = [f for f in os.listdir(directory) if f.endswith('.json')]
 
         dfs = []
         for file in json_files:
             file_path = os.path.join(directory, file)
-            df = pd.read_json(file_path)
-            df['device_id'] = os.path.basename(file_path).split('.')[0]
-            dfs.append(df)
+            try:
+                df = pd.read_json(file_path)
+                df['device_id'] = os.path.basename(file_path).split('.')[0]
+                dfs.append(df)
+            except Exception as e:
+                print(f"Error reading JSON file {file_path}: {e}")
 
-        final_df = pd.concat(dfs, ignore_index=True)
-
-        final_df = final_df[['device_id', 'code', 'event_time', 'value']]
-        allowed_codes = ['switch_led', 'bright_value_v2', 'temp_value_v2', 'colour_data_v2']
-        final_df.dropna(subset=['code', 'value'], inplace=True)
-        final_df = final_df[final_df['code'].isin(allowed_codes)]
+        if dfs:
+            final_df = pd.concat(dfs, ignore_index=True) 
+            final_df = final_df[['device_id', 'code', 'event_time', 'value']]
+            allowed_codes = ['switch_led', 'bright_value_v2', 'temp_value_v2', 'colour_data_v2']
+            final_df.dropna(subset=['code', 'value'], inplace=True)
+            final_df = final_df[final_df['code'].isin(allowed_codes)]
+        else:
+            final_df = pd.DataFrame()
 
         return final_df
 
