@@ -16,6 +16,9 @@ class TuyaSmartMode():
     def __init__(self):
         today = date.today()
         self.last_prediction = today
+        if not os.path.isdir(r"modules\resources\json"):
+            os.makedirs(r"modules\resources\json", exist_ok=True)
+
         file_path = r"modules\resources\json\predictions.json"
 
         self.delete_used_schedules()
