@@ -1,9 +1,15 @@
-<div align="center"><img style="margin:25" src="./assets/aurora.png" width=150>
+<img src="./assets/aurora.png" width=100>
 
 # Aurora
+
+![Python](https://img.shields.io/badge/Python-3776AB.svg?style=for-the-badge&logo=Python&logoColor=white)
+![QT](https://img.shields.io/badge/Qt-41CD52.svg?style=for-the-badge&logo=Qt&logoColor=white)
+
+[![Python application](https://github.com/f4rys/Aurora/actions/workflows/python-app.yml/badge.svg)](https://github.com/f4rys/Aurora/actions/workflows/python-app.yml)
+
 Windows system tray application to control Tuya light bulbs.
 
-<img style="margin:25" src="./assets/overview.png" width=500>
+<img src="./assets/overview.png" width=500>
 
 </div>
 
@@ -21,7 +27,7 @@ Available functionalities may change due to the capabilities of the particular d
 - Settings (where you can enable/disable smart mode)
 
 ## Setup
-To use Aurora, you need to have a cloud development project on the Tuya platform and devices connected to it. Follow this and this <a href="https://developer.tuya.com/en/docs/iot/user-manual-for-tuya-smart-v3177?id=K9obrofrfk4sk
+To use Aurora, you need to have a cloud development project on the Tuya platform and devices connected to it. Follow this <a href="https://developer.tuya.com/en/docs/iot/user-manual-for-tuya-smart-v3177?id=K9obrofrfk4sk
 ">guide</a> to use the Tuya Smart or Smart Life app and connect devices to it and this <a href="https://github.com/jasonacox/tinytuya/files/12836816/Tuya.IoT.API.Setup.v2.pdf">guide</a> to set up a cloud development project and bind devices from the app.
 
 ## Libraries
