@@ -54,6 +54,10 @@ class SmartModeWidgetTest(unittest.TestCase):
         self.assertIn("No more actions planned for today.", self.widget.vlayout.itemAt(0).widget().text())
 
     def tearDown(self):
+        if hasattr(self.widget, 'thread_worker') and self.widget.thread_worker.isRunning():
+            self.widget.thread_worker.quit()
+            self.widget.thread_worker.wait()
+
         self.widget.deleteLater()
 
     @classmethod

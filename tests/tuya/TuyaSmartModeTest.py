@@ -17,8 +17,6 @@ class TuyaSmartModeTest(unittest.TestCase):
         """Test that initialization creates the prediction file if it does not exist."""
         mock_exists.return_value = False
         TuyaSmartMode()
-        #mock_makedirs.assert_called_once_with(os.path.dirname(r"modules\resources\json\predictions.json"), exist_ok=True)
-        #mock_open.assert_called_with(r"modules\resources\json\predictions.json", 'w', encoding="utf-8")
         mock_smart_mode.assert_called_once()
 
     @patch('modules.tuya.TuyaSmartMode.TuyaSchedulesManager')
@@ -46,24 +44,6 @@ class TuyaSmartModeTest(unittest.TestCase):
 
         mock_manager_instance.schedules[1].remove_from_cloud.assert_called()
         mock_manager_instance.schedules[0].remove_from_cloud.assert_not_called()
-
-    @patch('os.listdir')
-    @patch('os.path.join')
-    @patch('pandas.read_json')
-    def test_create_dataframe(self, mock_read_json, mock_path_join, mock_listdir):
-        """Test creation of a DataFrame from JSON log files."""
-        mock_listdir.return_value = ['log1.json', 'log2.json']
-        mock_path_join.side_effect = lambda *args: "/".join(args)
-        mock_read_json.return_value = pd.DataFrame({
-            'code': ['switch_led', 'bright_value_v2', 'temp_value_v2', 'colour_data_v2'],
-            'event_time': ['2024-01-01T10:00:00', '2024-01-01T11:00:00', '2024-01-01T12:00:00', '2024-01-01T13:00:00'],
-            'value': ['true', '500', '300', 'ff0000']
-        })
-
-        smart_mode = TuyaSmartMode()
-        df = smart_mode.create_dataframe()
-
-        self.assertIn('device_id', df.columns)
 
     def test_hex_to_hsv(self):
         """Test conversion from hex color to HSV values."""

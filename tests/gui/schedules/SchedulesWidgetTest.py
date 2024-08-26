@@ -57,6 +57,11 @@ class SchedulesWidgetTest(unittest.TestCase):
         self.widget.delete_add_schedule_button()
         self.assertEqual(self.widget.main_layout.count(), 1)
 
+    def tearDown(self):
+        if hasattr(self.widget, 'thread_worker') and self.widget.thread_worker.isRunning():
+            self.widget.thread_worker.quit()
+            self.widget.thread_worker.wait()
+
     @classmethod
     def tearDownClass(cls):
         cls.app.quit()

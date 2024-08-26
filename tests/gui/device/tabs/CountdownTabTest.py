@@ -31,9 +31,9 @@ class CountdownTabTest(unittest.TestCase):
 
     def test_on_accept_valid_time(self):
         """Test accepting a valid countdown time."""
-        self.countdown_tab.time_edit.setTime(QTime(0, 1, 30))
+        self.countdown_tab.time_edit.setTime(QTime(0, 0, 2))
         self.countdown_tab.on_accept()
-        self.parent.device.set_countdown.assert_called_once_with(90)
+        self.parent.device.set_countdown.assert_called_once_with(2)
         self.assertEqual(self.countdown_tab.accept_button.text(), "Cancel countdown")
 
     def test_on_accept_zero_time(self):
@@ -48,7 +48,7 @@ class CountdownTabTest(unittest.TestCase):
         mock_thread = MockCountdownThread.return_value
         mock_thread.start = MagicMock()
 
-        self.countdown_tab.countdown_on(90)
+        self.countdown_tab.countdown_on(2)
         self.assertEqual(self.countdown_tab.accept_button.text(), "Cancel countdown")
         mock_thread.start.assert_called_once()
 
@@ -85,6 +85,11 @@ class CountdownTabTest(unittest.TestCase):
         self.countdown_tab.countdown_off()
         self.assertEqual(self.countdown_tab.remaining_time_label.text(), "")
         self.assertEqual(self.countdown_tab.accept_button.text(), "Set countdown")
+
+    def tearDown(self):
+        if hasattr(self.countdown_tab, 'thread_worker') and self.countdown_tab.thread_worker.isRunning():
+            self.countdown_tab.thread_worker.quit()
+            self.countdown_tab.thread_worker.wait()
 
     @classmethod
     def tearDownClass(cls):

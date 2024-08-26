@@ -14,10 +14,6 @@ class CredentialsWidgetTest(unittest.TestCase):
         mock_parent = MagicMock()
         mock_parent.parent.parent.parent.restart_window = MagicMock()
         cls.widget = CredentialsWidget(parent=mock_parent)
-        cls.original_file = 'tinytuya.json'
-        cls.backup_file = 'tinytuya_backup.json'
-
-        shutil.copy(cls.original_file, cls.backup_file)
 
     def test_set_credentials(self):
         """Tests the set_credentials method of the CredentialsWidget class."""
@@ -50,8 +46,6 @@ class CredentialsWidgetTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        shutil.copy(cls.backup_file, cls.original_file)
-        os.remove(cls.backup_file)
         cls.app.quit()
         del cls.app
 
