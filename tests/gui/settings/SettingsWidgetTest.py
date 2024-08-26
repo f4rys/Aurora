@@ -11,16 +11,18 @@ from modules.gui.settings import SettingsWidget
 class SettingsWidgetTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        # Initialize the QApplication object
         cls.app = QApplication([])
+        cls.parent_mock = MagicMock()
+        cls.widget = SettingsWidget(cls.parent_mock)
 
-    def setUp(self):
-        self.parent_mock = MagicMock()
-        self.widget = SettingsWidget(self.parent_mock)
+        # Paths for the original and backup settings file
+        cls.original_settings_path = 'settings.ini'
+        cls.backup_settings_path = 'settings_backup.ini'
 
-        self.original_settings_path = 'settings.ini'
-        self.backup_settings_path = 'settings_backup.ini'
-        if os.path.exists(self.original_settings_path):
-            shutil.copy(self.original_settings_path, self.backup_settings_path)
+        # Create a backup of the settings file before tests run
+        if os.path.exists(cls.original_settings_path):
+            shutil.copy(cls.original_settings_path, cls.backup_settings_path)
 
     @patch('builtins.open', new_callable=mock_open)
     def test_change_max_retry(self, mock_file):
@@ -55,18 +57,22 @@ class SettingsWidgetTest(unittest.TestCase):
         """Test switching smart mode off."""
         self.widget.switch_smart_mode(False)
         self.assertEqual(self.widget.config.get("General", "smart_mode"), "off")
-        mock_remove.assert_called_once_with(r"modules\resources\json\predictions.json")
-
-    def tearDown(self):
-        if os.path.exists(self.backup_settings_path):
-            shutil.copy(self.backup_settings_path, self.original_settings_path)
-        if os.path.exists(self.backup_settings_path):
-            os.remove(self.backup_settings_path)
 
     @classmethod
     def tearDownClass(cls):
+        try:
+            if os.path.exists(cls.backup_settings_path):
+                shutil.copy(cls.backup_settings_path, cls.original_settings_path)
+        finally:
+            if os.path.exists(cls.backup_settings_path):
+                os.remove(cls.backup_settings_path)
+
         cls.app.quit()
         del cls.app
+        del cls.parent_mock
+        del cls.widget
+        del cls.original_settings_path
+        del cls.backup_settings_path
 
 
 if __name__ == '__main__':

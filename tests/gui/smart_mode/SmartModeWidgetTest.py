@@ -53,6 +53,9 @@ class SmartModeWidgetTest(unittest.TestCase):
         self.widget.init_ui([])
         self.assertIn("No more actions planned for today.", self.widget.vlayout.itemAt(0).widget().text())
 
+    def tearDown(self):
+        self.widget.deleteLater()
+
     @classmethod
     def tearDownClass(cls):
         cls.app.quit()

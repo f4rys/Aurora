@@ -4,14 +4,14 @@ from modules.dictionaries import dictionary_en, dictionary_pl, load_dictionary
 
 
 class LoadDictionaryTest(unittest.TestCase):
-    DEFAULT_SETTINGS = """
-        [GUI]
-        interface_language = en
+    DEFAULT_SETTINGS = """[GUI]
+interface_language = en
 
-        [General]
-        smart_mode = off
-        max_retry = 3
-    """
+[General]
+smart_mode = off
+max_retry = 3
+
+"""
 
     def setUp(self):
         self.config_file_path = "settings.ini"
